@@ -1,3 +1,4 @@
+import copy
 import distutils.dir_util
 import json
 import os
@@ -16,6 +17,7 @@ def main(filename: str):
     env.filters['cmark'] = filters.commonmark
     with open(filename, 'r') as f:
         schema = json.loads(f.read())
+    process_includes(schema)
     copy_static_files()
     generate_index(env, schema)
     for typ, subtypes in schema['messages'].items():
@@ -26,6 +28,32 @@ def main(filename: str):
 
 def copy_static_files():
     distutils.dir_util.copy_tree('static/', 'output/static')
+
+
+def process_includes(schema: dict):
+    """
+    Look for includes and replace them with the shared objects.
+    """
+    # Extract shared fields
+    shared_fields = schema['sharedFields']
+    del schema['sharedFields']
+
+    # Process all messages
+    for typ, subtypes in schema['messages'].items():
+        for subtype, messages in subtypes.items():
+            for message in messages:
+
+                # Process args
+                args = message.get('args', {}).get('fields', [])
+                for i, arg in enumerate(args):
+                    if isinstance(arg, str) and arg.startswith('@'):
+                        message['args']['fields'][i] = copy.copy(shared_fields[arg[1:]])
+
+                # Process data
+                data = message.get('data', {}).get('fields', [])
+                for i, datum in enumerate(data):
+                    if isinstance(datum, str) and datum.startswith('@'):
+                        message['data']['fields'][i] = copy.copy(shared_fields[datum[1:]])
 
 
 def generate_index(env: Environment, schema: dict):

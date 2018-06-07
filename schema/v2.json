@@ -2,6 +2,44 @@
   "title": "Threema App Remote Protocol (ARP)",
   "description": "The protocol used to exchange data between the Threema app and a client (e.g. [Threema Web](https://threema.ch/en/threema-web)).",
   "version": "2.0.0",
+  "sharedFields": {
+    "success": {
+      "field": "success",
+      "description": "Whether the action was successful.",
+      "type": "Boolean",
+      "optional": false,
+      "nullable": false
+    },
+    "error": {
+      "field": "error",
+      "description": "An error code (if the action failed)",
+      "type": "String",
+      "optional": true,
+      "nullable": false
+    },
+    "receiverId": {
+      "field": "id",
+      "description": "The identity of the receiver",
+      "type": "String",
+      "optional": false,
+      "nullable": false
+    },
+    "receiverType": {
+      "field": "type",
+      "description": "The receiver type",
+      "type": "String",
+      "enum": ["me", "contact", "group", "distributionList"],
+      "optional": false,
+      "nullable": false
+    },
+    "temporaryId": {
+      "field": "temporaryId",
+      "description": "The temporary ID from the request that was sent by the client.",
+      "type": "String",
+      "optional": false,
+      "nullable": false
+    }
+  },
   "messages": {
     "create": {
       "contact": [
@@ -10,13 +48,7 @@
           "summary": "Respond to a `create/contact` message.",
           "args": {
             "fields": [
-              {
-                "field": "temporaryId",
-                "description": "The temporary ID from the request that was sent by the browser.",
-                "type": "String",
-                "optional": false,
-                "nullable": false
-              },
+              "@temporaryId",
               {
                 "field": "identity",
                 "description": "The identity of the contact that was created",
@@ -24,20 +56,8 @@
                 "optional": false,
                 "nullable": false
               },
-              {
-                "field": "success",
-                "description": "Whether the action was successful.",
-                "type": "Boolean",
-                "optional": false,
-                "nullable": false
-              },
-              {
-                "field": "error",
-                "description": "An error code (if the action failed)",
-                "type": "String",
-                "optional": true,
-                "nullable": false
-              }
+              "@success",
+              "@error"
             ]
           },
           "data": {
@@ -65,13 +85,7 @@
           "summary": "Create a new contact.",
           "args": {
             "fields": [
-              {
-                "field": "temporaryId",
-                "description": "The temporary ID from the request that was sent by the browser.",
-                "type": "String",
-                "optional": false,
-                "nullable": false
-              }
+              "@temporaryId"
             ]
           },
           "data": {
@@ -93,27 +107,9 @@
           "summary": "Respond to a `create/distributionList` message.",
           "args": {
             "fields": [
-              {
-                "field": "temporaryId",
-                "description": "The temporary ID from the request that was sent by the client.",
-                "type": "String",
-                "optional": false,
-                "nullable": false
-              },
-              {
-                "field": "success",
-                "description": "Whether the action was successful.",
-                "type": "Boolean",
-                "optional": false,
-                "nullable": false
-              },
-              {
-                "field": "error",
-                "description": "An error code (if the action failed)",
-                "type": "String",
-                "optional": true,
-                "nullable": false
-              }
+              "@temporaryId",
+              "@success",
+              "@error"
             ]
           },
           "data": {
@@ -140,13 +136,7 @@
           "summary": "Create a new distribution list.",
           "args": {
             "fields": [
-              {
-                "field": "temporaryId",
-                "description": "The temporary ID from the request that was sent by the client.",
-                "type": "String",
-                "optional": false,
-                "nullable": false
-              }
+              "@temporaryId"
             ]
           },
           "data": {
@@ -175,28 +165,9 @@
           "summary": "Notify the client that a new message was created. This is a reply to the `create/fileMessage` message from the client.",
           "args": {
             "fields": [
-              {
-                "field": "type",
-                "description": "The receiver type",
-                "type": "String",
-                "enum": ["me", "contact", "group", "distributionList"],
-                "optional": false,
-                "nullable": false
-              },
-              {
-                "field": "id",
-                "description": "The identity of the responder",
-                "type": "String",
-                "optional": false,
-                "nullable": false
-              },
-              {
-                "field": "temporaryId",
-                "description": "The temporary ID from the request that was sent by the browser.",
-                "type": "String",
-                "optional": false,
-                "nullable": false
-              },
+              "@receiverType",
+              "@receiverId",
+              "@temporaryId",
               {
                 "field": "success",
                 "description": "Whether the message was sent successfully",
@@ -223,28 +194,9 @@
           "summary": "Send a new file message",
           "args": {
             "fields": [
-              {
-                "field": "type",
-                "description": "The receiver type",
-                "enum": ["me", "contact", "group", "distributionList"],
-                "type": "String",
-                "optional": false,
-                "nullable": false
-              },
-              {
-                "field": "id",
-                "description": "The identity of the responder",
-                "type": "String",
-                "optional": false,
-                "nullable": false
-              },
-              {
-                "field": "temporaryId",
-                "description": "A temporary ID for this message generated by the client application",
-                "type": "String",
-                "optional": false,
-                "nullable": false
-              }
+              "@receiverType",
+              "@receiverId",
+              "@temporaryId"
             ]
           },
           "data": {
@@ -294,27 +246,9 @@
           "summary": "Respond to a `create/group` message.",
           "args": {
             "fields": [
-              {
-                "field": "temporaryId",
-                "description": "The temporary ID from the request that was sent by the browser.",
-                "type": "String",
-                "optional": false,
-                "nullable": false
-              },
-              {
-                "field": "success",
-                "description": "Whether the action was successful.",
-                "type": "Boolean",
-                "optional": false,
-                "nullable": false
-              },
-              {
-                "field": "error",
-                "description": "An error code (if the action failed)",
-                "type": "String",
-                "optional": true,
-                "nullable": false
-              }
+              "@temporaryId",
+              "@success",
+              "@error"
             ]
           },
           "data": {
