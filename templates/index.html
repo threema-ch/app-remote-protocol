@@ -4,20 +4,38 @@
 <p>{{ description | cmark }}</p>
 <p>Protocol version: {{ version }}</p>
 
-{% for type, subtypes in messages.items() %}
-    {% for subtype, directions in subtypes.items() %}
-        {% for msg in directions %}
-			{% if msg['direction'] == 'fromapp' %}
-                {% set direction_text = 'app -> client' %}
-			{% elif msg['direction'] == 'toapp' %}
-                {% set direction_text = 'client -> app' %}
-			{% elif msg['direction'] == 'bidirectional' %}
-                {% set direction_text = 'bidirectional' %}
-			{% endif %}
-            <h2><a href="message-{{ type }}-{{ subtype }}-{{ msg['direction'] }}.html">{{ type }} / {{ subtype }} ({{ direction_text }})</a></h2>
-			<p class="summary">{{ msg['summary'] | cmark }}</p>
-    	{% endfor %}
-    {% endfor %}
-{% endfor %}
+<table id="messagelist">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Subtype</th>
+            <th title="App to Client">A→C</th>
+            <th title="Client to App">C→A</th>
+            <th>Summary</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for type, subtypes in messages.items() %}
+            {% for subtype, directions in subtypes.items() %}
+                {% for msg in directions %}
+                    {% if msg['direction'] == 'fromapp' %}
+                        {% set direction_text = 'app -> client' %}
+                    {% elif msg['direction'] == 'toapp' %}
+                        {% set direction_text = 'client -> app' %}
+                    {% elif msg['direction'] == 'bidirectional' %}
+                        {% set direction_text = 'bidirectional' %}
+                    {% endif %}
+                    <tr>
+                        <td><a href="message-{{ type }}-{{ subtype }}-{{ msg['direction'] }}.html">{{ type }}</a></td>
+                        <td><a href="message-{{ type }}-{{ subtype }}-{{ msg['direction'] }}.html">{{ subtype }}</a></td>
+                        <td>{% if msg['direction'] in ['fromapp', 'bidirectional'] %}✓{% endif %}</td>
+                        <td>{% if msg['direction'] in ['toapp', 'bidirectional'] %}✓{% endif %}</td>
+                        <td class="summary">{{ msg['summary'] | cmark }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}
