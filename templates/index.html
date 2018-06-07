@@ -15,7 +15,7 @@
                 {% set direction_text = 'bidirectional' %}
 			{% endif %}
             <h2><a href="message-{{ type }}-{{ subtype }}-{{ msg['direction'] }}.html">{{ type }} / {{ subtype }} ({{ direction_text }})</a></h2>
-			<p class="summary">{{ msg['summary'] }}</p>
+			<p class="summary">{{ msg['summary'] | cmark }}</p>
     	{% endfor %}
     {% endfor %}
 {% endfor %}

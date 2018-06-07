@@ -7,7 +7,7 @@
       "contact": [
         {
           "direction": "fromapp",
-          "summary": "Respond to a create/contact message.",
+          "summary": "Respond to a `create/contact` message.",
           "args": {
             "fields": [
               {
@@ -79,6 +79,138 @@
               {
                 "field": "identity",
                 "description": "The identity of the contact that should be created",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          }
+        }
+      ],
+      "distributionList": [
+        {
+          "direction": "fromapp",
+          "summary": "Respond to a `create/distributionList` message.",
+          "args": {
+            "fields": [
+              {
+                "field": "temporaryId",
+                "description": "The temporary ID from the request that was sent by the client.",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "success",
+                "description": "Whether the action was successful.",
+                "type": "Boolean",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "error",
+                "description": "An error code (if the action failed)",
+                "type": "String",
+                "optional": true,
+                "nullable": false
+              }
+            ]
+          },
+          "data": {
+            "description": "If `success=true`, send the following map, otherwise send no data field.",
+            "fields": [
+              {
+                "field": "receiver",
+                "description": "The distribution list",
+                "type": "Map<DistributionList>",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          },
+          "errorCodes": {
+            "codes": {
+              "badRequest": "Invalid request",
+              "internalError": "The distribution list could not be created due to an internal error"
+            }
+          }
+        },
+        {
+          "direction": "toapp",
+          "summary": "Create a new distribution list.",
+          "args": {
+            "fields": [
+              {
+                "field": "temporaryId",
+                "description": "The temporary ID from the request that was sent by the client.",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          },
+          "data": {
+            "fields": [
+              {
+                "field": "members",
+                "description": "The list of distribution list member identities",
+                "type": "Array<String>",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "name",
+                "description": "The distribution list name",
+                "type": "String",
+                "optional": true,
+                "nullable": false
+              }
+            ]
+          }
+        }
+      ],
+      "fileMessage": [
+        {
+          "direction": "fromapp",
+          "summary": "Notify the client that a new message was created. This is a reply to the `create/fileMessage` message from the client.",
+          "args": {
+            "fields": [
+              {
+                "field": "type",
+                "description": "The receiver type",
+                "type": "String",
+                "enum": ["me", "contact", "group", "distributionList"],
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "id",
+                "description": "The identity of the responder",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "temporaryId",
+                "description": "The temporary ID from the request that was sent by the browser.",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "success",
+                "description": "Whether the message was sent successfully",
+                "type": "Boolean",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          },
+          "data": {
+            "fields": [
+              {
+                "field": "messageId",
+                "description": "The message id of the new message",
                 "type": "String",
                 "optional": false,
                 "nullable": false
