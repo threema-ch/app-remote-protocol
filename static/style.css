@@ -13,9 +13,15 @@ a {
     font-size: inherit;
 }
 
-tt {
+tt, code {
     font-family: "Courier New", Courier, monospace;
-    font-size: 100%;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #eee;
+    padding: 2px 4px;
+    border-radius: 2px;
 }
 
 h2 {
@@ -49,4 +55,8 @@ th {
 
 td {
     border-bottom: 1px solid #ccc;
+}
+
+table p {
+    margin: 0;
 }

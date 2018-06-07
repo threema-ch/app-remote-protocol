@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>{{ description }}</p>
+<p>{{ description | cmark }}</p>
 <p>Protocol version: {{ version }}</p>
 
 {% for type, subtypes in messages.items() %}

@@ -4,6 +4,8 @@ import os
 
 from jinja2 import Environment, FileSystemLoader
 
+import filters
+
 
 TEMPLATE_DIR = 'templates'
 OUT_DIR = 'output'
@@ -11,6 +13,7 @@ OUT_DIR = 'output'
 
 def main(filename: str):
     env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+    env.filters['cmark'] = filters.commonmark
     with open(filename, 'r') as f:
         schema = json.loads(f.read())
     copy_static_files()

@@ -3,18 +3,18 @@
 {% block content %}
 <a href="index.html">Back to overview</a>
 
-<p>{{ message['summary'] }}</p>
+<p>{{ message['summary'] | cmark }}</p>
 
 <h2>Args</h2>
 {% if message['args']['description'] %}
-<p>{{ message['args']['description'] }}</p>
+<p>{{ message['args']['description'] | cmark }}</p>
 {% endif %}
 {% set table=message['args'] %}
 {% include 'table.html' %}
 
 <h2>Data</h2>
 {% if message['data']['description'] %}
-<p>{{ message['data']['description'] }}</p>
+<p>{{ message['data']['description'] | cmark }}</p>
 {% endif %}
 {% set table=message['data'] %}
 {% include 'table.html' %}

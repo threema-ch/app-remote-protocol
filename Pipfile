@@ -4,7 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-"jinja2" = "*"
+"jinja2" = ">=2,<3"
+commonmark = ">=0.7,<1"
 
 [dev-packages]
 ipdb = "*"

@@ -12,7 +12,7 @@
         {% for f in table['fields'] %}
         <tr>
             <td>{{ f['field'] }}</td>
-            <td>{{ f['description'] }}</td>
+            <td>{{ f['description'] | cmark }}</td>
             <td>{{ f['type'] }}</td>
             <td>{{ f['optional'] }}</td>
             <td>{{ f['nullable'] }}</td>

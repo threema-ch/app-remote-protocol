@@ -19,3 +19,9 @@ Run:
     python generate.py
 
 The static output is written to the `output/` directory.
+
+## Schema format
+
+The schema is a custom JSON based format that can be parsed to generate HTML
+docs. Descriptions and summaries may contain markdown (commonmark flavor)
+markup.

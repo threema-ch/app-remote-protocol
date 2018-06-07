@@ -1,6 +1,6 @@
 {
   "title": "Threema App Remote Protocol (ARP)",
-  "description": "The protocol used to exchange data between the Threema app and a client (e.g. Threema Web).",
+  "description": "The protocol used to exchange data between the Threema app and a client (e.g. [Threema Web](https://threema.ch/en/threema-web)).",
   "version": "2.0.0",
   "messages": {
     "create": {
@@ -41,7 +41,7 @@
             ]
           },
           "data": {
-            "description": "If success=true, send the following map, otherwise send no data field.",
+            "description": "If `success=true`, send the following map, otherwise send no data field.",
             "fields": [
               {
                 "field": "receiver",
