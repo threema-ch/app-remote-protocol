@@ -9,14 +9,14 @@
 {% if message['args']['description'] %}
 <p>{{ message['args']['description'] | cmark }}</p>
 {% endif %}
-{% set table=message['args'] %}
+{% set fields=message['args']['fields'] %}
 {% include 'table.html' %}
 
 <h2>Data</h2>
 {% if message['data']['description'] %}
 <p>{{ message['data']['description'] | cmark }}</p>
 {% endif %}
-{% set table=message['data'] %}
+{% set fields=message['data']['fields'] %}
 {% include 'table.html' %}
 
 {% if message['errorCodes'] %}
@@ -37,6 +37,15 @@
         {% endfor %}
     </tbody>
 </table>
+{% endif %}
+
+{% if models %}
+<h2>Models</h2>
+{% for model in models %}
+<h3>{{ model.0 }}</h3>
+{% set fields=model.1.fields %}
+{% include 'table.html' %}
+{% endfor %}
 {% endif %}
 
 {% endblock %}

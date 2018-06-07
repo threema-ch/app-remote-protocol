@@ -9,7 +9,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for f in table['fields'] %}
+        {% for f in fields %}
         <tr>
             <td>{{ f['field'] }}</td>
             <td>
@@ -22,7 +22,7 @@
                 </p>
                 {% endif %}
             </td>
-            <td>{{ f['type'] }}</td>
+            <td>{{ f['type'] | escape }}</td>
             <td>{{ f['optional'] }}</td>
             <td>{{ f['nullable'] }}</td>
         </tr>

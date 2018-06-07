@@ -28,7 +28,7 @@
       "field": "type",
       "description": "The receiver type",
       "type": "String",
-      "enum": ["me", "contact", "group", "distributionList"],
+      "enum": ["\"me\"", "\"contact\"", "\"group\"", "\"distributionList\""],
       "optional": false,
       "nullable": false
     },
@@ -38,6 +38,145 @@
       "type": "String",
       "optional": false,
       "nullable": false
+    }
+  },
+  "models": {
+    "Quote": {
+      "fields": [
+        {
+          "field": "identity",
+          "description": "The identity of the quote text author",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "text",
+          "description": "The quote text",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "Contact": {
+      "fields": [
+        {
+          "field": "id",
+          "description": "The Threema identity",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "displayName",
+          "description": "The display name of the contact",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "color",
+          "description": "The contact color in hex notation (e.g. `\"#1122FF\"`)",
+          "type": "String",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "firstName",
+          "description": "The contact first name",
+          "type": "String",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "lastName",
+          "description": "The contact last name",
+          "type": "String",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "publicNickname",
+          "description": "The contact public nickname (without preceding `~`)",
+          "type": "String",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "verificationLevel",
+          "description": "The verification level<br>1: Unverified (red)<br>2: Server verified (yellow)<br>3: Fully verified (green)",
+          "type": "Integer",
+          "enum": [1, 2, 3],
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "state",
+          "description": "The identity state",
+          "type": "String",
+          "enum": ["\"ACTIVE\"", "\"INACTIVE\""],
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "featureMask",
+          "description": "The feature mask (TODO: Document)",
+          "type": "Integer",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "isWork",
+          "description": "Whether this is a contact from the same Threema Work package.<br>Only relevant for Threema Work users.",
+          "type": "Boolean",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "identityType",
+          "description": "The identity type<br>0: Regular Threema user<br>1: Threema Work user",
+          "type": "Integer",
+          "enum": [0, 1],
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "publicKey",
+          "description": "The contact public key",
+          "type": "Binary",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "locked",
+          "description": "Whether the chat with this contact is locked. This is used for private chats.",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "visible",
+          "description": "Whether the chat with this contact is visible. This is used for private chats.",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "hidden",
+          "description": "The contact is hidden (e.g. because it is part of a group, but was never added to the address book or contacted)",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "access",
+          "description": "The access object",
+          "type": "Map<Access> (TODO)",
+          "optional": false,
+          "nullable": false
+        }
+      ]
     }
   },
   "messages": {
@@ -72,6 +211,7 @@
               }
             ]
           },
+          "models": ["Contact"],
           "errorCodes": {
             "codes": {
               "invalidIdentity": "The identity is invalid",
@@ -363,7 +503,8 @@
                 "nullable": false
               }
             ]
-          }
+          },
+          "models": ["Quote"]
         }
       ]
     }

@@ -23,7 +23,7 @@ def main(filename: str):
     for typ, subtypes in schema['messages'].items():
         for subtype, messages in subtypes.items():
             for message in messages:
-                generate_message(env, typ, subtype, message)
+                generate_message(env, typ, subtype, message, schema['models'])
 
 
 def copy_static_files():
@@ -88,12 +88,16 @@ def direction_to_text(direction: str) -> str:
     return 'unknown'
 
 
-def generate_message(env: Environment, typ: str, subtype: str, message: dict):
+def generate_message(env: Environment, typ: str, subtype: str, message: dict, models: dict):
     filename = f'message-{typ}-{subtype}-{message["direction"]}.html'
     template = 'message.html'
     print(f'Generating {filename}')
     template = env.get_template(template)
     direction_text = direction_to_text(message['direction'])
+    resolved_models = []
+    if 'models' in message:
+        for model in message['models']:
+            resolved_models.append((model, models[model]))
     with open(os.path.join(OUT_DIR, filename), 'w') as f:
         f.write(
             template.render(
@@ -101,6 +105,7 @@ def generate_message(env: Environment, typ: str, subtype: str, message: dict):
                 type=typ,
                 subtype=subtype,
                 message=message,
+                models=resolved_models,
             )
         )
 
