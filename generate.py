@@ -1,3 +1,4 @@
+import distutils.dir_util
 import json
 import os
 
@@ -12,11 +13,16 @@ def main(filename: str):
     env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
     with open(filename, 'r') as f:
         schema = json.loads(f.read())
+    copy_static_files()
     generate_index(env, schema)
     for typ, subtypes in schema['messages'].items():
         for subtype, messages in subtypes.items():
             for message in messages:
                 generate_message(env, typ, subtype, message)
+
+
+def copy_static_files():
+    distutils.dir_util.copy_tree('static/', 'output/static')
 
 
 def generate_index(env: Environment, schema: dict):
