@@ -12,7 +12,16 @@
         {% for f in table['fields'] %}
         <tr>
             <td>{{ f['field'] }}</td>
-            <td>{{ f['description'] | cmark }}</td>
+            <td>
+                {{ f['description'] | cmark }}
+                {% if f['enum'] %}
+                <p>Allowed values:
+                {% for val in f['enum'] %}
+                <code>{{ val }}</code>{% if not loop.last %}, {% endif %}
+                {% endfor %}
+                </p>
+                {% endif %}
+            </td>
             <td>{{ f['type'] }}</td>
             <td>{{ f['optional'] }}</td>
             <td>{{ f['nullable'] }}</td>
