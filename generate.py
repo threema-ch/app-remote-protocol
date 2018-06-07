@@ -47,13 +47,19 @@ def process_includes(schema: dict):
                 args = message.get('args', {}).get('fields', [])
                 for i, arg in enumerate(args):
                     if isinstance(arg, str) and arg.startswith('@'):
-                        message['args']['fields'][i] = copy.copy(shared_fields[arg[1:]])
+                        try:
+                            message['args']['fields'][i] = copy.copy(shared_fields[arg[1:]])
+                        except KeyError:
+                            raise RuntimeError(f'Shared arg field not found: {arg}')
 
                 # Process data
                 data = message.get('data', {}).get('fields', [])
                 for i, datum in enumerate(data):
                     if isinstance(datum, str) and datum.startswith('@'):
-                        message['data']['fields'][i] = copy.copy(shared_fields[datum[1:]])
+                        try:
+                            message['data']['fields'][i] = copy.copy(shared_fields[datum[1:]])
+                        except KeyError:
+                            raise RuntimeError(f'Shared data field not found: {datum}')
 
 
 def generate_index(env: Environment, schema: dict):
