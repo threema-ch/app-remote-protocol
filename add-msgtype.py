@@ -2,7 +2,7 @@
 Helper script to add new message types.
 """
 import json
-import readline
+import readline  # noqa: Used for input()
 
 
 def yn_choice(message, default='y'):
@@ -23,6 +23,11 @@ def fields(data: dict, key: str, name: str):
         field = input(f'{name} field (enter to skip): ')
         if not field:
             break
+        # Includes
+        if field.startswith('@'):
+            data[key]['fields'].append(field)
+            continue
+        # Regular fields
         desc = input('  Description: ')
         typ = input('  Type: ')
         optional = yn_choice('  Optional', default='n')

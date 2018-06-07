@@ -270,6 +270,100 @@
               "internalError": "The group could not be created due to an internal error"
             }
           }
+        },
+        {
+          "direction": "toapp",
+          "summary": "Create a new group.",
+          "args": {
+            "fields": [
+              "@temporaryId"
+            ]
+          },
+          "data": {
+            "fields": [
+              {
+                "field": "members",
+                "description": "The list of group member identities",
+                "type": "Array<String>",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "name",
+                "description": "The group name",
+                "type": "String",
+                "optional": true,
+                "nullable": false
+              },
+              {
+                "field": "avatar",
+                "description": "The group avatar",
+                "type": "Binary",
+                "optional": true,
+                "nullable": false
+              }
+            ]
+          }
+        }
+      ],
+      "textMessage": [
+        {
+          "direction": "fromapp",
+          "summary": "Notify the client that a new message was created. This is a reply to the `create/textMessage` message from the client.",
+          "args": {
+            "fields": [
+              "@receiverType",
+              "@receiverId",
+              "@temporaryId",
+              {
+                "field": "success",
+                "description": "Whether the message was sent successfully",
+                "type": "Boolean",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          },
+          "data": {
+            "fields": [
+              {
+                "field": "messageId",
+                "description": "The message id of the new message",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          }
+        },
+        {
+          "direction": "toapp",
+          "summary": "Send a new text message.",
+          "args": {
+            "fields": [
+              "@receiverType",
+              "@receiverId",
+              "@temporaryId"
+            ]
+          },
+          "data": {
+            "fields": [
+              {
+                "field": "text",
+                "description": "The message text",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "quote",
+                "description": "The quote",
+                "type": "Map<Quote>",
+                "optional": true,
+                "nullable": false
+              }
+            ]
+          }
         }
       ]
     }
