@@ -1,0 +1,92 @@
+{
+  "title": "Threema App Remote Protocol (ARP)",
+  "description": "The protocol used to exchange data between the Threema app and a client (e.g. Threema Web).",
+  "version": "2.0.0",
+  "messages": {
+    "create": {
+      "contact": [
+        {
+          "direction": "fromapp",
+          "summary": "Respond to a create/contact message.",
+          "args": {
+            "fields": [
+              {
+                "field": "temporaryId",
+                "description": "The temporary ID from the request that was sent by the browser.",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "identity",
+                "description": "The identity of the contact that was created",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "success",
+                "description": "Whether the action was successful.",
+                "type": "Boolean",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "error",
+                "description": "An error code (if the action failed)",
+                "type": "String",
+                "optional": true,
+                "nullable": false
+              }
+            ]
+          },
+          "data": {
+            "description": "If success=true, send the following map, otherwise send no data field.",
+            "fields": [
+              {
+                "field": "receiver",
+                "description": "The contact",
+                "type": "Map<Contact>",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          },
+          "errorCodes": {
+            "codes": {
+              "invalidIdentity": "The identity is invalid",
+              "disabledByPolicy": "Feature disabled by administrator",
+              "internalError": "The contact could not be created due to an internal error"
+            }
+          }
+        },
+        {
+          "direction": "toapp",
+          "summary": "Create a new contact.",
+          "args": {
+            "fields": [
+              {
+                "field": "temporaryId",
+                "description": "The temporary ID from the request that was sent by the browser.",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          },
+          "data": {
+            "fields": [
+              {
+                "field": "identity",
+                "description": "The identity of the contact that should be created",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

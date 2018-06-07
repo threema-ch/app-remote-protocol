@@ -1,0 +1,22 @@
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for f in table['fields'] %}
+        <tr>
+            <td>{{ f['field'] }}</td>
+            <td>{{ f['description'] }}</td>
+            <td>{{ f['type'] }}</td>
+            <td>{{ f['optional'] }}</td>
+            <td>{{ f['nullable'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

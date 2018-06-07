@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>{{ description }}</p>
+<p>Protocol version: {{ version }}</p>
+
+{% for type, subtypes in messages.items() %}
+    {% for subtype, directions in subtypes.items() %}
+        {% for msg in directions %}
+			{% if msg['direction'] == 'fromapp' %}
+                {% set direction_text = 'app -> client' %}
+			{% elif msg['direction'] == 'toapp' %}
+                {% set direction_text = 'client -> app' %}
+			{% elif msg['direction'] == 'bidirectional' %}
+                {% set direction_text = 'bidirectional' %}
+			{% endif %}
+            <h2><a href="message-{{ type }}-{{ subtype }}-{{ msg['direction'] }}.html">{{ type }} / {{ subtype }} ({{ direction_text }})</a></h2>
+			<p class="summary">{{ msg['summary'] }}</p>
+    	{% endfor %}
+    {% endfor %}
+{% endfor %}
+
+{% endblock %}

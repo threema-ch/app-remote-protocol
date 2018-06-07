@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="index.html">Back to overview</a>
+
+<p>{{ message['summary'] }}</p>
+
+<h2>Args</h2>
+{% if message['args']['description'] %}
+<p>{{ message['args']['description'] }}</p>
+{% endif %}
+{% set table=message['args'] %}
+{% include 'table.html' %}
+
+<h2>Data</h2>
+{% if message['data']['description'] %}
+<p>{{ message['data']['description'] }}</p>
+{% endif %}
+{% set table=message['data'] %}
+{% include 'table.html' %}
+
+{% if message['errorCodes'] %}
+<h2>Error Codes</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for k, v in message['errorCodes']['codes'].items() %}
+        <tr>
+            <td>{{ k }}</td>
+            <td>{{ v }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% endblock %}

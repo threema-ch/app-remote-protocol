@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{ title }}</title>
+        <style type="text/css">
+            body {
+                background-color: #FFFFFF;
+                font-family: Helvetica, Arial, sans-serif;
+                font-size: 13pt;
+                line-height: 16pt;
+                -webkit-text-size-adjust: none;
+                margin: 20pt;
+            }
+
+            a {
+                color: #4fbc24;
+                text-decoration: none;
+                font-size: inherit;
+            }
+
+            tt {
+                font-family: "Courier New", Courier, monospace;
+                font-size: 100%;
+            }
+
+            h2 {
+                margin-top: 1.6em;
+            }
+
+            /* table reset */
+            table, caption, tbody, tfoot, thead, tr, th, td {
+                margin: 0;
+                padding: 0;
+                border: 0;
+                outline: 0;
+                font-size: 100%;
+                vertical-align: baseline;
+                background: transparent;
+            }
+
+            table {
+                border-collapse: collapse;
+            }
+
+            td, th {
+                text-align: left;
+                line-height: 1.7em;
+                padding: 2px 8px;
+            }
+
+            th {
+                border-bottom: 1px solid #aaa;
+            }
+
+            td {
+                border-bottom: 1px solid #ccc;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>{{ title }}</h1>
+        {% block content %}{% endblock %}
+    </body>
+</html>
