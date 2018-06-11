@@ -10,8 +10,10 @@
     {% if message['args']['description'] %}
     {{ message['args']['description'] | cmark }}
     {% endif %}
-    {% set fields=message['args']['fields'] %}
-    {% include 'table.html' %}
+    {% if message['args']['fields'] %}
+        {% set fields=message['args']['fields'] %}
+        {% include 'table.html' %}
+    {% endif %}
 {% else %}
     None
 {% endif %}
@@ -21,8 +23,10 @@
     {% if message['data']['description'] %}
     {{ message['data']['description'] | cmark }}
     {% endif %}
-    {% set fields=message['data']['fields'] %}
-    {% include 'table.html' %}
+    {% if message['data']['fields'] %}
+        {% set fields=message['data']['fields'] %}
+        {% include 'table.html' %}
+    {% endif %}
 {% else %}
     None
 {% endif %}
@@ -57,6 +61,7 @@
 {% for model in models %}
 <h3>{{ model.0 }}</h3>
 {% set fields=model.1.fields %}
+{% set show_default=True %}
 {% include 'table.html' %}
 {% endfor %}
 {% endif %}

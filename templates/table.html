@@ -6,6 +6,9 @@
             <th>Type</th>
             <th>Optional</th>
             <th>Nullable</th>
+            {% if show_default %}
+            <th>Default</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -25,6 +28,9 @@
             <td>{{ f['type'] | escape }}</td>
             <td>{{ f['optional'] }}</td>
             <td>{{ f['nullable'] }}</td>
+            {% if show_default %}
+            <td>{{ f.get('default', '') }}</td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>

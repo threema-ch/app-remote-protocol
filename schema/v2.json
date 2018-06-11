@@ -180,7 +180,964 @@
         {
           "field": "access",
           "description": "The access object",
-          "type": "Map<Access> (TODO)",
+          "type": "Map<ContactReceiverAccess>",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "Group": {
+      "fields": [
+        {
+          "field": "id",
+          "description": "The group identity",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "name",
+          "description": "The group name",
+          "type": "String",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "displayName",
+          "description": "The group display name",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "color",
+          "description": "The group color in hex notation (e.g. `\"#1122FF\"`)",
+          "type": "String",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "createdAt",
+          "description": "The group creation date as a unix time stamp in seconds (TODO: Make this true)",
+          "type": "Integer",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "disabled",
+          "description": "This is set to true if you're not a member of this group anymore",
+          "type": "Boolean",
+          "optional": true,
+          "nullable": false,
+          "default": false
+        },
+        {
+          "field": "locked",
+          "description": "This is set to true if the chat is marked as a secret chat",
+          "type": "Boolean",
+          "optional": true,
+          "nullable": false,
+          "default": false
+        },
+        {
+          "field": "visible",
+          "description": "This is set to false if the chat is marked as a secret chat and if secret chats are hidden in the app",
+          "type": "Boolean",
+          "optional": true,
+          "nullable": false,
+          "default": true
+        },
+        {
+          "field": "members",
+          "description": "The list of group member identities",
+          "type": "Array<String>",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "administrator",
+          "description": "The Threema identity of the group admin",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "access",
+          "description": "The access object",
+          "type": "Map<GroupReceiverAccess>",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "DistributionList": {
+      "fields": [
+        {
+          "field": "id",
+          "description": "The distribution list ID",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "displayName",
+          "description": "The distribution list display name",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "color",
+          "description": "The group color in hex notation (e.g. `\"#1122FF\"`)",
+          "type": "String",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "locked",
+          "description": "This is set to true if the chat is marked as a secret chat",
+          "type": "Boolean",
+          "optional": true,
+          "nullable": false,
+          "default": false
+        },
+        {
+          "field": "visible",
+          "description": "This is set to false if the chat is marked as a secret chat and if secret chats are hidden in the app",
+          "type": "Boolean",
+          "optional": true,
+          "nullable": false,
+          "default": true
+        },
+        {
+          "field": "members",
+          "description": "The list of group member identities",
+          "type": "Array<String>",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "access",
+          "description": "The access object",
+          "type": "Map<DistributionListReceiverAccess>",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "Conversation": {
+      "fields": [
+        {
+          "field": "type",
+          "description": "The receiver type",
+          "type": "String",
+          "enum": ["\"me\"", "\"contact\"", "\"group\"", "\"distributionList\""],
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "id",
+          "description": "The identity of the responder",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "position",
+          "description": "Used for sorting, first conversation starts at index 0",
+          "type": "Integer",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "messageCount",
+          "description": "Number of messages",
+          "type": "Integer",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "unreadCount",
+          "description": "Number of unread messages",
+          "type": "Integer",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "latestMessage",
+          "description": "The latest message content",
+          "type": "Map<Message>",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "receiver",
+          "description": "The receiver",
+          "type": "Map<Receiver>",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "avatar",
+          "description": "The avatar of the receiver. Only set for the top 20-30 conversations.",
+          "type": "Binary",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "notifications",
+          "description": "Notification settings",
+          "type": "Map<NotificationSettings>",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "isStarred",
+          "description": "Is the conversation starred?",
+          "type": "Boolean",
+          "optional": true,
+          "nullable": false,
+          "default": false
+        }
+      ]
+    },
+    "NotificationSettings": {
+      "fields": [
+        {
+          "field": "sound",
+          "description": "Notification sound settings",
+          "type": "Map<NotificationSound>",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "dnd",
+          "description": "Do not disturb settings",
+          "type": "Map<NotificationDnd>",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "NotificationSound": {
+      "fields": [
+        {
+          "field": "mode",
+          "description": "The notification mode",
+          "type": "String",
+          "enum": ["\"default\"", "\"muted\""],
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "NotificationDnd": {
+      "fields": [
+        {
+          "field": "mode",
+          "description": "The do not disturb mode",
+          "type": "String",
+          "enum": ["\"off\"", "\"on\"", "\"until\""],
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "mentionsOnly",
+          "description": "Only notify on mentions. May be used with modes \"on\" or \"until\".",
+          "type": "String",
+          "enum": ["\"off\"", "\"on\"", "\"until\""],
+          "optional": true,
+          "nullable": false,
+          "default": false
+        },
+        {
+          "field": "until",
+          "description": "Unix timestamp in milliseconds. Must be set if mode is \"until\".",
+          "type": "Integer",
+          "optional": true,
+          "nullable": false
+        }
+      ]
+    },
+    "Configuration": {
+      "fields": [
+        {
+          "field": "voipEnabled",
+          "description": "Are calls enabled?",
+          "type": "Boolean",
+          "optional": true,
+          "default": true,
+          "nullable": false
+        },
+        {
+          "field": "voipForceTurn",
+          "description": "Force all VoIP traffic to go through the TURN server",
+          "type": "Boolean",
+          "optional": true,
+          "default": false,
+          "nullable": false
+        },
+        {
+          "field": "largeSingleEmoji",
+          "description": "Show single emoji with a larger font size",
+          "type": "Boolean",
+          "optional": true,
+          "default": true,
+          "nullable": false
+        },
+        {
+          "field": "showInactiveIDs",
+          "description": "Whether to show inactive IDs in the contact list",
+          "type": "Boolean",
+          "optional": true,
+          "default": true,
+          "nullable": false
+        }
+      ]
+    },
+    "Capabilities": {
+      "fields": [
+        {
+          "field": "maxGroupSize",
+          "description": "The supported group size",
+          "type": "Integer",
+          "optional": true,
+          "default": 50,
+          "nullable": false
+        },
+        {
+          "field": "maxFileSize",
+          "description": "The max file size for files being sent (bytes)",
+          "type": "Integer",
+          "optional": true,
+          "default": 52428800,
+          "nullable": false
+        },
+        {
+          "field": "distributionLists",
+          "description": "Whether distribution lists are supported by the device",
+          "type": "Boolean",
+          "optional": true,
+          "default": true,
+          "nullable": false
+        },
+        {
+          "field": "imageFormat",
+          "description": "The image format used",
+          "type": "Map<ImageFormat>",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "mdm",
+          "description": "MDM configuration",
+          "type": "Map<MdmRestrictions>",
+          "optional": true,
+          "nullable": false
+        }
+      ]
+    },
+    "ImageFormat": {
+      "fields": [
+        {
+          "field": "avatar",
+          "description": "The avatar mime type, for example `image/png`",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "thumbnail",
+          "description": "The thumbnail mime type, for example `image/jpeg`",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "MdmRestrictions": {
+      "fields": [
+        {
+          "field": "disableAddContact",
+          "description": "Set to true to disable adding of new contacts",
+          "type": "Boolean",
+          "optional": true,
+          "default": false,
+          "nullable": false
+        },
+        {
+          "field": "disableCreateGroup",
+          "description": "Set to true to disable the creation of groups",
+          "type": "Boolean",
+          "optional": true,
+          "default": false,
+          "nullable": false
+        },
+        {
+          "field": "disableSaveToGallery",
+          "description": "Set to true to make it harder to download media (hide download button)",
+          "type": "Boolean",
+          "optional": true,
+          "default": false,
+          "nullable": false
+        },
+        {
+          "field": "disableExport",
+          "description": "Set to true to disable exporting of chats",
+          "type": "Boolean",
+          "optional": true,
+          "default": false,
+          "nullable": false
+        },
+        {
+          "field": "disableMessagePreview",
+          "description": "Set to true to disable message contents in desktop notifications",
+          "type": "Boolean",
+          "optional": true,
+          "default": false,
+          "nullable": false
+        },
+        {
+          "field": "disableCalls",
+          "description": "Set to true to disable VoIP calls",
+          "type": "Boolean",
+          "optional": true,
+          "default": false,
+          "nullable": false
+        },
+        {
+          "field": "readonlyProfile",
+          "description": "Set to true if editing the profile was disabled by an MDM setting",
+          "type": "Boolean",
+          "optional": true,
+          "default": false,
+          "nullable": false
+        }
+      ]
+    },
+    "ContactDetails": {
+      "fields": [
+        {
+          "field": "systemContact",
+          "description": "System contact details",
+          "type": "Map<SystemContact>",
+          "optional": true,
+          "nullable": false
+        }
+      ]
+    },
+    "SystemContact": {
+      "fields": [
+        {
+          "field": "emails",
+          "description": "E-Mail addresses",
+          "type": "Array<Email>",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "phoneNumbers",
+          "description": "Phone numbers",
+          "type": "Array<Phone>",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "Email": {
+      "fields": [
+        {
+          "field": "label",
+          "description": "Category label",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "address",
+          "description": "E-Mail address",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "Phone": {
+      "fields": [
+        {
+          "field": "label",
+          "description": "Category label",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "number",
+          "description": "Phone number",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "Message": {
+      "fields": [
+        {
+          "field": "type",
+          "description": "The message type",
+          "enum": [
+            "\"text\"",
+            "\"image\"",
+            "\"video\"",
+            "\"file\"",
+            "\"location\"",
+            "\"voipStatus\""
+          ],
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "id",
+          "description": "The message id",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "body",
+          "description": "The message body",
+          "type": "String",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "thumbnail",
+          "description": "The message thumbnail",
+          "type": "Map<Thumbnail>",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "date",
+          "description": "The message date (last update) as a unix timestamp in seconds",
+          "type": "Integer",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "events",
+          "description": "A list of message events",
+          "type": "Array<MessageEvent>",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "sortKey",
+          "description": "A number used for sorting messages, higher means newer",
+          "type": "Integer",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "partnerId",
+          "description": "The identity of the sender of this message",
+          "type": "String",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "isOutbox",
+          "description": "Whether this message was sent by the user",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "isStatus",
+          "description": "Whether this is a status message",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "statusType",
+          "description": "The status message type",
+          "type": "String",
+          "enum": ["\"text\"", "\"firstUnreadMessage\""],
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "caption",
+          "description": "The message caption",
+          "type": "String",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "unread",
+          "description": "Whether this message is unread",
+          "type": "Boolean",
+          "optional": true,
+          "nullable": false,
+          "default": false
+        },
+        {
+          "field": "state",
+          "description": "The message state",
+          "type": "String",
+          "enum": [
+            "\"delivered\"",
+            "\"read\"",
+            "\"send-failed\"",
+            "\"sent\"",
+            "\"user-ack\"",
+            "\"user-dec\"",
+            "\"pending\"",
+            "\"sending\""
+          ],
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "quote",
+          "description": "The message quote",
+          "type": "Map<Quote>",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "file",
+          "description": "The file info",
+          "type": "Map<File>",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "video",
+          "description": "The video info",
+          "type": "Map<Video>",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "audio",
+          "description": "The audio info",
+          "type": "Map<Audio>",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "location",
+          "description": "The location info",
+          "type": "Map<Location>",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "voip",
+          "description": "The voip status info",
+          "type": "Map<VoIP>",
+          "optional": true,
+          "nullable": false
+        }
+      ]
+    },
+    "Thumbnail": {
+      "fields": [
+        {
+          "field": "height",
+          "description": "The height of the thumbnail (max 400px)",
+          "type": "Integer",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "width",
+          "description": "The width of the thumbnail (max 400px)",
+          "type": "Integer",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "preview",
+          "description": "The thumbnail preview. This should be resized so that no side is larger than 50px.",
+          "type": "Binary",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "MessageEvent": {
+      "fields": [
+        {
+          "field": "date",
+          "description": "The event date (last update) as a unix time stamp in seconds",
+          "type": "Integer",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "type",
+          "description": "The event type",
+          "type": "String",
+          "enum": [
+            "\"created\"",
+            "\"sent\"",
+            "\"delivered\"",
+            "\"read\"",
+            "\"acked\"",
+            "\"modified\""
+          ],
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "Quote": {
+      "fields": [
+        {
+          "field": "identity",
+          "description": "The identity that authored the quote",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "text",
+          "description": "The quote text",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "File": {
+      "fields": [
+        {
+          "field": "description",
+          "description": "The file description",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "name",
+          "description": "The file name",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "size",
+          "description": "The file size in bytes",
+          "type": "Integer",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "type",
+          "description": "The file MIME type",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "inApp",
+          "description": "TODO",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "Video": {
+      "fields": [
+        {
+          "field": "duration",
+          "description": "The video duration in seconds",
+          "type": "Integer",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "size",
+          "description": "The video file size in bytes",
+          "type": "Integer",
+          "optional": true,
+          "nullable": false
+        }
+      ]
+    },
+    "Audio": {
+      "fields": [
+        {
+          "field": "duration",
+          "description": "The duration of the audio message in seconds",
+          "type": "Integer",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "Location": {
+      "fields": [
+        {
+          "field": "lat",
+          "description": "WSG84 latitude",
+          "type": "Float",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "lon",
+          "description": "WSG84 longitude",
+          "type": "Float",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "accuracy",
+          "description": "The horizontal accuracy in emters ([the radius of 68% confidence](https://stackoverflow.com/a/13807786/284318))",
+          "type": "Float",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "address",
+          "description": "The address belonging to this location",
+          "type": "String",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "description",
+          "description": "Description text for this location",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "VoIP": {
+      "fields": [
+        {
+          "field": "status",
+          "description": "The type of VoIP status message<br>1: Missed<br>2: Finished<br>3: Rejected<br>4: Aborted",
+          "type": "Integer",
+          "enum": [1, 2, 3, 4],
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "duration",
+          "description": "The duration of the call in seconds",
+          "type": "Integer",
+          "optional": true,
+          "nullable": false
+        },
+        {
+          "field": "reason",
+          "description": "The reject reason<br>0: Unknown<br>1: Busy<br>2: Timeout<br>3: Rejected",
+          "type": "Integer",
+          "enum": [0, 1, 2, 3],
+          "optional": true,
+          "nullable": false
+        }
+      ]
+    },
+    "ContactReceiverAccess": {
+      "fields": [
+        {
+          "field": "canDelete",
+          "description": "Whether this contact can be deleted",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "canChangeAvatar",
+          "description": "Whether the avatar of this group can be changed",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "canChangeFirstName",
+          "description": "Whether the first name of this contact can be changed",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "canChangeLastName",
+          "description": "Whether the last name of this contact can be changed",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "GroupReceiverAccess": {
+      "fields": [
+        {
+          "field": "canDelete",
+          "description": "Whether this group can be deleted",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "canChangeAvatar",
+          "description": "Whether the group avatar can be changed",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "canChangeName",
+          "description": "Whether the group name can be changed",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "canChangeMembers",
+          "description": "Whether the group members can be changed",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "canLeave",
+          "description": "Whether this group can be left",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "canSync",
+          "description": "Whether the group can be re-synced",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
+    "DistributionListReceiverAccess": {
+      "fields": [
+        {
+          "field": "canDelete",
+          "description": "Whether this distribution list can be deleted",
+          "type": "Boolean",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "canChangeMembers",
+          "description": "Whether the distribution list members can be changed",
+          "type": "Boolean",
           "optional": false,
           "nullable": false
         }
@@ -219,7 +1176,7 @@
               }
             ]
           },
-          "models": ["Contact"],
+          "models": ["Contact", "ContactReceiverAccess"],
           "errorCodes": {
             "codes": {
               "invalidIdentity": "The identity is invalid",
@@ -865,6 +1822,302 @@
               },
               "@temporaryId"
             ]
+          }
+        }
+      ]
+    },
+    "response": {
+      "blob": [
+        {
+          "direction": "fromapp",
+          "summary": "Return binary content (e.g. a file).",
+          "args": {
+            "fields": [
+              "@receiverType",
+              "@receiverId",
+              {
+                "field": "messageId",
+                "description": "The ID of the message associated with the blob",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              "@temporaryId",
+              "@success",
+              "@error"
+            ]
+          },
+          "data": {
+            "description": "The data is optional if an error happened.",
+            "fields": [
+              {
+                "field": "blob",
+                "description": "The binary data",
+                "type": "Binary",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "type",
+                "description": "The MIME type of the data",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "name",
+                "description": "The filename",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          },
+          "errorCodes": {
+            "codes": {
+              "blobDownloadFailed": "Could not download message from Threema server",
+              "blobDecryptFailed": "Could not decrypt message",
+              "internalError": "Internal error"
+            }
+          }
+        }
+      ],
+      "clientInfo": [
+        {
+          "direction": "fromapp",
+          "summary": "Send information about the device.",
+          "data": {
+            "fields": [
+              {
+                "field": "device",
+                "description": "The device name",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "os",
+                "description": "The operating system",
+                "type": "String",
+                "enum": ["\"android\"", "\"ios\""],
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "osVersion",
+                "description": "For example \"5.1\"",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "isWork",
+                "description": "Whether this is a Threema Work app",
+                "type": "Boolean",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "pushToken",
+                "description": "The GCM / APNS push token<br>APNS: This is the 32 byte hex encoded device token, followed by the endpoint (either \"p\" or \"s\") and the bundle ID, separated by semicolons.",
+                "type": "String",
+                "optional": true,
+                "nullable": false
+              },
+              {
+                "field": "configuration",
+                "description": "The device configuration",
+                "type": "Map<Configuration>",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "capabilities",
+                "description": "The device capabilities",
+                "type": "Map<Capabilities>",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          },
+          "models": ["Configuration", "Capabilities", "ImageFormat", "MdmRestrictions"]
+        }
+      ],
+      "confirmAction": [
+        {
+          "direction": "fromapp",
+          "summary": "This message is sent by the app to the browser in order to resolve or reject promises.",
+          "args": {
+            "fields": [
+              "@temporaryId",
+              "@success",
+              "@error"
+            ]
+          }
+        }
+      ],
+      "contactDetail": [
+        {
+          "direction": "fromapp",
+          "summary": "Respond with the contact details (e.g. system contact).",
+          "args": {
+            "fields": [
+              {
+                "field": "identity",
+                "description": "The identity of the contact",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              "@success",
+              "@error",
+              "@temporaryId"
+            ]
+          },
+          "data": {
+            "description": "The data is optional if an error happened.",
+            "fields": [
+              {
+                "field": "receiver",
+                "description": "Receiver details",
+                "type": "Map<ContactDetails>",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          },
+          "models": ["ContactDetails", "SystemContact", "Email", "Phone"],
+          "errorCodes": {
+            "codes": {
+              "invalidContact": "The identity is not a valid contact",
+              "internalError": "The contact details could not be fetched due to an internal error"
+            }
+          }
+        }
+      ],
+      "conversations": [
+        {
+          "direction": "fromapp",
+          "summary": "Information about the active conversations.",
+          "data": {
+            "description": "The data value is an `Array<Conversation>`."
+          },
+          "models": ["Conversation", "NotificationSettings", "NotificationSound", "NotificationDnd"]
+        }
+      ],
+      "messages": [
+        {
+          "direction": "fromapp",
+          "summary": "A list of messages for a certain receiver.",
+          "args": {
+            "fields": [
+              "@receiverType",
+              "@receiverId",
+              {
+                "field": "more",
+                "description": "Whether more (older) messages are available",
+                "type": "Boolean",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          },
+          "data": {
+            "description": "The data value is an `Array<Message>`."
+          },
+          "models": ["Message", "Thumbnail", "MessageEvent", "Quote", "File", "Video", "Audio", "Location", "VoIP"]
+        }
+      ],
+      "profile": [
+        {
+          "direction": "fromapp",
+          "summary": "Return the user profile.",
+          "data": {
+            "fields": [
+              {
+                "field": "identity",
+                "description": "User identity",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "publicKey",
+                "description": "User public key",
+                "type": "Binary",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "publicNickname",
+                "description": "User public nickname",
+                "type": "String",
+                "optional": true,
+                "nullable": false
+              },
+              {
+                "field": "avatar",
+                "description": "User high res avatar",
+                "type": "Binary",
+                "optional": true,
+                "nullable": false
+              }
+            ]
+          }
+        }
+      ],
+      "receivers": [
+        {
+          "direction": "fromapp",
+          "summary": "Information about the available receivers (contacts, groups, distribution lists, etc).",
+          "data": {
+            "fields": [
+              {
+                "field": "contact",
+                "description": "List of contact receivers",
+                "type": "Array<Contact>",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "group",
+                "description": "List of group receivers",
+                "type": "Array<Group>",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "distributionList",
+                "description": "List of distribution list receivers",
+                "type": "Array<DistributionList>",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          },
+          "models": ["Contact", "Group", "DistributionList", "ContactReceiverAccess", "GroupReceiverAccess", "DistributionListReceiverAccess"]
+        }
+      ],
+      "thumbnail": [
+        {
+          "direction": "fromapp",
+          "summary": "Respond with the thumbnail of a specified message.",
+          "args": {
+            "fields": [
+              "@receiverType",
+              "@receiverId",
+              {
+                "field": "messageId",
+                "description": "The ID of the message for which we want the thumbnail",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              "@temporaryId"
+            ]
+          },
+          "data": {
+            "description": "Thumbnail bytes.<br>Format: maxsize=400x400px"
           }
         }
       ]

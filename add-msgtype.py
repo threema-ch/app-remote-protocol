@@ -61,8 +61,9 @@ def main():
     data = {
         'direction': direction,
         'summary': summary,
-        'response': response,
     }
+    if response:
+        data['response'] = response
 
     # Add args and data
     fields(data, 'args', 'Args')
