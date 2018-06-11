@@ -56,10 +56,12 @@ def main():
             direction = val
             break
     summary = input('Summary: ')
+    response = input('Response messages: ')
 
     data = {
         'direction': direction,
         'summary': summary,
+        'response': response,
     }
 
     # Add args and data

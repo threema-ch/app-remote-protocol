@@ -32,6 +32,14 @@
       "optional": false,
       "nullable": false
     },
+    "receiverTypeWithoutMe": {
+      "field": "type",
+      "description": "The receiver type",
+      "type": "String",
+      "enum": ["\"contact\"", "\"group\"", "\"distributionList\""],
+      "optional": false,
+      "nullable": false
+    },
     "temporaryId": {
       "field": "temporaryId",
       "description": "The temporary ID from the request that was sent by the client.",
@@ -505,6 +513,103 @@
             ]
           },
           "models": ["Quote"]
+        }
+      ]
+    },
+    "delete": {
+      "cleanReceiverConversation": [
+        {
+          "direction": "toapp",
+          "summary": "Delete all messages in a conversation.",
+          "args": {
+            "fields": [
+              "@receiverId",
+              "@receiverTypeWithoutMe",
+              "@temporaryId"
+            ]
+          },
+          "errorCodes": {
+            "codes": {
+              "invalidIdentity": "Receiver with the specified id not found",
+              "badRequest": "Invalid request",
+              "internalError": "An internal error occurred"
+            }
+          }
+        }
+      ],
+      "distributionList": [
+        {
+          "direction": "toapp",
+          "summary": "Delete a distribution list.",
+          "args": {
+            "fields": [
+              "@receiverId",
+              "@temporaryId"
+            ]
+          },
+          "errorCodes": {
+            "codes": {
+              "invalidDistributionList": "Distribution list not found",
+              "badRequest": "Invalid request",
+              "internalError": "The distribution list not be deleted due to an internal error"
+            }
+          }
+        }
+      ],
+      "group": [
+        {
+          "direction": "toapp",
+          "summary": "Leave or delete a group.",
+          "response": "Either a `delete/group` or an `update/group` message will be sent by the app.",
+          "args": {
+            "fields": [
+              "@receiverId",
+              {
+                "field": "deleteType",
+                "description": "The type of deletion",
+                "type": "String",
+                "enum": ["\"leave\"", "\"delete\""],
+                "optional": false,
+                "nullable": false
+              },
+              "@temporaryId"
+            ]
+          },
+          "errorCodes": {
+            "codes": {
+              "invalidGroup": "Group not found",
+              "alreadyLeft": "You already left this group",
+              "notAllowed": "Only the admin is allowed to delete a group",
+              "badRequest": "Invalid argument"
+            }
+          }
+        }
+      ],
+      "message": [
+        {
+          "direction": "toapp",
+          "summary": "Delete a message.",
+          "response": "The app responds with a `confirmAction` message.",
+          "args": {
+            "fields": [
+              "@receiverType",
+              "@receiverId",
+              {
+                "field": "messageId",
+                "description": "The message id",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              "@temporaryId"
+            ]
+          },
+          "errorCodes": {
+            "codes": {
+              "invalidMessage": "Message with the specified type / id / messageId was not found",
+              "badRequest": "Invalid request"
+            }
+          }
         }
       ]
     }

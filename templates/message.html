@@ -3,21 +3,30 @@
 {% block content %}
 <a href="index.html">Back to overview</a>
 
-<p>{{ message['summary'] | cmark }}</p>
+{{ message['summary'] | cmark }}
 
 <h2>Args</h2>
 {% if message['args']['description'] %}
-<p>{{ message['args']['description'] | cmark }}</p>
+{{ message['args']['description'] | cmark }}
 {% endif %}
 {% set fields=message['args']['fields'] %}
 {% include 'table.html' %}
 
 <h2>Data</h2>
-{% if message['data']['description'] %}
-<p>{{ message['data']['description'] | cmark }}</p>
+{% if 'data' in message %}
+    {% if message['data']['description'] %}
+    {{ message['data']['description'] | cmark }}
+    {% endif %}
+    {% set fields=message['data']['fields'] %}
+    {% include 'table.html' %}
+{% else %}
+    None
 {% endif %}
-{% set fields=message['data']['fields'] %}
-{% include 'table.html' %}
+
+{% if message['response'] %}
+<h2>Response</h2>
+{{ message['response'] | cmark }}
+{% endif %}
 
 {% if message['errorCodes'] %}
 <h2>Error Codes</h2>
