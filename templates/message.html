@@ -6,11 +6,15 @@
 {{ message['summary'] | cmark }}
 
 <h2>Args</h2>
-{% if message['args']['description'] %}
-{{ message['args']['description'] | cmark }}
+{% if 'args' in message %}
+    {% if message['args']['description'] %}
+    {{ message['args']['description'] | cmark }}
+    {% endif %}
+    {% set fields=message['args']['fields'] %}
+    {% include 'table.html' %}
+{% else %}
+    None
 {% endif %}
-{% set fields=message['args']['fields'] %}
-{% include 'table.html' %}
 
 <h2>Data</h2>
 {% if 'data' in message %}

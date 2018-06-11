@@ -612,6 +612,262 @@
           }
         }
       ]
+    },
+    "request": {
+      "ack": [
+        {
+          "direction": "toapp",
+          "summary": "Acknowledge a message.",
+          "response": "The app will send a message update.",
+          "args": {
+            "fields": [
+              "@receiverTypeWithoutMe",
+              "@receiverId",
+              {
+                "field": "messageId",
+                "description": "The id of the message to be acknowledged",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "acknowledged",
+                "description": "Whether the message has been acknowledged (`true`) or declined (`false`)",
+                "type": "Boolean",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          }
+        }
+      ],
+      "avatar": [
+        {
+          "direction": "toapp",
+          "summary": "Request the avatar of a receiver.",
+          "response": "The app will send a `response/avatar` message.",
+          "args": {
+            "fields": [
+              "@receiverType",
+              "@receiverId",
+              {
+                "field": "highResolution",
+                "description": "Whether to send a high-resolution version of the avatar",
+                "type": "Boolean",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "maxSize",
+                "description": "Max size in pixels of the low-res avatar.<br>Only sent if `highResolution=false`.",
+                "type": "Integer",
+                "optional": true,
+                "nullable": false
+              },
+              "@temporaryId"
+            ]
+          }
+        }
+      ],
+      "batteryStatus": [
+        {
+          "direction": "toapp",
+          "summary": "Request battery status updates.",
+          "response": "The app will respond with an initial `update/batteryStatus` message."
+        }
+      ],
+      "blob": [
+        {
+          "direction": "toapp",
+          "summary": "Request binary content (e.g. a file).",
+          "response": "The app will respond with a `response/blob` message.",
+          "args": {
+            "fields": [
+              "@receiverType",
+              "@receiverId",
+              {
+                "field": "messageId",
+                "description": "The ID of the message associated with the blob",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              "@temporaryId"
+            ]
+          }
+        }
+      ],
+      "clientInfo": [
+        {
+          "direction": "toapp",
+          "summary": "Request information about the device, send information about client.",
+          "response": "The app will respond with a `response/clientInfo` message.",
+          "data": {
+            "fields": [
+              {
+                "field": "userAgent",
+                "description": "A user agent string to identify the client",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "browserName",
+                "description": "If the client is a browser, send the detected browser name, e.g. `firefox`, `ie`, `edge`, `opera`, `safari`",
+                "type": "String",
+                "optional": true,
+                "nullable": false
+              },
+              {
+                "field": "browserVersion",
+                "description": "If the client is a browser, send the detected browser major version",
+                "type": "Integer",
+                "optional": true,
+                "nullable": false
+              }
+            ]
+          }
+        }
+      ],
+      "contactDetail": [
+        {
+          "direction": "toapp",
+          "summary": "Request the contact details (e.g. system contact)",
+          "response": "response/contactDetail",
+          "args": {
+            "fields": [
+              {
+                "field": "identity",
+                "description": "The identity of the contact",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              "@temporaryId"
+            ]
+          }
+          }
+      ],
+      "conversations": [
+        {
+          "direction": "toapp",
+          "summary": "Request the list of conversations",
+          "response": "response/conversations",
+          "args": {
+            "fields": [
+              {
+                "field": "maxSize",
+                "description": "Max side length (in px) of the receiver avatar",
+                "type": "Integer",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          }
+        }
+      ],
+      "groupSync": [
+        {
+          "direction": "toapp",
+          "summary": "Sync a group.",
+          "response": "response/confirmAction",
+          "args": {
+            "fields": [
+              {
+                "field": "id",
+                "description": "The Threema identity of the receiver",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              "@temporaryId"
+            ]
+          },
+          "errorCodes": {
+            "codes": {
+              "invalidGroup": "The identity is not a valid group",
+              "notAllowed": "You are not allowed to modify this group",
+              "syncFailed": "Synchronization failed",
+              "internalError": "Internal error"
+            }
+          }
+        }
+      ],
+      "messages": [
+        {
+          "direction": "toapp",
+          "summary": "Request the messages of a conversation and subscribes to updates for this conversation.",
+          "response": "response/messages and update/messages",
+          "args": {
+            "fields": [
+              "@receiverTypeWithoutMe",
+              "@receiverId",
+              {
+                "field": "refMsgId",
+                "description": "The reference message id used for paging. If set, only return messages older than the specified message.",
+                "type": "String",
+                "optional": true,
+                "nullable": false
+              }
+            ]
+          }
+        }
+      ],
+      "profile": [
+        {
+          "direction": "toapp",
+          "summary": "Request the user profile.",
+          "response": "response/profile"
+        }
+      ],
+      "read": [
+        {
+          "direction": "toapp",
+          "summary": "Mark a message as read.",
+          "response": "update/messages",
+          "args": {
+            "fields": [
+              "@receiverTypeWithoutMe",
+              "@receiverId",
+              {
+                "field": "messageId",
+                "description": "The ID of the newest message that we read.",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          }
+        }
+      ],
+      "receivers": [
+        {
+          "direction": "toapp",
+          "summary": "Request the list of receivers (e.g. contacts, groups, etc).",
+          "response": "response/receivers"
+        }
+      ],
+      "thumbnail": [
+        {
+          "direction": "toapp",
+          "summary": "Request the thumbnail of a specified message.",
+          "response": "response/thumbnail",
+          "args": {
+            "fields": [
+              "@receiverType",
+              "@receiverId",
+              {
+                "field": "messageId",
+                "description": "The ID of the message for which we want the thumbnail",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              "@temporaryId"
+            ]
+          }
+        }
+      ]
     }
   }
 }
