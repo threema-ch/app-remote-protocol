@@ -16,7 +16,7 @@ Setup:
 
 Run:
 
-    python generate.py
+    pipenv run python generate.py
 
 The static output is written to the `output/` directory.
 
