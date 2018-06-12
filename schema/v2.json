@@ -5,7 +5,14 @@
   "sharedFields": {
     "success": {
       "field": "success",
-      "description": "Whether the action was successful.",
+      "description": "Whether the action was successful",
+      "type": "Boolean",
+      "optional": false,
+      "nullable": false
+    },
+    "successUpdate": {
+      "field": "success",
+      "description": "Whether the update succeeded",
       "type": "Boolean",
       "optional": false,
       "nullable": false
@@ -19,7 +26,7 @@
     },
     "receiverId": {
       "field": "id",
-      "description": "The identity of the receiver",
+      "description": "The receiver identity",
       "type": "String",
       "optional": false,
       "nullable": false
@@ -42,8 +49,23 @@
     },
     "temporaryId": {
       "field": "temporaryId",
-      "description": "The temporary ID from the request that was sent by the client.",
+      "description": "The temporary ID from the request that was sent by the client",
       "type": "String",
+      "optional": false,
+      "nullable": false
+    },
+    "temporaryIdOptional": {
+      "field": "temporaryId",
+      "description": "The temporary ID from the request that was sent by the client<br>Only set if this is a response to an update request.",
+      "type": "String",
+      "optional": true,
+      "nullable": false
+    },
+    "updateMode": {
+      "field": "mode",
+      "description": "The update mode",
+      "type": "String",
+      "enum": ["\"new\"", "\"modified\"", "\"removed\""],
       "optional": false,
       "nullable": false
     }
@@ -78,7 +100,7 @@
         },
         {
           "field": "displayName",
-          "description": "The display name of the contact",
+          "description": "The contact display name",
           "type": "String",
           "optional": false,
           "nullable": false
@@ -2002,7 +2024,21 @@
           "data": {
             "description": "The data value is an `Array<Conversation>`."
           },
-          "models": ["Conversation", "NotificationSettings", "NotificationSound", "NotificationDnd"]
+          "models": [
+            "Conversation",
+            "Message",
+            "Thumbnail",
+            "MessageEvent",
+            "Quote",
+            "File",
+            "Video",
+            "Audio",
+            "Location",
+            "VoIP",
+            "NotificationSettings",
+            "NotificationSound",
+            "NotificationDnd"
+          ]
         }
       ],
       "messages": [
@@ -2119,6 +2155,429 @@
           "data": {
             "description": "Thumbnail bytes.<br>Format: maxsize=400x400px"
           }
+        }
+      ]
+    },
+    "update": {
+      "alert": [
+        {
+          "direction": "fromapp",
+          "summary": "An alert from the server or the app should be displayed.",
+          "args": {
+            "fields": [
+              {
+                "field": "source",
+                "description": "The alert source",
+                "type": "String",
+                "enum": ["\"server\"", "\"device\""],
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "type",
+                "description": "The alert type",
+                "type": "String",
+                "enum": ["\"error\"", "\"warning\"", "\"info\""],
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          },
+          "data": {
+            "fields": [
+              {
+                "field": "message",
+                "description": "The alert message",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          }
+        }
+      ],
+      "avatar": [
+        {
+          "direction": "fromapp",
+          "summary": "Update the low-res avatar of a specified receiver.<br>The client should clear the cached high res avatar on receiving this message.",
+          "args": {
+            "fields": [
+              "@receiverType",
+              "@receiverId"
+            ]
+          },
+          "data": {
+            "description": "To set a new avatar, send the avatar bytes (type `Binary`). To clear the avatar, send no data field at all."
+          }
+        }
+      ],
+      "batteryStatus": [
+        {
+          "direction": "fromapp",
+          "summary": "Send a battery status update.",
+          "data": {
+            "fields": [
+              {
+                "field": "percent",
+                "description": "The battery charge in percent (0-100).<br>If the battery charge cannot be determined, send null.",
+                "type": "Integer",
+                "optional": false,
+                "nullable": true
+              },
+              {
+                "field": "isCharging",
+                "description": "A flag indicating whether the battery is charging",
+                "type": "Boolean",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          }
+        }
+      ],
+      "conversation": [
+        {
+          "direction": "toapp",
+          "summary": "Update a conversation.",
+          "response": "response/confirmAction and update/conversation",
+          "args": {
+            "fields": [
+              "@receiverType",
+              "@receiverId",
+              "@temporaryId"
+            ]
+          },
+          "data": {
+            "fields": [
+              {
+                "field": "isStarred",
+                "description": "Is the conversation starred?",
+                "type": "Boolean",
+                "optional": true,
+                "nullable": false
+              }
+            ]
+          },
+          "errorCodes": {
+            "codes": {
+              "invalidConversation": "Conversation was not found",
+              "badRequest": "Invalid request"
+            }
+          }
+        },
+        {
+          "direction": "fromapp",
+          "summary": "Send an updated conversation to the client.",
+          "args": {
+            "fields": [
+              "@updateMode",
+              "@temporaryIdOptional"
+            ]
+          },
+          "data": {
+            "description": "A Map<[Conversation](#model.Conversation)>"
+          },
+          "models": [
+            "Conversation",
+            "Message",
+            "Thumbnail",
+            "MessageEvent",
+            "Quote",
+            "File",
+            "Video",
+            "Audio",
+            "Location",
+            "VoIP",
+            "NotificationSettings",
+            "NotificationSound",
+            "NotificationDnd"
+          ]
+        }
+      ],
+      "contact": [
+        {
+          "direction": "toapp",
+          "summary": "Update a contact.",
+          "response": "update/contact",
+          "args": {
+            "fields": [
+              {
+                "field": "id",
+                "description": "The contact identity",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              "@temporaryId"
+            ]
+          },
+          "data": {
+            "fields": [
+              {
+                "field": "firstName",
+                "description": "The first name",
+                "type": "String",
+                "optional": true,
+                "nullable": false
+              },
+              {
+                "field": "lastName",
+                "description": "The last name",
+                "type": "String",
+                "optional": true,
+                "nullable": false
+              },
+              {
+                "field": "avatar",
+                "description": "The avatar in high resolution (max 512x512px)",
+                "type": "Binary",
+                "optional": true,
+                "nullable": false
+              }
+            ]
+          }
+        },
+        {
+          "direction": "fromapp",
+          "summary": "Send an updated contact to the client.",
+          "args": {
+            "fields": [
+              {
+                "field": "id",
+                "description": "The contact identity",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              "@temporaryIdOptional"
+            ]
+          },
+          "data": {
+            "fields": [
+              "@successUpdate",
+              {
+                "field": "receiver",
+                "description": "The updated contact (if update succeeded)",
+                "type": "Map<Contact>",
+                "optional": true,
+                "nullable": false
+              },
+              "@error"
+            ]
+          },
+          "models": ["Contact", "ContactReceiverAccess"],
+          "errorCodes": {
+            "codes": {
+              "invalidContact": "The identity is not a valid contact",
+              "notAllowedLinked": "The contact is linked with a system contact, updating is not allowed",
+              "notAllowedBusiness": "The contact is a business account, updating the avatar is not allowed",
+              "internalError": "The contact could not be updated due to an internal error"
+            }
+          }
+        }
+      ],
+      "group": [
+        {
+          "direction": "toapp",
+          "summary": "Update a group.",
+          "response": "update/group",
+          "args": {
+            "fields": [
+              {
+                "field": "id",
+                "description": "The group id",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              "@temporaryId"
+            ]
+          },
+          "data": {
+            "fields": [
+              {
+                "field": "members",
+                "description": "The list of group members",
+                "type": "Array<String>",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "name",
+                "description": "The group name (`null` to clear)",
+                "type": "String",
+                "optional": true,
+                "nullable": true
+              },
+              {
+                "field": "avatar",
+                "description": "The high res avatar (`null` to clear)",
+                "type": "Binary",
+                "optional": true,
+                "nullable": true
+              }
+            ]
+          }
+        },
+        {
+          "direction": "fromapp",
+          "summary": "Send an updated group to the client.",
+          "args": {
+            "fields": [
+              {
+                "field": "id",
+                "description": "The group id",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              "@temporaryIdOptional"
+            ]
+          },
+          "data": {
+            "fields": [
+              "@successUpdate",
+              {
+                "field": "receiver",
+                "description": "The updated group (if update succeeded)",
+                "type": "Map<Group>",
+                "optional": true,
+                "nullable": false
+              },
+              {
+                "field": "error",
+                "description": "An error code (if update failed)",
+                "type": "String",
+                "optional": true,
+                "nullable": false
+              }
+            ]
+          },
+          "models": ["Group", "GroupReceiverAccess"],
+          "errorCodes": {
+            "codes": {
+              "invalidGroup": "Group not found",
+              "noMembers": "Empty member list submitted",
+              "notAllowed": "Only the admin is allowed to change a group",
+              "badRequest": "Invalid request",
+              "internalError": "The group could not be updated due to an internal error"
+            }
+          }
+        }
+      ],
+      "distributionList": [
+        {
+          "direction": "toapp",
+          "summary": "Update a distribution list.",
+          "response": "update/distributionList",
+          "args": {
+            "fields": [
+              {
+                "field": "id",
+                "description": "The distribution list id",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              "@temporaryId"
+            ]
+          },
+          "data": {
+            "fields": [
+              {
+                "field": "members",
+                "description": "The list of distribution list members",
+                "type": "Array<String>",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "name",
+                "description": "The distribution list name (`null` to clear)",
+                "type": "String",
+                "optional": true,
+                "nullable": true
+              },
+              {
+                "field": "avatar",
+                "description": "The high res avatar (`null` to clear)",
+                "type": "Binary",
+                "optional": true,
+                "nullable": true
+              }
+            ]
+          }
+        },
+        {
+          "direction": "fromapp",
+          "summary": "Send an updated distribution list to the client.",
+          "args": {
+            "fields": [
+              {
+                "field": "id",
+                "description": "The distribution list id",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              "@temporaryIdOptional"
+            ]
+          },
+          "data": {
+            "fields": [
+              "@successUpdate",
+              {
+                "field": "receiver",
+                "description": "The updated distribution list (if update succeeded)",
+                "type": "Map<DistributionList>",
+                "optional": true,
+                "nullable": false
+              },
+              {
+                "field": "error",
+                "description": "An error code (if update failed)",
+                "type": "String",
+                "optional": true,
+                "nullable": false
+              }
+            ]
+          },
+          "models": ["DistributionList", "DistributionListReceiverAccess"],
+          "errorCodes": {
+            "codes": {
+              "invalidDistributionList": "Distribution list not found",
+              "noMembers": "Empty member list submitted",
+              "badRequest": "Invalid request",
+              "internalError": "The distribution list could not be updated due to an internal error"
+            }
+          }
+        }
+      ],
+      "messages": [
+        {
+          "direction": "fromapp",
+          "summary": "Update one or more messages.",
+          "args": {
+            "fields": [
+              "@receiverType",
+              "@receiverId",
+              "@updateMode"
+            ]
+          },
+          "data": {
+            "description": "Array<Map<[Message](#model.Message)>><br><br>Note: If the mode is \"removed\", then the app can strip out all optional fields from the message."
+          },
+          "models": [
+            "Message",
+            "Thumbnail",
+            "MessageEvent",
+            "Quote",
+            "File",
+            "Video",
+            "Audio",
+            "Location",
+            "VoIP"
+          ]
         }
       ]
     }
