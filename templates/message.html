@@ -59,7 +59,7 @@
 {% if models %}
 <h2>Models</h2>
 {% for model in models %}
-<h3>{{ model.0 }}</h3>
+<h3 id="model.{{ model.0 }}">{{ model.0 }}</h3>
 {% set fields=model.1.fields %}
 {% set show_default=True %}
 {% include 'table.html' %}

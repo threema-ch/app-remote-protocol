@@ -25,7 +25,7 @@
                 </p>
                 {% endif %}
             </td>
-            <td>{{ f['type'] | escape }}</td>
+            <td>{{ f['type'] | linkmodels(models) }}</td>
             <td>{{ f['optional'] }}</td>
             <td>{{ f['nullable'] }}</td>
             {% if show_default %}

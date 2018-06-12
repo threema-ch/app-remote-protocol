@@ -15,6 +15,7 @@ OUT_DIR = 'output'
 def main(filename: str):
     env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
     env.filters['cmark'] = filters.commonmark
+    env.filters['linkmodels'] = filters.linkmodels
     with open(filename, 'r') as f:
         schema = json.loads(f.read())
     process_includes(schema)
