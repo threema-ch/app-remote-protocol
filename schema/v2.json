@@ -484,17 +484,17 @@
     "AppLogo": {
       "fields": [
         {
-          "field": "logoDark",
+          "field": "dark",
           "description": "URL to the in-app logo suitable for the dark Threema design",
           "type": "String",
-          "optional": false,
+          "optional": true,
           "nullable": false
         },
         {
-          "field": "logoLight",
+          "field": "light",
           "description": "URL to the in-app logo suitable for the light Threema design",
           "type": "String",
-          "optional": false,
+          "optional": true,
           "nullable": false
         }
       ]
