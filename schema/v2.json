@@ -2047,6 +2047,13 @@
                 "nullable": false
               },
               {
+                "field": "workLogo",
+                "description": "The Threema Work Enterprise in-app logo",
+                "type": "String",
+                "optional": true,
+                "nullable": false
+              },
+              {
                 "field": "pushToken",
                 "description": "The GCM / APNS push token<br>APNS: This is the 32 byte hex encoded device token, followed by the endpoint (either \"p\" or \"s\") and the bundle ID, separated by semicolons.",
                 "type": "String",
