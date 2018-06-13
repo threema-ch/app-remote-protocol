@@ -481,6 +481,24 @@
         }
       ]
     },
+    "AppLogo": {
+      "fields": [
+        {
+          "field": "logoDark",
+          "description": "URL to the in-app logo suitable for the dark Threema design",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "logoLight",
+          "description": "URL to the in-app logo suitable for the light Threema design",
+          "type": "String",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
     "Configuration": {
       "fields": [
         {
@@ -2047,9 +2065,9 @@
                 "nullable": false
               },
               {
-                "field": "workLogo",
+                "field": "inAppLogo",
                 "description": "The Threema Work Enterprise in-app logo",
-                "type": "String",
+                "type": "Map<AppLogo>",
                 "optional": true,
                 "nullable": false
               },
@@ -2076,7 +2094,7 @@
               }
             ]
           },
-          "models": ["Configuration", "Capabilities", "ImageFormat", "MdmRestrictions"]
+          "models": ["AppLogo", "Configuration", "Capabilities", "ImageFormat", "MdmRestrictions"]
         }
       ],
       "confirmAction": [
