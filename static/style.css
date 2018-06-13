@@ -60,3 +60,8 @@ td {
 table p {
     margin: 0;
 }
+
+footer {
+    margin-top: 48px;
+    color: #777;
+}
