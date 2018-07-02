@@ -4,6 +4,8 @@
 {{ description | cmark }}
 <p>Protocol version: {{ version }}</p>
 
+<h2>Messages</h2>
+
 <table id="messagelist">
     <thead>
         <tr>
@@ -34,6 +36,23 @@
                     </tr>
                 {% endfor %}
             {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Models</h2>
+
+<table id="messagelist">
+    <thead>
+        <tr>
+            <th>Model</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for model, data in models.items() | sort %}
+            <tr>
+                <td><a href="model-{{ model.lower() }}.html">{{ model }}</a></td>
+            </tr>
         {% endfor %}
     </tbody>
 </table>

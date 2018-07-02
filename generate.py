@@ -2,6 +2,7 @@ import copy
 import distutils.dir_util
 import json
 import os
+from typing import List, Tuple
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -25,6 +26,8 @@ def main(filename: str):
         for subtype, messages in subtypes.items():
             for message in messages:
                 generate_message(env, typ, subtype, message, schema['models'])
+    for model, data in schema['models'].items():
+        generate_model(env, model, data, [(k, v) for k, v in schema['models'].items()])
 
 
 def copy_static_files():
@@ -75,6 +78,7 @@ def generate_index(env: Environment, schema: dict):
                 description=schema['description'],
                 version=schema['version'],
                 messages=schema['messages'],
+                models=schema['models'],
             )
         )
 
@@ -107,6 +111,22 @@ def generate_message(env: Environment, typ: str, subtype: str, message: dict, mo
                 subtype=subtype,
                 message=message,
                 models=resolved_models,
+            )
+        )
+
+
+def generate_model(env: Environment, model: str, data: dict, models: List[Tuple[str, dict]]):
+    filename = f'model-{model}.html'.lower()
+    template = 'model.html'
+    print(f'Generating {filename}')
+    template = env.get_template(template)
+    with open(os.path.join(OUT_DIR, filename), 'w') as f:
+        f.write(
+            template.render(
+                title=f'{model} Model',
+                model=model,
+                data=data,
+                models=models,
             )
         )
 

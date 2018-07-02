@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="index.html">Back to overview</a>
+
+<h2>Model Fields</h2>
+
+{% set fields=data.fields %}
+{% set show_default=True %}
+{% set direct=True %}
+{% include 'table.html' %}
+
+{% endblock %}
