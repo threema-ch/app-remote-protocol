@@ -240,7 +240,7 @@
         },
         {
           "field": "createdAt",
-          "description": "The group creation date as a unix time stamp in seconds (TODO: Make this true)",
+          "description": "The group creation date as a unix time stamp in seconds",
           "type": "Integer",
           "optional": false,
           "nullable": false
