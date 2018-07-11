@@ -956,13 +956,6 @@
     "File": {
       "fields": [
         {
-          "field": "description",
-          "description": "The file description",
-          "type": "String",
-          "optional": false,
-          "nullable": false
-        },
-        {
           "field": "name",
           "description": "The file name",
           "type": "String",
