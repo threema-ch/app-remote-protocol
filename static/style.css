@@ -1,10 +1,17 @@
 body {
-    background-color: #FFFFFF;
+    background-color: #4a4a4a;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 12pt;
     line-height: 16pt;
     -webkit-text-size-adjust: none;
-    margin: 20pt;
+    margin: 0 20pt 0;
+}
+
+#wrapper {
+    max-width: 1080px;
+    margin: 0px auto;
+    padding: 32px 32px 8px;
+    background-color: #fff;
 }
 
 a {
@@ -22,6 +29,10 @@ code {
     background-color: #eee;
     padding: 2px 4px;
     border-radius: 2px;
+}
+
+h1 {
+    margin-top: 0;
 }
 
 h2 {
@@ -63,6 +74,12 @@ table p {
 
 footer {
     margin-top: 48px;
+    margin-bottom: 0;
     color: #777;
     font-size: 0.9em;
+    text-align: center;
+}
+
+footer p {
+    margin-bottom: 0;
 }

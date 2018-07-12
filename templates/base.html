@@ -7,10 +7,12 @@
         <link rel="stylesheet" href="static/style.css" type="text/css" />
     </head>
     <body>
-        <h1>{{ title }}</h1>
-        {% block content %}{% endblock %}
-        <footer>
-        <p>&copy; 2018 Threema GmbH</p>
-        </footer>
+        <div id="wrapper">
+            <h1>{{ title }}</h1>
+            {% block content %}{% endblock %}
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
     </body>
 </html>
