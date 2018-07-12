@@ -1967,6 +1967,29 @@
       ]
     },
     "response": {
+      "avatar": [
+        {
+          "direction": "fromapp",
+          "summary": "Respond with a requested contact avatar.",
+          "args": {
+            "fields": [
+              "@receiverTypeWithoutMe",
+              "@receiverId",
+              "@temporaryId",
+              {
+                "field": "highResolution",
+                "description": "Whether this is the high-resolution version of the avatar",
+                "type": "Boolean",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          },
+          "data": {
+            "description": "Either the avatar bytes (type `Binary`) if an avatar is available, or no data at all if no avatar is available."
+          }
+        }
+      ],
       "blob": [
         {
           "direction": "fromapp",
