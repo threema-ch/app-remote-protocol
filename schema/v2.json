@@ -75,14 +75,14 @@
       "fields": [
         {
           "field": "id",
-          "description": "The connection ID of the connection to be resumed",
+          "description": "The [Connection ID](concept-connectionid.html) of the connection to be resumed",
           "type": "Binary",
           "optional": false,
           "nullable": false
         },
         {
           "field": "sequenceNumber",
-          "description": "The sequence number of the last message received during the connection",
+          "description": "The [Sequence Number](concept-sequencenumber.html) of the last message received during the connection",
           "type": "Integer (u64)",
           "optional": false,
           "nullable": false
@@ -1714,8 +1714,8 @@
       "connectionAck": [
         {
           "direction": "bidirectional",
-          "summary": "Request an immediate data acknowledgement.\n\nThis SHOULD be requested before the connection is about to be closed.",
-          "response": "The other peer will send a `connectionAck` update. The connection SHOULD NOT be closed before having received that acknowledgement, so all cached data of the requesting peer can be safely discarded."
+          "summary": "Request an immediate chunk acknowledgement.\n\nThis SHOULD be requested before the connection is about to be closed.",
+          "response": "The other peer will send a `connectionAck` update. The connection SHOULD NOT be closed before having received that acknowledgement, so all cached chunks of the requesting peer can be safely discarded."
         }
       ],
       "ack": [
@@ -2317,19 +2317,19 @@
       "connectionInfo": [
         {
           "direction": "bidirectional",
-          "summary": "Send information about the current (and the former) connection.\n\nBoth sides MUST initially send this message and it MUST be waited for before sending any further messages. If a previous connection is being resumed, this MUST contain data about the previous connection. When a subsequent connection fails before the new connection ID has been established, the previous connection ID remains for an upcoming connection attempt. As soon as a new connection ID has been established, the ownership of the cached data will be transferred to the newly established connection ID. That way, only one former connection ID exists where cached data can be assigned to.",
+          "summary": "Send information about the current (and the former) connection.\n\nBoth sides MUST initially send this message and it MUST be waited for before sending any further messages. If a previous connection is being resumed, this MUST contain information about the previous connection. When a subsequent connection fails before the new connection ID has been established, the previous connection ID remains for an upcoming connection attempt. As soon as a new connection ID has been established, the ownership of the cached chunks will be transferred to the newly established connection ID. That way, only one former connection ID exists where cached chunks are assigned to.",
           "data": {
             "fields": [
               {
                 "field": "id",
-                "description": "The current connection ID",
+                "description": "The current [Connection ID](concept-connectionid.html)",
                 "type": "Binary",
                 "optional": false,
                 "nullable": false
               },
               {
                 "field": "resume",
-                "description": "The previous connection to be resumed.\n\nIf the connection ID does not match on both sides, the peers SHALL NOT send cached messages but discard them and treat the connection as a newly established web session.",
+                "description": "The previous connection to be resumed.\n\nIf the [Connection ID](concept-connectionid.html) does not match on both sides, the peers SHALL NOT send cached messages but discard them and treat the connection as a newly established web session.",
                 "type": "Map<Connection>",
                 "optional": true,
                 "nullable": false
@@ -2342,12 +2342,12 @@
       "connectionAck": [
         {
           "direction": "bidirectional",
-          "summary": "Acknowledges a sequence number.\n\nShould be sent after either 10 seconds have elapsed once data has been received or once some high water mark treshold regarding the size of the data has been exceeded since the last acknowledgement (whichever event occurs first).",
+          "summary": "Acknowledges a [Sequence Number](concept-sequencenumber.html).\n\nSHOULD be sent after either 10 seconds have elapsed once a chunk has been received or once some high water mark treshold regarding the size of the chunk has been exceeded since the last acknowledgement (whichever event occurs first).",
           "data": {
             "fields": [
               {
                 "field": "sequenceNumber",
-                "description": "The sequence number of the last message that has been received.",
+                "description": "The [Sequence Number](concept-sequencenumber.html) of the last message that has been received.",
                 "type": "Integer",
                 "optional": false,
                 "nullable": false
@@ -2940,6 +2940,16 @@
       "name": "Temporary IDs",
       "summary": "An identifier to link responses to requests.",
       "description": "The App Remote Protocol is an asynchronous protocol. In contrast to protocols like HTTP, messages are unidirectional and there are no direct responses. But in some cases we want to send responses that reference a certain request. For example, when requesting the avatar of two contacts (see [`request/avatar`](message-request-avatar-toapp.html)), we want to be able to link a responses (see [`response/avatar`](message-response-avatar-fromapp.html)) to the corresponding request.\n\nTo achieve that, the peer that sends the request generates an opaque random string called the \"Temporary ID\". This field is sent along with the request and will be copied into the response by the peer."
+    },
+    "connectionId": {
+      "name": "Connection ID",
+      "summary": "The identifier of a specific connection.",
+      "description": "The connection ID uniquely identifies a single connection. It allows to associate chunks to a specific connection in order to be able to resume the session. A more detailed explanation of the role of the connection ID is stated in the description of the [Sequence Number](concept-sequencenumber.html)."
+    },
+    "sequenceNumber": {
+      "name": "Sequence Number",
+      "summary": "The sequence number counter of the underlying transport for incoming chunks.",
+      "description": "The sequence number counter is being used to be able to resume a session when the connection has been severed. It does not directly map to messages but to chunks (e.g. a message usually contains multiple chunks and therefore multiple sequence numbers).\n\nOnce the connection is set up, both peers MUST asynchronously send a `connectionInfo` message before sending any other messages. If the `connectionInfo.data.resume` is present and `connectionInfo.data.resume.id` of the remote peer's message equals the one sent in the local message, the peers SHALL try to resume a session. In any other case, cached chunks SHALL be discarded and the connection MUST be treated as a newly established web session.\n\nTo resume a session, first of all the peer compares the received `connectionInfo.data.resume.sequenceNumber` with the sequence number for outgoing chunks of the former connection. All cached chunks before this sequence number SHALL be discarded. The remaining cached chunks MUST be transferred to the current connection by assigning the current outgoing sequence number counter as an offset to the cached chunks.  \nFor example, if there are three cached chunks with the former sequence numbers of `5, 6, 7` and the **current** outgoing sequence number is `11`, they will be remapped to the sequence numbers `12, 13, 14`. This will prevent losing cached chunks in case the newly established connection is being severed as well before all cached chunks have been sent.  \nNow, the cached chunks MUST be sent in order to the other peer. Other chunks of newly created messages SHALL NOT interfere with the order and MUST be appended to the chunk cache as well.\n\nIn addition, a peer SHOULD periodically report the current sequence number for incoming chunks to the other peer by sending a `connectionAck` update 10 seconds after a chunk has been received or immediately once 20 chunks have been received. This allows the other peer to remove cached chunks that have been acknowledged. However, a peer MUST respond with a `connectionAck` update in case the other peer explicitly sends a `connectionAck` request."
     }
   }
 }
