@@ -1,5 +1,16 @@
 stages:
+  - test
   - build
+
+test:
+  stage: test
+  image: python:3.6
+  script:
+    - pip install pipenv
+    - pipenv install
+    - pipenv run python generate.py
+  except:
+    - master
 
 pages:
   stage: build
