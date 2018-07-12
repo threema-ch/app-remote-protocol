@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="index.html">Back to overview</a>
+
+{{ data['summary'] | cmark }}
+
+<h2>Description</h2>
+
+{{ data['description'] | cmark }}
+
+{% endblock %}
