@@ -71,6 +71,24 @@
     }
   },
   "models": {
+    "Connection": {
+      "fields": [
+        {
+          "field": "id",
+          "description": "The connection ID of the connection to be resumed",
+          "type": "Binary",
+          "optional": false,
+          "nullable": false
+        },
+        {
+          "field": "sequenceNumber",
+          "description": "The sequence number of the last message received during the connection",
+          "type": "Integer (u64)",
+          "optional": false,
+          "nullable": false
+        }
+      ]
+    },
     "Quote": {
       "fields": [
         {
@@ -1693,6 +1711,13 @@
       ]
     },
     "request": {
+      "connectionAck": [
+        {
+          "direction": "bidirectional",
+          "summary": "Request an immediate data acknowledgement.\n\nThis SHOULD be requested before the connection is about to be closed.",
+          "response": "The other peer will send a `connectionAck` update. The connection SHOULD NOT be closed before having received that acknowledgement, so all cached data of the requesting peer can be safely discarded."
+        }
+      ],
       "ack": [
         {
           "direction": "toapp",
@@ -2289,6 +2314,66 @@
       ]
     },
     "update": {
+      "connectionInfo": [
+        {
+          "direction": "bidirectional",
+          "summary": "Send information about the current (and the former) connection.\n\nBoth sides MUST initially send this message and it MUST be waited for before sending any further messages. If a previous connection is being resumed, this MUST contain data about the previous connection. When a subsequent connection fails before the new connection ID has been established, the previous connection ID remains for an upcoming connection attempt. As soon as a new connection ID has been established, the ownership of the cached data will be transferred to the newly established connection ID. That way, only one former connection ID exists where cached data can be assigned to.",
+          "data": {
+            "fields": [
+              {
+                "field": "id",
+                "description": "The current connection ID",
+                "type": "Binary",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "resume",
+                "description": "The previous connection to be resumed.\n\nIf the connection ID does not match on both sides, the peers SHALL NOT send cached messages but discard them and treat the connection as a newly established web session.",
+                "type": "Map<Connection>",
+                "optional": true,
+                "nullable": false
+              }
+            ]
+          },
+          "models": ["Connection"]
+        }
+      ],
+      "connectionAck": [
+        {
+          "direction": "bidirectional",
+          "summary": "Acknowledges a sequence number.\n\nShould be sent after either 10 seconds have elapsed once data has been received or once some high water mark treshold regarding the size of the data has been exceeded since the last acknowledgement (whichever event occurs first).",
+          "data": {
+            "fields": [
+              {
+                "field": "sequenceNumber",
+                "description": "The sequence number of the last message that has been received.",
+                "type": "Integer",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          }
+        }
+      ],
+      "connectionDisconnecting": [
+        {
+          "direction": "bidirectional",
+          "summary": "Indicates that the sending peer is about to close the connection.",
+          "args": {
+            "fields": [
+              {
+                "field": "reason",
+                "description": "The disconnect reason.\n\n- `\"stop\"`: The session SHALL be stopped by the receiving peer.\n- `\"delete\"`: The session MUST be stopped and deleted by the receiving peer.\n- `\"disable\"`: The web client has been disabled in the app and the receiving peer SHALL stop the session.\n- `\"replace\"`: The session has been replaced by another and the receiving peer MUST stop the session.",
+                "type": "String",
+                "enum": ["\"stop\"", "\"delete\"", "\"disable\"", "\"replace\""],
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          }
+        }
+      ],
       "alert": [
         {
           "direction": "fromapp",
