@@ -75,7 +75,7 @@
       "fields": [
         {
           "field": "identity",
-          "description": "The identity of the quote text author",
+          "description": "The identity that authored the quote",
           "type": "String",
           "optional": false,
           "nullable": false
@@ -930,24 +930,6 @@
             "\"acked\"",
             "\"modified\""
           ],
-          "optional": false,
-          "nullable": false
-        }
-      ]
-    },
-    "Quote": {
-      "fields": [
-        {
-          "field": "identity",
-          "description": "The identity that authored the quote",
-          "type": "String",
-          "optional": false,
-          "nullable": false
-        },
-        {
-          "field": "text",
-          "description": "The quote text",
-          "type": "String",
           "optional": false,
           "nullable": false
         }
