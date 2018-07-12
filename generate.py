@@ -28,6 +28,8 @@ def main(filename: str):
                 generate_message(env, typ, subtype, message, schema['models'])
     for model, data in schema['models'].items():
         generate_model(env, model, data, [(k, v) for k, v in schema['models'].items()])
+    for concept, data in schema['concepts'].items():
+        generate_concept(env, concept, data)
 
 
 def copy_static_files():
@@ -79,6 +81,7 @@ def generate_index(env: Environment, schema: dict):
                 version=schema['version'],
                 messages=schema['messages'],
                 models=schema['models'],
+                concepts=schema['concepts'],
             )
         )
 
@@ -106,7 +109,7 @@ def generate_message(env: Environment, typ: str, subtype: str, message: dict, mo
     with open(os.path.join(OUT_DIR, filename), 'w') as f:
         f.write(
             template.render(
-                title=f'{typ} / {subtype} ({direction_text})',
+                title=f'Message: {typ} / {subtype} ({direction_text})',
                 type=typ,
                 subtype=subtype,
                 message=message,
@@ -123,10 +126,24 @@ def generate_model(env: Environment, model: str, data: dict, models: List[Tuple[
     with open(os.path.join(OUT_DIR, filename), 'w') as f:
         f.write(
             template.render(
-                title=f'{model} Model',
+                title=f'Model: {model}',
                 model=model,
                 data=data,
                 models=models,
+            )
+        )
+
+
+def generate_concept(env: Environment, concept: str, data: dict):
+    filename = f'concept-{concept}.html'.lower()
+    template = 'concept.html'
+    print(f'Generating {filename}')
+    template = env.get_template(template)
+    with open(os.path.join(OUT_DIR, filename), 'w') as f:
+        f.write(
+            template.render(
+                title=f'Concept: {data["name"]}',
+                data=data,
             )
         )
 
