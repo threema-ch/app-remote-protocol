@@ -2944,7 +2944,7 @@
     "connectionId": {
       "name": "Connection ID",
       "summary": "The identifier of a specific connection.",
-      "description": "The connection ID uniquely identifies a single connection. It allows to associate chunks to a specific connection in order to be able to resume the session. A more detailed explanation of the role of the connection ID is stated in the description of the [Sequence Number](concept-sequencenumber.html).\nThe ID is derived by using the established SaltyRTC session key (the private key of this peer and the public key of the other peer) by encrypting an empty byte sequence with the nonce `connectionid000000000000`. The resulting 16 bytes are the connection ID."
+      "description": "The connection ID uniquely identifies a single connection. It allows to associate chunks to a specific connection in order to be able to resume the session. A more detailed explanation of the role of the connection ID is stated in the description of the [Sequence Number](concept-sequencenumber.html).\nThe ID is derived by using the established SaltyRTC session key (the private key of this peer and the public key of the other peer) by encrypting an empty byte sequence with the nonce `connectionidconnectionid`. The resulting 16 bytes are the connection ID."
     },
     "sequenceNumber": {
       "name": "Sequence Number",
