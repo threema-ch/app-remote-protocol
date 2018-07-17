@@ -499,24 +499,6 @@
         }
       ]
     },
-    "AppLogo": {
-      "fields": [
-        {
-          "field": "dark",
-          "description": "URL to the in-app logo suitable for the dark Threema design",
-          "type": "String",
-          "optional": true,
-          "nullable": false
-        },
-        {
-          "field": "light",
-          "description": "URL to the in-app logo suitable for the light Threema design",
-          "type": "String",
-          "optional": true,
-          "nullable": false
-        }
-      ]
-    },
     "Configuration": {
       "fields": [
         {
@@ -2088,13 +2070,6 @@
                 "nullable": false
               },
               {
-                "field": "inAppLogo",
-                "description": "The Threema Work Enterprise in-app logo",
-                "type": "Map<AppLogo>",
-                "optional": true,
-                "nullable": false
-              },
-              {
                 "field": "pushToken",
                 "description": "The GCM / APNS push token<br>APNS: This is the 32 byte hex encoded device token, followed by the endpoint (either \"p\" or \"s\") and the bundle ID, separated by semicolons.",
                 "type": "String",
@@ -2117,7 +2092,7 @@
               }
             ]
           },
-          "models": ["AppLogo", "Configuration", "Capabilities", "ImageFormat", "MdmRestrictions"]
+          "models": ["Configuration", "Capabilities", "ImageFormat", "MdmRestrictions"]
         }
       ],
       "confirmAction": [
