@@ -2335,7 +2335,7 @@
         {
           "direction": "bidirectional",
           "summary": "Indicates that the sending peer is about to close the connection.",
-          "args": {
+          "data": {
             "fields": [
               {
                 "field": "reason",
