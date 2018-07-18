@@ -36,8 +36,8 @@
         </tr>
     </thead>
     <tbody>
-        {% for type, subtypes in messages.items() %}
-            {% for subtype, directions in subtypes.items() %}
+        {% for type, subtypes in messages.items() | sort %}
+            {% for subtype, directions in subtypes.items() | sort %}
                 {% for msg in directions %}
                     {% if msg['direction'] == 'fromapp' %}
                         {% set direction_text = 'app -> client' %}
