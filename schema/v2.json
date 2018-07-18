@@ -2331,7 +2331,7 @@
           }
         }
       ],
-      "connectionDisconnecting": [
+      "connectionDisconnect": [
         {
           "direction": "bidirectional",
           "summary": "Indicates that the sending peer is about to close the connection.",
