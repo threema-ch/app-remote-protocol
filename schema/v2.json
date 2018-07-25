@@ -2404,7 +2404,7 @@
       "batteryStatus": [
         {
           "direction": "fromapp",
-          "summary": "Send a battery status update.",
+          "summary": "Send a battery status update.\n\nNote: This message should only be sent by the app if a connection is currently established. It should *not* result in a [session resumption](concept-sessionresumption.html).",
           "data": {
             "fields": [
               {
@@ -2940,6 +2940,11 @@
       "name": "Chunk Cache Blacklist",
       "summary": "Chunks of messages that are blacklisted.",
       "description": "Messages whose chunks SHALL be purged from the chunk cache once a session is being resumed:\n\n- `request/connectionAck`\n- `update/batteryStatus`\n- `update/connectionAck`\n- `update/connectionDisconnect`\n- `update/connectionInfo`\n- `update/typing`\n\nNote: It is crucial that the chunks (or placeholders) of those messages are still added to the chunk cache to keep the peer's sequence numbers in sync. It ensures that only the acknowledged chunks are being removed from the chunk cache once a [`update/connectionAck`](message-update-connectionAck-bidirectional.html) has been received."
+    },
+    "sessionResumption": {
+      "name": "Session Resumption",
+      "summary": "When and how to reconnect a session.",
+      "description": "Session resumption happens, when a new connection for an existing session is established.\n\n### Reconnect Types\n\n We differentiate between two types of session resumption: A wakeup and a full reconnect.\n\n- **Full Reconnect**: During a full reconnect, the [chunk cache](concept-chunkcache.html) is not used. All initial data is sent again and the connection is treated as if the session were newly created.\n- **Wakeup**: When doing a wakeup, the initial data is *not* transferred again. The [chunk cache](concept-chunkcache.html) is transferred from the previous connection to the new connection (both identified with a unique [connection ID](concept-connectionid.html)) See [sequence number](concept-sequencenumber.html) for more details.\n\n### Reconnect Triggers\n\nSession resumption is triggered in one of the following cases:\n\n#### Triggered by App\n\n- A session is currently active, but disconnected, AND\n- An outgoing message to the client is enqueued\n\nAs an example, when a new incoming Threema message from a contact arrives, that will result in a new [`update/messages`](message-update-messages-fromapp.html) message being enqueued for the client. If at that point in time a session is active but not connected, the session resumption is triggered.\n\n#### Triggered by Push\n\n- A wakeup push message arrives\n\n#### Triggered Manually\n\n- The user manually starts the session from the Threema app"
     }
   }
 }
