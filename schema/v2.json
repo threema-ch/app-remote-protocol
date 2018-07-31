@@ -2339,9 +2339,9 @@
             "fields": [
               {
                 "field": "reason",
-                "description": "The disconnect reason.\n\n- `\"stop\"`: The session SHALL be stopped by the receiving peer.\n- `\"delete\"`: The session MUST be stopped and deleted by the receiving peer.\n- `\"disable\"`: The web client has been disabled in the app and the receiving peer SHALL stop the session.\n- `\"replace\"`: The session has been replaced by another and the receiving peer MUST stop the session.",
+                "description": "The disconnect reason.\n\n- `\"stop\"`: The session SHALL be stopped by the receiving peer.\n- `\"delete\"`: The session MUST be stopped and deleted by the receiving peer.\n- `\"disable\"`: The web client has been disabled in the app and the receiving peer SHALL stop the session.\n- `\"replace\"`: The session has been replaced by another and the receiving peer MUST stop the session.\n- `\"error\"`: The session was stopped because an error occurred.",
                 "type": "String",
-                "enum": ["\"stop\"", "\"delete\"", "\"disable\"", "\"replace\""],
+                "enum": ["\"stop\"", "\"delete\"", "\"disable\"", "\"replace\"", "\"error\""],
                 "optional": false,
                 "nullable": false
               }
