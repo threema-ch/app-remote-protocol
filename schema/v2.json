@@ -83,7 +83,7 @@
         {
           "field": "sequenceNumber",
           "description": "The [Sequence Number](concept-sequencenumber.html) of the last message received during the connection",
-          "type": "Integer (u64)",
+          "type": "Integer (u32)",
           "optional": false,
           "nullable": false
         }
@@ -2322,8 +2322,8 @@
             "fields": [
               {
                 "field": "sequenceNumber",
-                "description": "The [Sequence Number](concept-sequencenumber.html) of the last message that has been received.",
-                "type": "Integer",
+                "description": "The [Sequence Number](concept-sequencenumber.html) of the last message received during the connection",
+                "type": "Integer (u32)",
                 "optional": false,
                 "nullable": false
               }
