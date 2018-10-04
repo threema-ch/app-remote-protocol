@@ -1724,6 +1724,11 @@
                 "nullable": false
               }
             ]
+          },
+          "errorCodes": {
+            "codes": {
+              "invalidMessage": "Message with the specified type / id / messageId was not found"
+            }
           }
         }
       ],
@@ -1780,6 +1785,12 @@
               },
               "@temporaryId"
             ]
+          },
+          "errorCodes": {
+            "codes": {
+              "invalidMessage": "Message with the specified type / id / messageId was not found",
+              "internalError": "Internal error"
+            }
           }
         }
       ],
