@@ -1953,6 +1953,12 @@
             ]
           }
         }
+      ],
+      "keyPersisted": [
+        {
+          "direction": "toapp",
+          "summary": "Let the app know that the permanent key has been persisted.\n\nThe app will wait with storing a persistent session until this message is received. This avoids persisting a session that has never been established, and thus can never be restored."
+        }
       ]
     },
     "response": {
