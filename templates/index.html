@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-{{ description | cmark }}
+<summary>{{ description | cmark }}</summary>
 <p>Protocol version: {{ version }}</p>
 
 <h2>Concepts</h2>

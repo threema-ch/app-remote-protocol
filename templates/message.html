@@ -3,7 +3,58 @@
 {% block content %}
 <a href="index.html">Back to overview</a>
 
-{{ message['summary'] | cmark }}
+<summary>{{ message['summary'] | cmark }}</summary>
+
+{% if 'description' in message %}
+<p>{{ message['description'] | cmark }}</p>
+{% endif %}
+
+{% if reply %}
+<h2>Acknowledgement</h2>
+{% if reply['direction'] == 'to' %}
+<p>This message acknowledges:</p>
+{% else %}
+<p>This message can be acknowledged by:</p>
+{% endif %}
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+            <th>Error Codes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for reply_message in reply['message'] | sort(attribute='message') %}
+        <tr>
+            <td><a href="{{ reply_message['filename'] }}">{{ reply_message['message'] }} ({{ reply['message_text_direction'] }})</a></td>
+            <td>{{ reply_message['condition'] | cmark }}</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for code, description in reply_message['errorCodes'].items() | sort %}
+                            <tr>
+                                <td><code>{{ code }}</code></td>
+                                <td>{{ description | cmark }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
 
 <h2>Args</h2>
 {% if 'args' in message %}
@@ -29,31 +80,6 @@
     {% endif %}
 {% else %}
     None
-{% endif %}
-
-{% if message['response'] %}
-<h2>Response</h2>
-{{ message['response'] | cmark }}
-{% endif %}
-
-{% if message['errorCodes'] %}
-<h2>Error Codes</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for k, v in message['errorCodes']['codes'].items() %}
-        <tr>
-            <td>{{ k }}</td>
-            <td>{{ v }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
 {% endif %}
 
 {% if models %}

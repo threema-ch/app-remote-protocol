@@ -33,3 +33,4 @@ def linkmodels(value: str, models, direct: bool = False):
                 escape(model),
             )
     return escape(value)
+
