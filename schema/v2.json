@@ -2892,7 +2892,7 @@
     "procedures": {
       "name": "General Procedures",
       "summary": "General procedures that need to be followed.",
-      "description": "After a SaltyRTC `close` message has been received, all subsequent messages MUST be discarded. Furthermore, usage of the SaltyRTC `application` message is forbidden when the SaltyRTC task `v0.relayed-data.tasks.saltyrtc.org` is being used. This guarantees us that no SaltyRTC client-to-client messages can be received in between any specific messages of this protocol.  \nNote: We are planning to remove this restriction with a new SaltyRTC version that supports multiple channels. This would also allow us to move meta messages, such as the ones prefixed by `connection*`, into a different channel."
+      "description": "TODO: Describe the connection establishment and teardown.\n### Maintaining Chunk Order\nAfter a SaltyRTC `close` message has been received, all subsequent messages MUST be discarded. Furthermore, usage of the SaltyRTC `application` message is forbidden when the SaltyRTC task `v0.relayed-data.tasks.saltyrtc.org` is being used. This guarantees us that no SaltyRTC client-to-client messages can be received in between any specific messages of this protocol.  \nNote: We are planning to remove this restriction with a new SaltyRTC version that supports multiple channels. This would also allow us to move meta messages, such as the ones prefixed by `connection*`, into a different channel."
     },
     "connectionId": {
       "name": "Connection ID",
