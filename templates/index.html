@@ -14,7 +14,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for id, concept in concepts.items() | sort %}
+        {% for id, concept in concepts.items() %}
             <tr>
                 <td><a href="concept-{{ id.lower() }}.html">{{ concept.name }}</a></td>
                 <td>{{ concept.summary }}</td>
