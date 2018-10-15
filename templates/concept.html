@@ -9,4 +9,11 @@
 
 {{ data['description'] | cmark }}
 
+{% if data['tables'] %}
+    {% for fields in data['tables'] %}
+        {% set show_default=False %}
+        {% include 'table.html' %}
+    {% endfor %}
+{% endif %}
+
 {% endblock %}
