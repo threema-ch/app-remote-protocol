@@ -1245,6 +1245,21 @@
     "create": {
       "contact": [
         {
+          "direction": "toapp",
+          "summary": "Create a new contact.",
+          "data": {
+            "fields": [
+              {
+                "field": "identity",
+                "description": "The identity of the contact that should be created",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          }
+        },
+        {
           "direction": "fromapp",
           "summary": "Confirm the created contact.",
           "replyTo": [
@@ -1279,24 +1294,31 @@
             ]
           },
           "models": ["Contact", "ContactReceiverAccess"]
-        },
+        }
+      ],
+      "distributionList": [
         {
           "direction": "toapp",
-          "summary": "Create a new contact.",
+          "summary": "Create a new distribution list.",
           "data": {
             "fields": [
               {
-                "field": "identity",
-                "description": "The identity of the contact that should be created",
-                "type": "String",
+                "field": "members",
+                "description": "The list of distribution list member identities",
+                "type": "Array<String>",
                 "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "name",
+                "description": "The distribution list name",
+                "type": "String",
+                "optional": true,
                 "nullable": false
               }
             ]
           }
-        }
-      ],
-      "distributionList": [
+        },
         {
           "direction": "fromapp",
           "summary": "Return the created distribution list.",
@@ -1319,62 +1341,9 @@
               }
             ]
           }
-        },
-        {
-          "direction": "toapp",
-          "summary": "Create a new distribution list.",
-          "data": {
-            "fields": [
-              {
-                "field": "members",
-                "description": "The list of distribution list member identities",
-                "type": "Array<String>",
-                "optional": false,
-                "nullable": false
-              },
-              {
-                "field": "name",
-                "description": "The distribution list name",
-                "type": "String",
-                "optional": true,
-                "nullable": false
-              }
-            ]
-          }
         }
       ],
       "fileMessage": [
-        {
-          "direction": "fromapp",
-          "summary": "Confirm that the file message has been sent",
-          "description": "This message should be sent after:\n\n* the file has been uploaded to the blob server, and\n* the message has been successfully sent to the server.",
-          "replyTo": [
-            {
-              "message": "create/fileMessage",
-              "errorCodes": {
-                "fileTooLarge": "The file could not be uploaded because it is too large",
-                "blocked": "The recipient has been blocked in the app"
-              }
-            }
-          ],
-          "args": {
-            "fields": [
-              "@receiverType",
-              "@receiverId"
-            ]
-          },
-          "data": {
-            "fields": [
-              {
-                "field": "messageId",
-                "description": "The message id of the new message",
-                "type": "String",
-                "optional": false,
-                "nullable": false
-              }
-            ]
-          }
-        },
         {
           "direction": "toapp",
           "summary": "Send a new file message.",
@@ -1423,33 +1392,40 @@
               }
             ]
           }
-        }
-      ],
-      "group": [
+        },
         {
           "direction": "fromapp",
-          "summary": "Return the created group.",
+          "summary": "Confirm that the file message has been sent",
+          "description": "This message should be sent after:\n\n* the file has been uploaded to the blob server, and\n* the message has been successfully sent to the server.",
           "replyTo": [
             {
-              "message": "create/group",
+              "message": "create/fileMessage",
               "errorCodes": {
-                "disabledByPolicy": "Group creation was disabled by the administrator",
-                "badRequest": "Invalid request"
+                "fileTooLarge": "The file could not be uploaded because it is too large",
+                "blocked": "The recipient has been blocked in the app"
               }
             }
           ],
+          "args": {
+            "fields": [
+              "@receiverType",
+              "@receiverId"
+            ]
+          },
           "data": {
             "fields": [
               {
-                "field": "receiver",
-                "description": "The group",
-                "type": "Map<Group>",
+                "field": "messageId",
+                "description": "The message id of the new message",
+                "type": "String",
                 "optional": false,
                 "nullable": false
               }
             ]
           }
-        },
+        }
+      ],
+      "group": [
         {
           "direction": "toapp",
           "summary": "Create a new group.",
@@ -1478,9 +1454,62 @@
               }
             ]
           }
+        },
+        {
+          "direction": "fromapp",
+          "summary": "Return the created group.",
+          "replyTo": [
+            {
+              "message": "create/group",
+              "errorCodes": {
+                "disabledByPolicy": "Group creation was disabled by the administrator",
+                "badRequest": "Invalid request"
+              }
+            }
+          ],
+          "data": {
+            "fields": [
+              {
+                "field": "receiver",
+                "description": "The group",
+                "type": "Map<Group>",
+                "optional": false,
+                "nullable": false
+              }
+            ]
+          }
         }
       ],
       "textMessage": [
+        {
+          "direction": "toapp",
+          "summary": "Send a new text message.",
+          "args": {
+            "fields": [
+              "@receiverType",
+              "@receiverId"
+            ]
+          },
+          "data": {
+            "fields": [
+              {
+                "field": "text",
+                "description": "The message text",
+                "type": "String",
+                "optional": false,
+                "nullable": false
+              },
+              {
+                "field": "quote",
+                "description": "The quote",
+                "type": "Map<Quote>",
+                "optional": true,
+                "nullable": false
+              }
+            ]
+          },
+          "models": ["Quote"]
+        },
         {
           "direction": "fromapp",
           "summary": "Confirm that the text message has been sent.",
@@ -1510,35 +1539,6 @@
               }
             ]
           }
-        },
-        {
-          "direction": "toapp",
-          "summary": "Send a new text message.",
-          "args": {
-            "fields": [
-              "@receiverType",
-              "@receiverId"
-            ]
-          },
-          "data": {
-            "fields": [
-              {
-                "field": "text",
-                "description": "The message text",
-                "type": "String",
-                "optional": false,
-                "nullable": false
-              },
-              {
-                "field": "quote",
-                "description": "The quote",
-                "type": "Map<Quote>",
-                "optional": true,
-                "nullable": false
-              }
-            ]
-          },
-          "models": ["Quote"]
         }
       ]
     },
