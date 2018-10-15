@@ -1247,6 +1247,7 @@
         {
           "direction": "toapp",
           "summary": "Create a new contact.",
+          "description": "This message SHALL be sent when the user creates a new contact in the client.",
           "data": {
             "fields": [
               {
@@ -1262,6 +1263,7 @@
         {
           "direction": "fromapp",
           "summary": "Confirm the created contact.",
+          "description": "This message SHALL be sent when the contact has been created successfully in the app.",
           "replyTo": [
             {
               "message": "create/contact",
@@ -1300,6 +1302,7 @@
         {
           "direction": "toapp",
           "summary": "Create a new distribution list.",
+          "description": "This message SHALL be sent when the user creates a new distribution list in the client.",
           "data": {
             "fields": [
               {
@@ -1322,6 +1325,7 @@
         {
           "direction": "fromapp",
           "summary": "Return the created distribution list.",
+          "description": "This message SHALL be sent once the distribution list has been successfully created in the app.",
           "replyTo": [
             {
               "message": "create/distributionList",
@@ -1347,6 +1351,7 @@
         {
           "direction": "toapp",
           "summary": "Send a new file message.",
+          "description": "This message SHALL be sent when the user creates a new file message in the client.",
           "args": {
             "fields": [
               "@receiverType",
@@ -1396,7 +1401,7 @@
         {
           "direction": "fromapp",
           "summary": "Confirm that the file message has been sent",
-          "description": "This message should be sent after:\n\n* the file has been uploaded to the blob server, and\n* the message has been successfully sent to the server.",
+          "description": "This message SHALL be sent after:\n\n* the file has been uploaded to the blob server, and\n* the message has been successfully delivered to the server.",
           "replyTo": [
             {
               "message": "create/fileMessage",
@@ -1429,6 +1434,7 @@
         {
           "direction": "toapp",
           "summary": "Create a new group.",
+          "description": "This message SHALL be sent when the user creates a new group in the client.",
           "data": {
             "fields": [
               {
@@ -1458,6 +1464,7 @@
         {
           "direction": "fromapp",
           "summary": "Return the created group.",
+          "description": "This message SHALL be sent once the group has been successfully created in the app.",
           "replyTo": [
             {
               "message": "create/group",
@@ -1484,6 +1491,7 @@
         {
           "direction": "toapp",
           "summary": "Send a new text message.",
+          "description": "This message SHALL be sent when the user creates a new text message in the client.",
           "args": {
             "fields": [
               "@receiverType",
@@ -1513,7 +1521,7 @@
         {
           "direction": "fromapp",
           "summary": "Confirm that the text message has been sent.",
-          "description": "This message should be sent after the message has been sent to the server.",
+          "description": "This message SHALL be sent after the text message has been successfully delivered to the server.",
           "replyTo": [
             {
               "message": "create/textMessage",
@@ -1547,6 +1555,7 @@
         {
           "direction": "toapp",
           "summary": "Delete all messages in a conversation.",
+          "description": "This message SHALL be sent when the user deletes all message of a conversation in the client.",
           "args": {
             "fields": [
               "@receiverId",
@@ -1559,6 +1568,7 @@
         {
           "direction": "toapp",
           "summary": "Delete a distribution list.",
+          "description": "This message SHALL be sent when the user deletes a distribution list in the client.",
           "args": {
             "fields": [
               "@receiverId"
@@ -1570,6 +1580,7 @@
         {
           "direction": "toapp",
           "summary": "Leave or delete a group.",
+          "description": "This message SHALL be sent when the user leaves or deletes a group in the client.",
           "args": {
             "fields": [
               "@receiverId",
@@ -1589,6 +1600,7 @@
         {
           "direction": "toapp",
           "summary": "Delete a message.",
+          "description": "This message SHALL be sent when the user deletes a message as part of a conversation in the client.",
           "args": {
             "fields": [
               "@receiverType",
@@ -1610,13 +1622,14 @@
         {
           "direction": "bidirectional",
           "summary": "Request an immediate chunk acknowledgement.",
-          "description": "This SHOULD be requested before the connection is about to be closed or memory pressure of cached chunks is becoming an issue. There may also be other implementation-specific reasons for requesting chunk acknowledgement.\n\nThe other peer will send an [`update/connectionAck`](message-update-connectionAck-bidirectional.html). The connection SHOULD NOT be closed before having received that acknowledgement, so all cached chunks of the requesting peer can be safely discarded."
+          "description": "This SHOULD be requested before the connection is about to be closed or memory pressure of cached chunks is becoming an issue. There may also be other implementation-specific reasons for requesting chunk acknowledgement.\n\nThe other peer MUST send an [`update/connectionAck`](message-update-connectionAck-bidirectional.html). The connection SHOULD NOT be closed before having received that acknowledgement, so all cached chunks of the requesting peer can be safely discarded."
         }
       ],
       "ack": [
         {
           "direction": "toapp",
           "summary": "Acknowledge (*agree* or *decline*) a message.",
+          "description": "This message SHALL be sent when the user acknowledges (*agree* or *decline*) a message as part of a conversation in the client.",
           "args": {
             "fields": [
               "@receiverTypeWithoutMe",
@@ -1642,7 +1655,8 @@
       "avatar": [
         {
           "direction": "toapp",
-          "summary": "Request the avatar of a receiver and subscribe to updates.",
+          "summary": "Request the avatar of a receiver.",
+          "description": "This message SHOULD be sent when the avatar of a specific receiver should be displayed in the client that is not available or not available in the required resolution.",
           "args": {
             "fields": [
               "@receiverType",
@@ -1668,13 +1682,15 @@
       "batteryStatus": [
         {
           "direction": "toapp",
-          "summary": "Request an immediate battery status update."
+          "summary": "**Deprecated**: Request an immediate battery status update and subscribe to updates.",
+          "description": "This message SHALL be sent by the client if it wants to dispaly the battery status of the app side.\n\n**Note**: This is deprecated since the [`update/batteryStatus`](message-update-batteryStatus-fromapp.html) message will be auto-subscribed after the handshake."
         }
       ],
       "blob": [
         {
           "direction": "toapp",
           "summary": "Request binary content (e.g. a file).",
+          "description": "This message SHALL be sent if the client wants to request a *blob* resource associated to a specific message such as a file, an image or a video.",
           "args": {
             "fields": [
               "@receiverType",
@@ -1694,7 +1710,7 @@
         {
           "direction": "toapp",
           "summary": "Request information about the app's device",
-          "description": "This message also contains information about the client.",
+          "description": "This SHOULD be sent as part of the initial messages by the client.",
           "data": {
             "fields": [
               {
@@ -1726,6 +1742,7 @@
         {
           "direction": "toapp",
           "summary": "Request contact details (e.g. for a system contact).",
+          "description": "This message SHALL be sent by the client if it needs to display additional details about a specific contact such as Email or phone number.",
           "args": {
             "fields": [
               {
@@ -1743,6 +1760,17 @@
         {
           "direction": "toapp",
           "summary": "Request the list of conversations and subscribe to updates.",
+          "description": "This message SHALL be sent by the client as soon as it wants to display the converations list.",
+          "subscribeTo": [
+            {
+              "message": "update/conversation",
+              "condition": "On successful acknowledgement"
+            },
+            {
+              "message": "update/typing/bidirectional",
+              "condition": "On successful acknowledgement"
+            }
+          ],
           "args": {
             "fields": [
               {
@@ -1760,6 +1788,7 @@
         {
           "direction": "toapp",
           "summary": "Sync a group.",
+          "description": "This message SHALL be sent by the client if the user manually requests to synchronise a specific group.",
           "args": {
             "fields": [
               {
@@ -1777,6 +1806,13 @@
         {
           "direction": "toapp",
           "summary": "Request messages of a conversation and subscribe to updates.",
+          "description": "This message SHALL be sent by the client if it wants to display messages of a specific conversation.",
+          "subscribeTo": [
+            {
+              "message": "update/messages",
+              "condition": "On successful acknowledgement"
+            }
+          ],
           "args": {
             "fields": [
               "@receiverTypeWithoutMe",
@@ -1795,13 +1831,21 @@
       "profile": [
         {
           "direction": "toapp",
-          "summary": "Request the user profile and subscribe to updates."
+          "summary": "Request the user's profile and subscribe to updates.",
+          "description": "This message SHALL be sent by the client if it wants to display the user's own profile.",
+          "subscribeTo": [
+            {
+              "message": "update/profile",
+              "condition": "On successful acknowledgement"
+            }
+          ]
         }
       ],
       "read": [
         {
           "direction": "toapp",
           "summary": "Mark a message as read.",
+          "description": "The client SHALL send this message in case it can safely assume that the user has seen the message.",
           "args": {
             "fields": [
               "@receiverTypeWithoutMe",
@@ -1820,13 +1864,29 @@
       "receivers": [
         {
           "direction": "toapp",
-          "summary": "Request the list of receivers (e.g. contacts, groups, etc.) and subscribe to updates."
+          "summary": "Request the list of receivers (e.g. contacts, groups, etc.) and subscribe to updates.",
+          "description": "This message SHALL be sent by the client as soon as it needs to access available receivers (e.g. contacts, groups, distribution lists, etc.).\n\nThis usually SHOULD be done at very beginning of the connection to display the contact list and associate available conversations with the receivers.",
+          "subscribeTo": [
+            {
+              "message": "update/avatar",
+              "condition": "On successful acknowledgement"
+            },
+            {
+              "message": "update/receiver",
+              "condition": "On successful acknowledgement"
+            },
+            {
+              "message": "update/receivers",
+              "condition": "On successful acknowledgement"
+            }
+          ]
         }
       ],
       "thumbnail": [
         {
           "direction": "toapp",
           "summary": "Request the thumbnail of a specific message.",
+          "description": "This message SHALL be sent by the client in case it wants to display a message containing a thumbnail.",
           "args": {
             "fields": [
               "@receiverType",
@@ -1846,7 +1906,7 @@
         {
           "direction": "toapp",
           "summary": "Mark the permanent key as established and the session as persistent.",
-          "description": "The app must defer storing a persistent session until this message has been sent. This avoids persisting a session that has never been established, and thus can never be restored."
+          "description": "The client SHALL send this message once it has stored the session persistently.\n\nThe app MUST defer storing a persistent session until this message has been received. This avoids persisting a session that has never been established, and thus can never be restored."
         }
       ]
     },
@@ -1855,6 +1915,7 @@
         {
           "direction": "fromapp",
           "summary": "Return the requested contact avatar.",
+          "description": "This message MUST be sent by the app in case an avatar has been requested by the client.",
           "replyTo": [
             {
               "message": "request/avatar"
@@ -1882,6 +1943,7 @@
         {
           "direction": "fromapp",
           "summary": "Return binary content (e.g. a file).",
+          "description": "This message MUST be sent by the app in case a blob has been requested by the client.",
           "replyTo": [
             {
               "message": "request/blob",
@@ -1936,6 +1998,7 @@
         {
           "direction": "fromapp",
           "summary": "Return information about the app's device.",
+          "description": "This message MUST be sent by the app in case the device information has been requested by the client.",
           "replyTo": [
             {
               "message": "request/clientInfo"
@@ -2002,6 +2065,7 @@
         {
           "direction": "fromapp",
           "summary": "Return the contact details (e.g. system contact).",
+          "description": "This message MUST be sent by the app in case contact details have been requested by the client.",
           "replyTo": [
             {
               "message": "request/contactDetail",
@@ -2039,6 +2103,7 @@
         {
           "direction": "fromapp",
           "summary": "Return the list of conversations.",
+          "description": "This message MUST be sent by the app in case the list of conversations has been requested by the client.",
           "replyTo": [
             {
               "message": "request/conversations"
@@ -2068,6 +2133,7 @@
         {
           "direction": "fromapp",
           "summary": "Return the list of messages for a specific conversation.",
+          "description": "This message MUST be sent by the app in case a list of messages has been requested by the client.",
           "replyTo": [
             {
               "message": "request/messages"
@@ -2095,7 +2161,8 @@
       "profile": [
         {
           "direction": "fromapp",
-          "summary": "Return the user profile.",
+          "summary": "Return the user's profile.",
+          "description": "This message MUST be sent by the app in case the user's profile has been requested by the client.",
           "replyTo": [
             {
               "message": "request/profile"
@@ -2133,6 +2200,7 @@
         {
           "direction": "fromapp",
           "summary": "Return the list of receivers (contacts, groups, etc.).",
+          "description": "This message MUST be sent by the app in case the list of receivers has been requested by the client.",
           "replyTo": [
             {
               "message": "request/receivers"
@@ -2170,6 +2238,7 @@
         {
           "direction": "fromapp",
           "summary": "Return the thumbnail of a specific message.",
+          "description": "This message MUST be sent by the app in case a thumbnail for a message has been requested by the client.",
           "replyTo": [
             {
               "message": "request/thumbnail",
@@ -2202,7 +2271,7 @@
         {
           "direction": "bidirectional",
           "summary": "Send information about the current (and the previous) connection.",
-          "description": "Both sides MUST initially send this message and it MUST be waited for before sending any further messages.\n\nIf a previous connection is being resumed, this MUST contain information about the previous connection.\n\nWhen a subsequent connection fails before the new connection ID has been established, the previous connection ID remains for an upcoming connection attempt.\n\nAs soon as a new connection ID has been established, the ownership of the cached chunks will be transferred to the newly established connection ID. That way, only one former connection ID exists where cached chunks are assigned to.",
+          "description": "Both peers MUST initially send this message as part of the handshake. Each peer MUST wait until it has received the message from the other peer before sending any further messages.\n\nIf a previous connection is being resumed, this MUST contain information about the previous connection.\n\nWhen a subsequent connection fails before the new connection ID has been established, the previous connection ID remains for an upcoming connection attempt.\n\nAs soon as a new connection ID has been established, the ownership of the cached chunks will be transferred to the newly established connection ID. That way, only one former connection ID exists where cached chunks are assigned to.",
           "data": {
             "fields": [
               {
@@ -2228,7 +2297,7 @@
         {
           "direction": "bidirectional",
           "summary": "Acknowledges one or more chunks.",
-          "description": "This message SHOULD be sent after either 10 seconds have elapsed once a chunk has been received or in case the remote peer requested an acknowledgement via a [`request/connectionAck`](message-request-connectionAck-bidirectional.html) message (whichever event occurs first).",
+          "description": "This message MUST be sent in case the remote peer requested a chunk acknowledgement via a [`request/connectionAck`](message-request-connectionAck-bidirectional.html) message.\n\nIf no chunk acknowledgement has been requested, this message SHOULD be sent after 10 seconds have elapsed once a chunk has been received.",
           "data": {
             "fields": [
               {
@@ -2246,7 +2315,7 @@
         {
           "direction": "bidirectional",
           "summary": "Indicates that the sending peer is about to close the connection.",
-          "description": "This message should be sent before the peer closes the SaltyRTC connection.",
+          "description": "This message SHOULD be sent before the peer closes the underlying transport's connection.",
           "data": {
             "fields": [
               {
@@ -2265,7 +2334,7 @@
         {
           "direction": "fromapp",
           "summary": "Confirms an acknowledgement request.",
-          "description": "This message should be sent to acknowledge a message that is not implicitly acknowledged by another message.\n\nIn case an error occurred while processing a message that requires an acknowledgement, this message SHOULD be sent as a response. This avoids making data response fields optional.",
+          "description": "This message MUST be sent to acknowledge a message that is not implicitly acknowledged by another message.\n\nIn case an error occurred while processing a message that requires an acknowledgement, this message SHOULD be sent as a response. This avoids making data response fields optional.",
           "replyTo": [
             {
               "message": "delete/cleanReceiverConversation",
@@ -2340,6 +2409,7 @@
         {
           "direction": "fromapp",
           "summary": "Display an alert.",
+          "description": "This message SHALL be sent by the app in case it would display an alert for the user (e.g. a server alert).",
           "args": {
             "fields": [
               {
@@ -2377,7 +2447,7 @@
         {
           "direction": "fromapp",
           "summary": "Update the low-res avatar of a subscribed receiver avatar.",
-          "description": "The recipient SHOULD clear the cached high-res avatar when receiving this message.",
+          "description": "This message SHALL be sent by the app in case a subscribed receiver avatar has been changed.\n\nThe client SHOULD clear the cached high-res avatar when receiving this message.",
           "args": {
             "fields": [
               "@receiverType",
@@ -2393,6 +2463,7 @@
         {
           "direction": "fromapp",
           "summary": "Update the battery status.",
+          "description": "This message SHALL be sent by the app in case the battery status has been changed.",
           "replyTo": [
             {
               "message": "request/batteryStatus",
@@ -2423,6 +2494,7 @@
         {
           "direction": "toapp",
           "summary": "Modify a conversation.",
+          "description": "This message SHALL be sent by the client if the user wants to modify a conversation.",
           "args": {
             "fields": [
               "@receiverType",
@@ -2444,6 +2516,7 @@
         {
           "direction": "fromapp",
           "summary": "Update a subscribed conversation.",
+          "description": "This message SHALL be sent by the app in case a subscribed conversation has been changed.",
           "args": {
             "fields": [
               "@updateMode"
@@ -2473,6 +2546,7 @@
         {
           "direction": "toapp",
           "summary": "Modify a contact.",
+          "description": "This message SHALL be sent by the client in case the user wants to modify a contact.",
           "args": {
             "fields": [
               {
@@ -2513,6 +2587,7 @@
         {
           "direction": "fromapp",
           "summary": "Return a modified contact.",
+          "description": "This message MUST be sent by the app in case the client's requested contact modification was successful.",
           "replyTo": [
             {
               "message": "update/contact",
@@ -2552,6 +2627,7 @@
         {
           "direction": "toapp",
           "summary": "Modify a group.",
+          "description": "This message SHALL be sent by the client in case the user wants to modify a group.",
           "args": {
             "fields": [
               {
@@ -2592,6 +2668,7 @@
         {
           "direction": "fromapp",
           "summary": "Return a modified group.",
+          "description": "This message MUST be sent by the app in case the client's requested group modification was successful.",
           "replyTo": [
             {
               "message": "update/group",
@@ -2632,6 +2709,7 @@
         {
           "direction": "toapp",
           "summary": "Modify a distribution list.",
+          "description": "This message SHALL be sent by the client in case the user wants to modify a distribution list.",
           "args": {
             "fields": [
               {
@@ -2672,6 +2750,7 @@
         {
           "direction": "fromapp",
           "summary": "Return a modified distribution list.",
+          "description": "This message MUST be sent by the app in case the client's requested distribution list modification was successful.",
           "replyTo": [
             {
               "message": "update/distributionList",
@@ -2710,7 +2789,8 @@
       "messages": [
         {
           "direction": "fromapp",
-          "summary": "Update one or more messages of a subscribed conversation.",
+          "summary": "Update one or more messages of a conversation.",
+          "description": "This message SHALL be sent by the app in case a subscribed conversation has been changed\n\nIt MUST also be sent by the app as a response towards `ack` or `read` requests after they have been successfully delivered to the server.",
           "replyTo": [
             {
               "message": "request/ack",
@@ -2753,7 +2833,8 @@
       "profile": [
         {
           "direction": "toapp",
-          "summary": "Modify the user profile.",
+          "summary": "Modify the user's profile.",
+          "description": "This message SHALL be sent by the client in case the user wants to modify its profile.",
           "data": {
             "fields": [
               "@userPublicNickname",
@@ -2769,7 +2850,8 @@
         },
         {
           "direction": "fromapp",
-          "summary": "Update a subscribed profile.",
+          "summary": "Update the user's profile.",
+          "description": "This message SHALL be sent by the app in case the user's profile has been changed.",
           "data": {
             "fields": [
               "@userPublicNickname",
@@ -2788,6 +2870,7 @@
         {
           "direction": "fromapp",
           "summary": "Update a subscribed receiver.",
+          "description": "This message SHALL be sent by the app in case a subscribed receiver has been changed.",
           "args": {
             "fields": [
               "@receiverId",
@@ -2812,6 +2895,7 @@
         {
           "direction": "fromapp",
           "summary": "Update all subscribed receivers.",
+          "description": "This message SHALL be sent by the app in case all subscribed receivers have been changed at once.",
           "args": {
             "fields": [
               "@receiverTypeWithoutMe"
@@ -2834,6 +2918,7 @@
         {
           "direction": "bidirectional",
           "summary": "Notify that the contact/user is typing in a specific conversation.",
+          "description": "The client SHALL always send this message in case the user is currently typing in a specific conversation.\n\nThe app SHALL send this message in case a specific contact is typing. However, it SHALL NOT not send this message before the client has subscribed to it.\n\nBoth peers SHOULD use appropriate timeouts to not flood the network with these messages.",
           "args": {
             "fields": [
               {
@@ -2862,6 +2947,7 @@
         {
           "direction": "fromapp",
           "summary": "Update the VoIP status (e.g. when a call has been started).",
+          "description": "This message SHALL be sent by the app in case the VoIP status has been changed. This may happen in case the user's Threema ID is being called, it has picked up a call, etc.",
           "args": {
             "fields": [
               {
