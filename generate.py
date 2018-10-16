@@ -114,21 +114,24 @@ def process_message_reference(messages: List[dict], message: dict, typ: str, sub
             item['display_direction'] = direction_to_text(ref_direction)
 
             # Store in other direction's message
-            for ref_message in messages[ref_type][ref_subtype]:
-                if ref_message['direction'] == ref_direction:
-                    ref_message.setdefault(ref_field, [])
-                    ref_item = copy.deepcopy(item)
-                    
-                    # Update fields (including injected ones)
-                    ref_item['message'] = f'{typ}/{subtype}/{message["direction"]}'
-                    ref_item['filename'] = get_file_name(ref_item['message'])
-                    ref_item['display_message'] = get_display_name(ref_item['message'])
-                    ref_item['display_direction'] = direction_to_text(message['direction'])
-                    
-                    ref_message[ref_field].append(ref_item)
-                    break
-            else:
+            ref_messages = [ref_message for ref_message in messages[ref_type][ref_subtype]
+                            if ref_message['direction'] == ref_direction]
+            if len(ref_messages) == 0:
                 raise RuntimeError(f'{field} reference could not be resolved: {reply["message"]}')
+            elif len(ref_messages) != 1:
+                raise RuntimeError(f'{field} reference resolved to multiple targets: {reply["message"]}')
+            ref_message, *_ = ref_messages
+            if ref_message['direction'] == ref_direction:
+                ref_message.setdefault(ref_field, [])
+                ref_item = copy.deepcopy(item)
+                
+                # Update fields (including injected ones)
+                ref_item['message'] = f'{typ}/{subtype}/{message["direction"]}'
+                ref_item['filename'] = get_file_name(ref_item['message'])
+                ref_item['display_message'] = get_display_name(ref_item['message'])
+                ref_item['display_direction'] = direction_to_text(message['direction'])
+                
+                ref_message[ref_field].append(ref_item)
 
 
 def process_references(schema: dict):
