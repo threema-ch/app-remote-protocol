@@ -28,7 +28,7 @@
     <tbody>
         {% for reply_message in reply['message'] | sort(attribute='message') %}
         <tr>
-            <td><a href="{{ reply_message['filename'] }}">{{ reply_message['message'] }} ({{ reply['message_text_direction'] }})</a></td>
+            <td><a href="{{ reply_message['filename'] }}">{{ reply_message['display_message'] }} ({{ reply_message['display_direction'] }})</a></td>
             <td>{{ reply_message['condition'] | cmark }}</td>
             <td>
                 <details>
@@ -50,6 +50,32 @@
                     </table>
                 </details>
             </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if subscribe %}
+<h2>Subscriptions</h2>
+{% if subscribe['direction'] == 'to' %}
+<p>This message subscribes to:</p>
+{% else %}
+<p>This message is being subscribed by:</p>
+{% endif %}
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for subscribe_message in subscribe['message'] | sort(attribute='message') %}
+        <tr>
+            <td><a href="{{ subscribe_message['filename'] }}">{{ subscribe_message['display_message'] }} ({{ subscribe_message['display_direction'] }})</a></td>
+            <td>{{ subscribe_message['condition'] | cmark }}</td>
         </tr>
         {% endfor %}
     </tbody>

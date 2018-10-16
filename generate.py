@@ -1,8 +1,9 @@
 import copy
 import distutils.dir_util
+import functools
 import json
 import os
-from typing import List, Tuple
+from typing import Callable, List, Tuple
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -20,7 +21,7 @@ def main(filename: str):
     with open(filename, 'r') as f:
         schema = json.loads(f.read())
     process_includes(schema)
-    process_replies(schema)
+    process_references(schema)
     copy_static_files()
     generate_index(env, schema)
     for typ, subtypes in schema['messages'].items():
@@ -69,25 +70,76 @@ def process_includes(schema: dict):
                             raise RuntimeError(f'Shared data field not found: {datum}')
 
 
-def process_replies(schema: dict):
+def get_file_name(message: str) -> str:
+    typ, subtype, direction = message.split('/', maxsplit=2)
+    return f'message-{typ}-{subtype}-{direction}.html'
+
+
+def get_display_name(message: str) -> str:
+    typ, subtype, *_ = message.split('/', maxsplit=2)
+    return f'{typ}/{subtype}'
+
+
+def direction_to_text(direction: str) -> str:
+    if direction == 'fromapp':
+        return 'app -> client'
+    if direction == 'toapp':
+        return 'client -> app'
+    if direction == 'bidirectional':
+        return 'bidirectional'
+    return 'unknown'
+
+
+def get_ref_direction(direction: str) -> str:
+    return {
+        'bidirectional': 'bidirectional',
+        'toapp': 'fromapp',
+        'fromapp': 'toapp',
+    }[direction]
+
+
+def process_message_reference(messages: List[dict], message: dict, typ: str, subtype: str, field: str, ref_field: str):
+    if field in message:
+        for item in message[field]:
+            ref_type, ref_subtype = item['message'].split('/', maxsplit=1)
+            try:
+                ref_subtype, ref_direction = ref_subtype.split('/', maxsplit=1)
+            except ValueError:
+                ref_direction = get_ref_direction(message['direction'])
+                item['message'] += f'/{ref_direction}'
+            
+            # Inject a couple of fields
+            item['filename'] = get_file_name(item['message'])
+            item['display_message'] = get_display_name(item['message'])
+            item['display_direction'] = direction_to_text(ref_direction)
+
+            # Store in other direction's message
+            for ref_message in messages[ref_type][ref_subtype]:
+                if ref_message['direction'] == ref_direction:
+                    ref_message.setdefault(ref_field, [])
+                    ref_item = copy.deepcopy(item)
+                    
+                    # Update fields (including injected ones)
+                    ref_item['message'] = f'{typ}/{subtype}/{message["direction"]}'
+                    ref_item['filename'] = get_file_name(ref_item['message'])
+                    ref_item['display_message'] = get_display_name(ref_item['message'])
+                    ref_item['display_direction'] = direction_to_text(message['direction'])
+                    
+                    ref_message[ref_field].append(ref_item)
+                    break
+            else:
+                raise RuntimeError(f'{field} reference could not be resolved: {reply["message"]}')
+
+
+def process_references(schema: dict):
     """
-    Copy replies towards a specific message into the targeted message.
+    Copy references (subscriptions or replies) towards a specific message into the targeted message.
     """
     for typ, subtypes in schema['messages'].items():
         for subtype, messages in subtypes.items():
             for message in messages:
-                if 'replyTo' in message:
-                    for reply in message['replyTo']:
-                        other_type, other_subtype = reply['message'].split('/')
-
-                        # Store in other direction's message
-                        direction = get_other_direction(message['direction'])
-                        for other_message in schema['messages'][other_type][other_subtype]:
-                            if other_message['direction'] == direction:
-                                other_message.setdefault('__replyFrom', [])
-                                other_reply = copy.deepcopy(reply)
-                                other_reply['message'] = f'{typ}/{subtype}'
-                                other_message['__replyFrom'].append(other_reply)
+                process_message_reference(schema['messages'], message, typ, subtype, 'replyTo', '__replyFrom')
+                process_message_reference(schema['messages'], message, typ, subtype, 'subscribeTo', '__subscribeFrom')
 
 
 def generate_index(env: Environment, schema: dict):
@@ -108,30 +160,34 @@ def generate_index(env: Environment, schema: dict):
         )
 
 
-def direction_to_text(direction: str) -> str:
-    if direction == 'fromapp':
-        return 'app -> client'
-    if direction == 'toapp':
-        return 'client -> app'
-    if direction == 'bidirectional':
-        return 'bidirectional'
-    return 'unknown'
+def get_message_reference(message: dict, field: str, ref_field: str, post_process_func: Callable[[dict], dict]) -> dict:
+    item = None
+    if field in message:
+        item = {
+            'direction': 'to',
+            'message': message[field],
+        }
+    elif ref_field in message:
+        item = {
+            'direction': 'from',
+            'message': message[ref_field],
+        }
+    if item is not None:
+        item['message'] = [post_process_func(element) for element in item['message']]
+    return item
 
 
-def get_reply_message(message_direction: str, reply_message: dict, error_codes: dict) -> dict:
-    typ, subtype = reply_message['message'].split('/')
-    reply_message['filename'] = f'message-{typ}-{subtype}-{message_direction}.html'
+def get_subscribe_message(subscribe_message: dict) -> dict:
+    default_condition = '(None)'
+    subscribe_message.setdefault('condition', '(None)')
+    subscribe_message.setdefault('condition', default_condition)
+    return subscribe_message
+
+
+def get_reply_message(reply_message: dict, error_codes: dict) -> dict:
     reply_message.setdefault('condition', '(None)')
     reply_message.setdefault('errorCodes', {}).update(error_codes)
     return reply_message
-
-
-def get_other_direction(direction: str) -> str:
-    return {
-        'bidirectional': 'bidirectional',
-        'toapp': 'fromapp',
-        'fromapp': 'toapp',
-    }[direction]
 
 
 def generate_message(env: Environment, typ: str, subtype: str, message: dict, models: dict, error_codes: dict):
@@ -141,28 +197,14 @@ def generate_message(env: Environment, typ: str, subtype: str, message: dict, mo
     template = env.get_template(template)
     direction_text = direction_to_text(message['direction'])
     
-    reply = None
-    if 'replyTo' in message:
-        reply = {
-            'direction': 'to',
-            'message': message['replyTo'],
-        }
-    elif '__replyFrom' in message:
-        reply = {
-            'direction': 'from',
-            'message': message['__replyFrom'],
-        }
-    if reply is not None:
-        reply['message_direction'] = get_other_direction(message['direction'])
-        reply['message_text_direction'] = direction_to_text(reply['message_direction'])
-        reply['message'] = [get_reply_message(reply['message_direction'], reply_message, error_codes)
-                            for reply_message in reply['message']]
-
     resolved_models = []
     if 'models' in message:
         for model in message['models']:
             resolved_models.append((model, models[model]))
-            
+    
+    reply = get_message_reference(message, 'replyTo', '__replyFrom', functools.partial(get_reply_message, error_codes=error_codes))
+    subscribe = get_message_reference(message, 'subscribeTo', '__subscribeFrom', get_subscribe_message)
+
     with open(os.path.join(OUT_DIR, filename), 'w') as f:
         f.write(
             template.render(
@@ -171,6 +213,7 @@ def generate_message(env: Environment, typ: str, subtype: str, message: dict, mo
                 subtype=subtype,
                 message=message,
                 reply=reply,
+                subscribe=subscribe,
                 models=resolved_models,
                 error_codes=error_codes,
             )
