@@ -1401,7 +1401,7 @@
         {
           "direction": "fromapp",
           "summary": "Confirm that the file message has been sent",
-          "description": "This message SHALL be sent after:\n\n* the file has been uploaded to the blob server, and\n* the message has been successfully delivered to the server.",
+          "description": "This message SHALL be sent by the app after:\n\n* the file has been uploaded to the blob server, and\n* the message has been successfully delivered to the server.",
           "replyTo": [
             {
               "message": "create/fileMessage",
@@ -1464,7 +1464,7 @@
         {
           "direction": "fromapp",
           "summary": "Return the created group.",
-          "description": "This message SHALL be sent once the group has been successfully created in the app.",
+          "description": "This message SHALL be sent by the app after:\n\n* the group has been created locally, and\n* all associated group control messages have been successfully delivered to the server.",
           "replyTo": [
             {
               "message": "create/group",
@@ -1521,7 +1521,7 @@
         {
           "direction": "fromapp",
           "summary": "Confirm that the text message has been sent.",
-          "description": "This message SHALL be sent after the text message has been successfully delivered to the server.",
+          "description": "This message SHALL be sent by the app after the text message has been successfully delivered to the server.",
           "replyTo": [
             {
               "message": "create/textMessage",
@@ -1683,7 +1683,7 @@
         {
           "direction": "toapp",
           "summary": "**Deprecated**: Request an immediate battery status update and subscribe to updates.",
-          "description": "This message SHALL be sent by the client if it wants to dispaly the battery status of the app side.\n\n**Note**: This is deprecated since the [`update/batteryStatus`](message-update-batteryStatus-fromapp.html) message will be auto-subscribed after the handshake."
+          "description": "This message SHALL be sent by the client if it wants to display the battery status of the app side.\n\n**Note**: This is deprecated since the [`update/batteryStatus`](message-update-batteryStatus-fromapp.html) message will be auto-subscribed after the handshake."
         }
       ],
       "blob": [
@@ -1742,7 +1742,7 @@
         {
           "direction": "toapp",
           "summary": "Request contact details (e.g. for a system contact).",
-          "description": "This message SHALL be sent by the client if it needs to display additional details about a specific contact such as Email or phone number.",
+          "description": "This message SHALL be sent by the client if it wants to display additional details about a specific contact such as its Email or phone number.",
           "args": {
             "fields": [
               {
@@ -1845,7 +1845,7 @@
         {
           "direction": "toapp",
           "summary": "Mark a message as read.",
-          "description": "The client SHALL send this message in case it can safely assume that the user has seen the message.",
+          "description": "The client SHALL send this message in case it can safely assume that the user has seen the message that has not been marked as *read* before.",
           "args": {
             "fields": [
               "@receiverTypeWithoutMe",
@@ -1943,7 +1943,7 @@
         {
           "direction": "fromapp",
           "summary": "Return binary content (e.g. a file).",
-          "description": "This message MUST be sent by the app in case a blob has been requested by the client.",
+          "description": "This message MUST be sent by the app in case binary data has been requested by the client.",
           "replyTo": [
             {
               "message": "request/blob",
@@ -2354,7 +2354,7 @@
             },
             {
               "message": "delete/group",
-              "condition": "Only if acknowledging delete/group",
+              "condition": "Only if acknowledging delete/group and not before the app has successfully delivered all group control messages to the server",
               "errorCodes": {
                 "invalidGroup": "Group not found",
                 "alreadyLeft": "You already left this group",
@@ -2371,12 +2371,8 @@
               }
             },
             {
-              "message": "request/ack",
-              "condition": "Only if acknowledging request/ack"
-            },
-            {
               "message": "request/groupSync",
-              "condition": "Only if acknowledging request/groupSync",
+              "condition": "Only if acknowledging request/groupSync and not before the app has successfully delivered all asssociated group control messages to the server.",
               "errorCodes": {
                 "invalidGroup": "The identity is not a valid group",
                 "notAllowed": "You are not allowed to modify this group",
@@ -2668,7 +2664,7 @@
         {
           "direction": "fromapp",
           "summary": "Return a modified group.",
-          "description": "This message MUST be sent by the app in case the client's requested group modification was successful.",
+          "description": "This message MUST be sent by the app after all associated group control messages have been successfully delivered to the server.",
           "replyTo": [
             {
               "message": "update/group",
@@ -2794,14 +2790,14 @@
           "replyTo": [
             {
               "message": "request/ack",
-              "condition": "Only if associated to a request/ack",
+              "condition": "Only if associated to a request/ack and not before the app has successfully delivered the message to the server",
               "errorCodes": {
                 "invalidMessage": "Message with the specified `type`, `id` or `messageId` was not found"
               }
             },
             {
               "message": "request/read",
-              "condition": "Only if associated to a request/read",
+              "condition": "Only if associated to a request/read and not before the app has successfully delivered the message to the server",
               "errorCodes": {
                 "invalidMessage": "Message with the specified `type`, `id` or `messageId` was not found"
               }
@@ -2918,7 +2914,7 @@
         {
           "direction": "bidirectional",
           "summary": "Notify that the contact/user is typing in a specific conversation.",
-          "description": "The client SHALL always send this message in case the user is currently typing in a specific conversation.\n\nThe app SHALL send this message in case a specific contact is typing. However, it SHALL NOT not send this message before the client has subscribed to it.\n\nBoth peers SHOULD use appropriate timeouts to not flood the network with these messages.",
+          "description": "The client SHALL send this message in case the user is currently typing in a specific conversation.\n\nThe app SHALL send this message in case a specific contact is typing. However, it SHALL NOT send this message before the client has subscribed to it.\n\nBoth peers SHOULD use appropriate timeouts to not flood the network with these messages.",
           "args": {
             "fields": [
               {
