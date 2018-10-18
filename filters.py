@@ -1,6 +1,6 @@
 import re
 
-import CommonMark
+import commonmark as CommonMark
 from jinja2 import escape
 
 

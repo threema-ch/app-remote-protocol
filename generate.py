@@ -1,10 +1,10 @@
 import copy
 import distutils.dir_util
 import functools
-import json
 import os
 from typing import Callable, List, Tuple
 
+import yaml
 from jinja2 import Environment, FileSystemLoader
 
 import filters
@@ -19,7 +19,7 @@ def main(filename: str):
     env.filters['cmark'] = filters.commonmark
     env.filters['linkmodels'] = filters.linkmodels
     with open(filename, 'r') as f:
-        schema = json.loads(f.read())
+        schema = yaml.load(f)
     process_includes(schema)
     process_references(schema)
     copy_static_files()
@@ -256,4 +256,4 @@ def generate_concept(env: Environment, concept: str, data: dict):
 if __name__ == '__main__':
     if not os.path.exists('output'):
         os.makedirs('output')
-    main('schema/v2.json')
+    main('schema/v2.yaml')
