@@ -116,3 +116,7 @@ footer p {
 summary {
     font-size: 1.2em;
 }
+
+table ul {
+    margin: 8px 0;
+}
