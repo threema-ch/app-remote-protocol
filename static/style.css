@@ -112,3 +112,7 @@ footer {
 footer p {
     margin-bottom: 0;
 }
+
+summary {
+    font-size: 1.2em;
+}
