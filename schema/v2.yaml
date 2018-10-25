@@ -184,6 +184,12 @@ models:
       type: Binary
       optional: false
       nullable: false
+    - field: isBlocked
+      description: Whether this contact is blocked.
+      type: Boolean
+      optional: true
+      nullable: false
+      default: false
     - field: locked
       description: |
         Whether the chat with this contact is locked. This is used for private
