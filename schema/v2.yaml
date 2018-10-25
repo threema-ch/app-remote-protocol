@@ -1,0 +1,2926 @@
+---
+title: Threema App Remote Protocol (ARP)
+
+# Protocol description
+description: |
+  The protocol used to exchange data between the Threema app and a client
+  (e.g. [Threema Web](https://threema.ch/en/threema-web)).
+
+# Protocol version
+version: 2.0.0
+
+
+
+# Aliases
+aliases:
+  receiverId: &receiverId
+    field: id
+    description: The receiver identity
+    type: String
+    optional: false
+    nullable: false
+
+  receiverType: &receiverType
+    field: type
+    description: The receiver type
+    type: String
+    enum:
+    - '"me"'
+    - '"contact"'
+    - '"group"'
+    - '"distributionList"'
+    optional: false
+    nullable: false
+
+  receiverTypeWithoutMe: &receiverTypeWithoutMe
+    field: type
+    description: The receiver type
+    type: String
+    enum:
+    - '"contact"'
+    - '"group"'
+    - '"distributionList"'
+    optional: false
+    nullable: false
+
+  updateMode: &updateMode
+    field: mode
+    description: The update mode
+    type: String
+    enum:
+    - '"new"'
+    - '"modified"'
+    - '"removed"'
+    optional: false
+    nullable: false
+
+  userPublicNickname: &userPublicNickname
+    field: publicNickname
+    description: The user's public nickname
+    type: String
+    optional: true
+    nullable: false
+
+
+
+# Global error codes that are valid for all acknowledgement messages
+errorCodes:
+  internalError: An internal error occurred
+
+
+
+# Models
+models:
+  Connection:
+    fields:
+    - field: id
+      description: |
+        The [Connection ID](concept-connectionid.html) of the connection
+        to be resumed
+      type: Binary
+      optional: false
+      nullable: false
+    - field: sequenceNumber
+      description: |
+        The [Sequence Number](concept-sequencenumber.html) of the last
+        message received during the connection
+      type: Integer (u32)
+      optional: false
+      nullable: false
+
+  Quote:
+    fields:
+    - field: identity
+      description: The quote author's identity
+      type: String
+      optional: false
+      nullable: false
+    - field: text
+      description: The quote text
+      type: String
+      optional: false
+      nullable: false
+
+  Contact:
+    fields:
+    - field: id
+      description: The Threema identity
+      type: String
+      optional: false
+      nullable: false
+    - field: displayName
+      description: The contact display name
+      type: String
+      optional: false
+      nullable: false
+    - field: color
+      description: The contact color in hex notation (e.g. `"#1122FF"`)
+      type: String
+      optional: true
+      nullable: false
+    - field: firstName
+      description: The contact first name
+      type: String
+      optional: true
+      nullable: false
+    - field: lastName
+      description: The contact last name
+      type: String
+      optional: true
+      nullable: false
+    - field: publicNickname
+      description: The contact public nickname (without preceding `~`)
+      type: String
+      optional: true
+      nullable: false
+    - field: verificationLevel
+      description: |
+        The verification level
+
+        - `1`: Unverified (red)
+        - `2`: Server verified (yellow)
+        - `3`: Fully verified (green)
+      type: Integer
+      enum:
+      - 1
+      - 2
+      - 3
+      optional: false
+      nullable: false
+    - field: state
+      description: The identity state
+      type: String
+      enum:
+      - '"ACTIVE"'
+      - '"INACTIVE"'
+      optional: false
+      nullable: false
+    - field: featureMask
+      description: 'The feature mask (TODO: Document)'
+      type: Integer
+      optional: false
+      nullable: false
+    - field: isWork
+      description: |
+        Whether this is a contact from the same Threema Work package.\
+        Only relevant for Threema Work users.
+      type: Boolean
+      optional: true
+      nullable: false
+    - field: identityType
+      description: |
+        The identity type
+
+        - `0`: Regular Threema user
+        - `1`: Threema Work user
+      type: Integer
+      enum:
+      - 0
+      - 1
+      optional: false
+      nullable: false
+    - field: publicKey
+      description: The contact public key
+      type: Binary
+      optional: false
+      nullable: false
+    - field: locked
+      description: |
+        Whether the chat with this contact is locked. This is used for private
+        chats.
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: visible
+      description: |
+        Whether the chat with this contact is visible. This is used for private
+        chats.
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: hidden
+      description: |
+        The contact is hidden (e.g. because it is part of a group, but was
+        never added to the address book or contacted)
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: access
+      description: The access object
+      type: Map<ContactReceiverAccess>
+      optional: false
+      nullable: false
+
+  Group:
+    fields:
+    - field: id
+      description: The group identity
+      type: String
+      optional: false
+      nullable: false
+    - field: name
+      description: The group name
+      type: String
+      optional: true
+      nullable: false
+    - field: displayName
+      description: The group display name
+      type: String
+      optional: false
+      nullable: false
+    - field: color
+      description: The group color in hex notation (e.g. `"#1122FF"`)
+      type: String
+      optional: true
+      nullable: false
+    - field: createdAt
+      description: The group creation date as a unix time stamp in seconds
+      type: Integer
+      optional: false
+      nullable: false
+    - field: disabled
+      description: |
+        This is set to `true` if the user is not a member of this group
+        anymore
+      type: Boolean
+      optional: true
+      nullable: false
+      default: false
+    - field: locked
+      description: This is set to `true` if the chat is marked as a secret chat
+      type: Boolean
+      optional: true
+      nullable: false
+      default: false
+    - field: visible
+      description: |
+        This is set to `false` if the chat is marked as a secret chat and if
+        secret chats are hidden in the app
+      type: Boolean
+      optional: true
+      nullable: false
+      default: true
+    - field: members
+      description: The list of group member identities
+      type: Array<String>
+      optional: false
+      nullable: false
+    - field: administrator
+      description: The identity of the group admin
+      type: String
+      optional: false
+      nullable: false
+    - field: access
+      description: The access object
+      type: Map<GroupReceiverAccess>
+      optional: false
+      nullable: false
+
+  DistributionList:
+    fields:
+    - field: id
+      description: The distribution list id
+      type: String
+      optional: false
+      nullable: false
+    - field: displayName
+      description: The distribution list display name
+      type: String
+      optional: false
+      nullable: false
+    - field: color
+      description: The group color in hex notation (e.g. `"#1122FF"`)
+      type: String
+      optional: true
+      nullable: false
+    - field: locked
+      description: Set to `true` if the chat is marked as a secret chat
+      type: Boolean
+      optional: true
+      nullable: false
+      default: false
+    - field: visible
+      description: |
+        Set to `false` if the chat is marked as a secret chat and if secret
+        chats are hidden in the app
+      type: Boolean
+      optional: true
+      nullable: false
+      default: true
+    - field: members
+      description: The list of group member identities
+      type: Array<String>
+      optional: false
+      nullable: false
+    - field: access
+      description: The access object
+      type: Map<DistributionListReceiverAccess>
+      optional: false
+      nullable: false
+
+  Conversation:
+    fields:
+    - field: type
+      description: The receiver type
+      type: String
+      enum:
+      - '"me"'
+      - '"contact"'
+      - '"group"'
+      - '"distributionList"'
+      optional: false
+      nullable: false
+    - field: id
+      description: The identity of the responder
+      type: String
+      optional: false
+      nullable: false
+    - field: position
+      description: The index of the message (for sorting purposes)
+      type: Integer
+      optional: false
+      nullable: false
+    - field: messageCount
+      description: Number of messages
+      type: Integer
+      optional: false
+      nullable: false
+    - field: unreadCount
+      description: Number of unread messages
+      type: Integer
+      optional: false
+      nullable: false
+    - field: latestMessage
+      description: The latest message's content
+      type: Map<Message>
+      optional: true
+      nullable: false
+    - field: receiver
+      description: The receiver
+      type: Map<Receiver>
+      optional: true
+      nullable: false
+    - field: avatar
+      description: |
+        The avatar of the receiver. Only set for the top 20-30 conversations.
+      type: Binary
+      optional: true
+      nullable: false
+    - field: notifications
+      description: Notification settings
+      type: Map<NotificationSettings>
+      optional: true
+      nullable: false
+    - field: isStarred
+      description: Whether the conversation is *starred*
+      type: Boolean
+      optional: true
+      nullable: false
+      default: false
+
+  NotificationSettings:
+    fields:
+    - field: sound
+      description: Notification sound settings
+      type: Map<NotificationSound>
+      optional: false
+      nullable: false
+    - field: dnd
+      description: Do not disturb settings
+      type: Map<NotificationDnd>
+      optional: false
+      nullable: false
+
+  NotificationSound:
+    fields:
+    - field: mode
+      description: The notification mode
+      type: String
+      enum:
+      - '"default"'
+      - '"muted"'
+      optional: false
+      nullable: false
+
+  NotificationDnd:
+    fields:
+    - field: mode
+      description: The *do not disturb* mode
+      type: String
+      enum:
+      - '"off"'
+      - '"on"'
+      - '"until"'
+      optional: false
+      nullable: false
+    - field: mentionsOnly
+      description: |
+        Only notify on mentions. May be used with modes `"on"` or `"until"`
+      type: String
+      enum:
+      - '"off"'
+      - '"on"'
+      - '"until"'
+      optional: true
+      nullable: false
+      default: false
+    - field: until
+      description: |
+        Unix timestamp in milliseconds. Must be set if mode is `"until"`
+      type: Integer
+      optional: true
+      nullable: false
+
+  Configuration:
+    fields:
+    - field: voipEnabled
+      description: Whether calls are enabled
+      type: Boolean
+      optional: true
+      default: true
+      nullable: false
+    - field: voipForceTurn
+      description: Force all VoIP traffic to go through the TURN server
+      type: Boolean
+      optional: true
+      default: false
+      nullable: false
+    - field: largeSingleEmoji
+      description: Show single emoji with a larger font size
+      type: Boolean
+      optional: true
+      default: true
+      nullable: false
+    - field: showInactiveIDs
+      description: Whether to show inactive contacts in the contact list
+      type: Boolean
+      optional: true
+      default: true
+      nullable: false
+
+  Capabilities:
+    fields:
+    - field: maxGroupSize
+      description: The maximum supported group size
+      type: Integer
+      optional: true
+      default: 50
+      nullable: false
+    - field: maxFileSize
+      description: The maximum file size when sending files
+      type: Integer
+      optional: true
+      default: 52428800
+      nullable: false
+    - field: distributionLists
+      description: Whether distribution lists are supported by the device
+      type: Boolean
+      optional: true
+      default: true
+      nullable: false
+    - field: imageFormat
+      description: The image format used
+      type: Map<ImageFormat>
+      optional: false
+      nullable: false
+    - field: mdm
+      description: MDM configuration
+      type: Map<MdmRestrictions>
+      optional: true
+      nullable: false
+
+  ImageFormat:
+    fields:
+    - field: avatar
+      description: The avatar mime type, for example `"image/png"`
+      type: String
+      optional: false
+      nullable: false
+    - field: thumbnail
+      description: The thumbnail mime type, for example `"image/jpeg"`
+      type: String
+      optional: false
+      nullable: false
+
+  MdmRestrictions:
+    fields:
+    - field: disableAddContact
+      description: Set to `true` to disable adding of new contacts
+      type: Boolean
+      optional: true
+      default: false
+      nullable: false
+    - field: disableCreateGroup
+      description: Set to `true` to disable the creation of groups
+      type: Boolean
+      optional: true
+      default: false
+      nullable: false
+    - field: disableSaveToGallery
+      description: |
+        Set to `true` to make it harder to download media (hide download
+        button)
+      type: Boolean
+      optional: true
+      default: false
+      nullable: false
+    - field: disableExport
+      description: Set to `true` to disable exporting of chats
+      type: Boolean
+      optional: true
+      default: false
+      nullable: false
+    - field: disableMessagePreview
+      description: |
+        Set to `true` to disable message contents in desktop notifications
+      type: Boolean
+      optional: true
+      default: false
+      nullable: false
+    - field: disableCalls
+      description: Set to `true` to disable VoIP calls
+      type: Boolean
+      optional: true
+      default: false
+      nullable: false
+    - field: readonlyProfile
+      description: |
+        Set to `true` if editing the profile is disabled by an MDM setting
+      type: Boolean
+      optional: true
+      default: false
+      nullable: false
+
+  ContactDetails:
+    fields:
+    - field: systemContact
+      description: System contact details
+      type: Map<SystemContact>
+      optional: true
+      nullable: false
+
+  SystemContact:
+    fields:
+    - field: emails
+      description: Email addresses
+      type: Array<Email>
+      optional: false
+      nullable: false
+    - field: phoneNumbers
+      description: Phone numbers
+      type: Array<Phone>
+      optional: false
+      nullable: false
+
+  Email:
+    fields:
+    - field: label
+      description: Category label
+      type: String
+      optional: false
+      nullable: false
+    - field: address
+      description: Email address
+      type: String
+      optional: false
+      nullable: false
+
+  Phone:
+    fields:
+    - field: label
+      description: Category label
+      type: String
+      optional: false
+      nullable: false
+    - field: number
+      description: Phone number
+      type: String
+      optional: false
+      nullable: false
+
+  Message:
+    fields:
+    - field: type
+      description: The message type
+      enum:
+      - '"text"'
+      - '"image"'
+      - '"video"'
+      - '"file"'
+      - '"location"'
+      - '"voipStatus"'
+      type: String
+      optional: false
+      nullable: false
+    - field: id
+      description: The message id
+      type: String
+      optional: false
+      nullable: false
+    - field: body
+      description: The message body
+      type: String
+      optional: true
+      nullable: false
+    - field: thumbnail
+      description: The message thumbnail
+      type: Map<Thumbnail>
+      optional: true
+      nullable: false
+    - field: date
+      description: |
+        The message's date (last modification) as a unix timestamp in seconds
+      type: Integer
+      optional: true
+      nullable: false
+    - field: events
+      description: A list of message events
+      type: Array<MessageEvent>
+      optional: true
+      nullable: false
+    - field: sortKey
+      description: A number used for sorting messages, higher means newer
+      type: Integer
+      optional: false
+      nullable: false
+    - field: partnerId
+      description: The identity of the sender of this message
+      type: String
+      optional: true
+      nullable: false
+    - field: isOutbox
+      description: Whether this message was sent by the user
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: isStatus
+      description: Whether this is a status message
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: statusType
+      description: The status message type
+      type: String
+      enum:
+      - '"text"'
+      - '"firstUnreadMessage"'
+      optional: true
+      nullable: false
+    - field: caption
+      description: The message caption
+      type: String
+      optional: true
+      nullable: false
+    - field: unread
+      description: Whether this message is unread
+      type: Boolean
+      optional: true
+      nullable: false
+      default: false
+    - field: state
+      description: The message state
+      type: String
+      enum:
+      - '"delivered"'
+      - '"read"'
+      - '"send-failed"'
+      - '"sent"'
+      - '"user-ack"'
+      - '"user-dec"'
+      - '"pending"'
+      - '"sending"'
+      optional: true
+      nullable: false
+    - field: quote
+      description: The message quote
+      type: Map<Quote>
+      optional: true
+      nullable: false
+    - field: file
+      description: The file info
+      type: Map<File>
+      optional: true
+      nullable: false
+    - field: video
+      description: The video info
+      type: Map<Video>
+      optional: true
+      nullable: false
+    - field: audio
+      description: The audio info
+      type: Map<Audio>
+      optional: true
+      nullable: false
+    - field: location
+      description: The location info
+      type: Map<Location>
+      optional: true
+      nullable: false
+    - field: voip
+      description: The voip status info
+      type: Map<VoIP>
+      optional: true
+      nullable: false
+
+  Thumbnail:
+    fields:
+    - field: height
+      description: The height of the thumbnail (max 400px)
+      type: Integer
+      optional: false
+      nullable: false
+    - field: width
+      description: The width of the thumbnail (max 400px)
+      type: Integer
+      optional: false
+      nullable: false
+    - field: preview
+      description: |
+        The thumbnail preview. This should be resized so that no side is larger
+        than 50px.
+      type: Binary
+      optional: false
+      nullable: false
+
+  MessageEvent:
+    fields:
+    - field: date
+      description: |
+        The event date (last modification) as a unix time stamp in seconds
+      type: Integer
+      optional: false
+      nullable: false
+    - field: type
+      description: The event type
+      type: String
+      enum:
+      - '"created"'
+      - '"sent"'
+      - '"delivered"'
+      - '"read"'
+      - '"acked"'
+      - '"modified"'
+      optional: false
+      nullable: false
+
+  File:
+    fields:
+    - field: name
+      description: The file name
+      type: String
+      optional: false
+      nullable: false
+    - field: size
+      description: The file size in bytes
+      type: Integer
+      optional: false
+      nullable: false
+    - field: type
+      description: The file MIME type
+      type: String
+      optional: false
+      nullable: false
+    - field: inApp
+      description: TODO
+      type: Boolean
+      optional: false
+      nullable: false
+
+  Video:
+    fields:
+    - field: duration
+      description: The video duration in seconds
+      type: Integer
+      optional: false
+      nullable: false
+    - field: size
+      description: The video file size in bytes
+      type: Integer
+      optional: true
+      nullable: false
+
+  Audio:
+    fields:
+    - field: duration
+      description: The duration of the audio message in seconds
+      type: Integer
+      optional: false
+      nullable: false
+
+  Location:
+    fields:
+    - field: lat
+      description: WSG84 latitude
+      type: Float
+      optional: false
+      nullable: false
+    - field: lon
+      description: WSG84 longitude
+      type: Float
+      optional: false
+      nullable: false
+    - field: accuracy
+      description: |
+        The horizontal accuracy in meters
+        ([the radius of 68% confidence][so-radius])
+
+        [so-radius]: (https://stackoverflow.com/a/13807786/284318)
+      type: Float
+      optional: false
+      nullable: false
+    - field: address
+      description: The address belonging to this location
+      type: String
+      optional: true
+      nullable: false
+    - field: description
+      description: Description text for this location
+      type: String
+      optional: false
+      nullable: false
+
+  VoIP:
+    fields:
+    - field: status
+      description: |
+        The type of VoIP status message
+
+        - `1`: Missed
+        - `2`: Finished
+        - `3`: Rejected
+        - `4`: Aborted
+      type: Integer
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      optional: false
+      nullable: false
+    - field: duration
+      description: The duration of the call in seconds
+      type: Integer
+      optional: true
+      nullable: false
+    - field: reason
+      description: |
+        The reject reason
+
+        - `0`: Unknown
+        - `1`: Busy
+        - `2`: Timeout
+        - `3`: Rejected
+      type: Integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      optional: true
+      nullable: false
+
+  ContactReceiverAccess:
+    fields:
+    - field: canDelete
+      description: Whether this contact can be deleted
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: canChangeAvatar
+      description: Whether the avatar of this group can be changed
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: canChangeFirstName
+      description: Whether the first name of this contact can be changed
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: canChangeLastName
+      description: Whether the last name of this contact can be changed
+      type: Boolean
+      optional: false
+      nullable: false
+
+  GroupReceiverAccess:
+    fields:
+    - field: canDelete
+      description: Whether this group can be deleted
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: canChangeAvatar
+      description: Whether the group avatar can be changed
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: canChangeName
+      description: Whether the group name can be changed
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: canChangeMembers
+      description: Whether the group members can be changed
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: canLeave
+      description: Whether this group can be left
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: canSync
+      description: Whether the group can be re-synced
+      type: Boolean
+      optional: false
+      nullable: false
+
+  DistributionListReceiverAccess:
+    fields:
+    - field: canDelete
+      description: Whether this distribution list can be deleted
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: canChangeMembers
+      description: Whether the distribution list members can be changed
+      type: Boolean
+      optional: false
+      nullable: false
+
+  VoipRinging:
+    fields:
+    - field: identity
+      description: The identity of the call partner
+      type: String
+      optional: false
+      nullable: false
+
+  VoipStarted:
+    fields:
+    - field: identity
+      description: The identity of the call partner
+      type: String
+      optional: false
+      nullable: false
+    - field: outgoing
+      description: |
+        Whether this is an outgoing (`true`) or incoming (`false`) call
+      type: Boolean
+      optional: false
+      nullable: false
+
+  VoipFinished:
+    fields:
+    - field: identity
+      description: The identity of the call partner
+      type: String
+      optional: false
+      nullable: false
+    - field: outgoing
+      description: |
+        Whether this is an outgoing (`true`) or incoming (`false`) call
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: duration
+      description: The call duration in seconds
+      type: Integer
+      optional: false
+      nullable: false
+
+  VoipRejected:
+    fields:
+    - field: identity
+      description: The identity of the call partner
+      type: String
+      optional: false
+      nullable: false
+    - field: outgoing
+      description: |
+        Whether this is an outgoing (`true`) or incoming (`false`) call
+      type: Boolean
+      optional: false
+      nullable: false
+    - field: reason
+      description: The reject reason
+      type: String
+      enum:
+      - '"busy"'
+      - '"timeout"'
+      - '"rejected"'
+      - '"unknown"'
+      optional: false
+      nullable: false
+
+  VoipMissed:
+    fields:
+    - field: identity
+      description: The identity of the call partner
+      type: String
+      optional: false
+      nullable: false
+
+  VoipAborted:
+    fields:
+    - field: identity
+      description: The identity of the call partner
+      type: String
+      optional: false
+      nullable: false
+
+
+
+# Messages
+messages:
+  create:
+    contact:
+
+    # create/contact (client -> app)
+    - direction: toapp
+      summary: Create a new contact.
+      description: |
+        This message SHALL be sent when the user creates a new contact in the
+        client.
+      data:
+        fields:
+        - field: identity
+          description: The identity of the contact that should be created
+          type: String
+          optional: false
+          nullable: false
+
+    # create/contact (app -> client)
+    - direction: fromapp
+      summary: Confirm the created contact.
+      description: |
+        This message SHALL be sent when the contact has been created
+        successfully in the app.
+      replyTo:
+      - message: create/contact
+        errorCodes:
+          invalidIdentity: The identity is invalid
+          disabledByPolicy: Feature disabled by administrator
+      args:
+        fields:
+        - field: identity
+          description: The identity of the contact that was created
+          type: String
+          optional: false
+          nullable: false
+      data:
+        fields:
+        - field: receiver
+          description: The contact
+          type: Map<Contact>
+          optional: false
+          nullable: false
+      models:
+      - Contact
+      - ContactReceiverAccess
+
+    distributionList:
+
+    # create/distributionList (client -> app)
+    - direction: toapp
+      summary: Create a new distribution list.
+      description: |
+        This message SHALL be sent when the user creates a new distribution
+        list in the client.
+      data:
+        fields:
+        - field: members
+          description: The list of distribution list member identities
+          type: Array<String>
+          optional: false
+          nullable: false
+        - field: name
+          description: The distribution list name
+          type: String
+          optional: true
+          nullable: false
+
+    # create/distributionList (app -> client)
+    - direction: fromapp
+      summary: Return the created distribution list.
+      description: |
+        This message SHALL be sent once the distribution list has been
+        successfully created in the app.
+      replyTo:
+      - message: create/distributionList
+        errorCodes:
+          badRequest: Invalid request
+      data:
+        fields:
+        - field: receiver
+          description: The distribution list
+          type: Map<DistributionList>
+          optional: false
+          nullable: false
+
+    fileMessage:
+
+    # create/fileMessage (client -> app)
+    - direction: toapp
+      summary: Send a new file message.
+      description: |
+        This message SHALL be sent when the user creates a new file message in
+        the client.
+      args:
+        fields:
+        - *receiverType
+        - *receiverId
+      data:
+        fields:
+        - field: name
+          description: The filename
+          type: String
+          optional: false
+          nullable: false
+        - field: fileType
+          description: The MIME type of the file
+          type: String
+          optional: false
+          nullable: false
+        - field: sendAsFile
+          description: |
+            Force-send this item as file, even if it's an image or audio file
+          type: Boolean
+          optional: false
+          nullable: false
+        - field: size
+          description: The file size in bytes
+          type: Integer
+          optional: false
+          nullable: false
+        - field: caption
+          description: Caption of the message
+          type: String
+          optional: true
+          nullable: false
+
+    # create/fileMessage (app -> client)
+    - direction: fromapp
+      summary: Confirm that the file message has been sent
+      description: |
+        This message SHALL be sent by the app after:
+
+        - the file has been uploaded to the blob server, and
+        - the message has been successfully delivered to the server.
+      replyTo:
+      - message: create/fileMessage
+        errorCodes:
+          fileTooLarge: |
+            The file could not be uploaded because it is too large blocked:
+            The recipient has been blocked in the app
+      args:
+        fields:
+        - *receiverType
+        - *receiverId
+      data:
+        fields:
+        - field: messageId
+          description: The message id of the new message
+          type: String
+          optional: false
+          nullable: false
+
+    group:
+
+    # create/group (client -> app)
+    - direction: toapp
+      summary: Create a new group.
+      description: |
+        This message SHALL be sent when the user creates a new group in the
+        client.
+      data:
+        fields:
+        - field: members
+          description: The list of group member identities
+          type: Array<String>
+          optional: false
+          nullable: false
+        - field: name
+          description: The group name
+          type: String
+          optional: true
+          nullable: false
+        - field: avatar
+          description: The group avatar
+          type: Binary
+          optional: true
+          nullable: false
+
+    # create/group (app -> client)
+    - direction: fromapp
+      summary: Return the created group.
+      description: |
+        This message SHALL be sent by the app after:
+
+        - the group has been created locally, and
+        - all associated group control messages have been successfully
+          delivered to the server.
+      replyTo:
+      - message: create/group
+        errorCodes:
+          disabledByPolicy: Group creation was disabled by the administrator
+          badRequest: Invalid request
+      data:
+        fields:
+        - field: receiver
+          description: The group
+          type: Map<Group>
+          optional: false
+          nullable: false
+
+    textMessage:
+
+    # create/textMessage (client -> app)
+    - direction: toapp
+      summary: Send a new text message.
+      description: |
+        This message SHALL be sent when the user creates a new text message in
+        the client.
+      args:
+        fields:
+        - *receiverType
+        - *receiverId
+      data:
+        fields:
+        - field: text
+          description: The message text
+          type: String
+          optional: false
+          nullable: false
+        - field: quote
+          description: The quote
+          type: Map<Quote>
+          optional: true
+          nullable: false
+      models:
+      - Quote
+
+    # create/textMessage (app -> client)
+    - direction: fromapp
+      summary: Confirm that the text message has been sent.
+      description: |
+        This message SHALL be sent by the app after the text message has been
+        successfully delivered to the server.
+      replyTo:
+      - message: create/textMessage
+        errorCodes:
+          blocked: The recipient has been blocked in the app
+      args:
+        fields:
+        - *receiverType
+        - *receiverId
+      data:
+        fields:
+        - field: messageId
+          description: The message id of the new message
+          type: String
+          optional: false
+          nullable: false
+
+  delete:
+    cleanReceiverConversation:
+
+    # delete/cleanReceiverConversation (client -> app)
+    - direction: toapp
+      summary: Delete all messages in a conversation.
+      description: |
+        This message SHALL be sent when the user deletes all message of a
+        conversation in the client.
+      args:
+        fields:
+        - *receiverId
+        - *receiverTypeWithoutMe
+
+    distributionList:
+
+    # delete/distributionList (client -> app)
+    - direction: toapp
+      summary: Delete a distribution list.
+      description: |
+        This message SHALL be sent when the user deletes a distribution list in
+        the client.
+      args:
+        fields:
+        - *receiverId
+
+    group:
+
+    # delete/group (client -> app)
+    - direction: toapp
+      summary: Leave or delete a group.
+      description: |
+        This message SHALL be sent when the user leaves or deletes a group in
+        the client.
+      args:
+        fields:
+        - *receiverId
+        - field: deleteType
+          description: The deletion mode
+          type: String
+          enum:
+          - '"leave"'
+          - '"delete"'
+          optional: false
+          nullable: false
+
+    message:
+
+    # delete/message (client -> app)
+    - direction: toapp
+      summary: Delete a message.
+      description: |
+        This message SHALL be sent when the user deletes a message as part of a
+        conversation in the client.
+      args:
+        fields:
+        - *receiverType
+        - *receiverId
+        - field: messageId
+          description: The message id
+          type: String
+          optional: false
+          nullable: false
+
+  request:
+    connectionAck:
+
+    # request/connectionAck (bidirectional)
+    - direction: bidirectional
+      summary: Request an immediate chunk acknowledgement.
+      description: |
+        This SHOULD be requested before the connection is about to be closed or
+        memory pressure of cached chunks is becoming an issue. There may also
+        be other implementation-specific reasons for requesting chunk
+        acknowledgement.
+
+        The other peer MUST send an [`update/connectionAck`][upd-cA]. The
+        connection SHOULD NOT be closed before having received that
+        acknowledgement, so all cached chunks of the requesting peer can be
+        safely discarded.
+
+        [upd-cA]: (message-update-connectionAck-bidirectional.html)
+
+    ack:
+
+    # request/ack (client -> app)
+    - direction: toapp
+      summary: Acknowledge (*agree* or *decline*) a message.
+      description: |
+        This message SHALL be sent when the user acknowledges (*agree* or
+        *decline*) a message as part of a conversation in the client.
+      args:
+        fields:
+        - *receiverTypeWithoutMe
+        - *receiverId
+        - field: messageId
+          description: The id of the message to be acknowledged
+          type: String
+          optional: false
+          nullable: false
+        - field: acknowledged
+          description: |
+            Whether the message has been acknowledged (`true`) or declined
+            (`false`)
+          type: Boolean
+          optional: false
+          nullable: false
+
+    avatar:
+
+    # request/avatar (client -> app)
+    - direction: toapp
+      summary: Request the avatar of a receiver.
+      description: |
+        This message SHOULD be sent when the avatar of a specific receiver
+        should be displayed in the client that is not available or not
+        available in the required resolution.
+      args:
+        fields:
+        - *receiverType
+        - *receiverId
+        - field: highResolution
+          description: Whether to send a high-res version of the avatar
+          type: Boolean
+          optional: false
+          nullable: false
+        - field: maxSize
+          description: |
+            Maximum size of pixels for the low-res avatar.\
+            Only sent if `highResolution=false`.
+          type: Integer
+          optional: true
+          nullable: false
+
+    batteryStatus:
+
+    # request/batteryStatus (client -> app)
+    - direction: toapp
+      summary: |
+        "**Deprecated**: Request an immediate battery status update and
+        subscribe to updates."
+      description: |
+        This message SHALL be sent by the client if it wants to display the
+        battery status of the app side.
+
+        **Note**: This is deprecated since the [`update/batteryStatus`][upd-bS]
+        message will be auto-subscribed after the handshake.
+
+        [upd-bS]: message-update-batteryStatus-fromapp.html
+
+    blob:
+
+    # request/blob (client -> app)
+    - direction: toapp
+      summary: Request binary content (e.g. a file).
+      description: |
+        This message SHALL be sent if the client wants to request a *blob*
+        resource associated to a specific message such as a file, an image or a
+        video.
+      args:
+        fields:
+        - *receiverType
+        - *receiverId
+        - field: messageId
+          description: The id of the message associated to the blob
+          type: String
+          optional: false
+          nullable: false
+
+    clientInfo:
+
+    # request/clientInfo (client -> app)
+    - direction: toapp
+      summary: Request information about the app's device
+      description: |
+        This SHOULD be sent as part of the initial messages by the client.
+      data:
+        fields:
+        - field: userAgent
+          description: A user agent string to identify the client
+          type: String
+          optional: false
+          nullable: false
+        - field: browserName
+          description: |
+            If the client is a browser, send the detected browser name, e.g.
+            `"firefox"`, `"ie"`, `"edge"`, `"opera"`, `"safari"`
+          type: String
+          optional: true
+          nullable: false
+        - field: browserVersion
+          description: |
+            If the client is a browser, send the detected browser major version
+          type: Integer
+          optional: true
+          nullable: false
+
+    contactDetail:
+
+    # request/contactDetail (client -> app)
+    - direction: toapp
+      summary: Request contact details (e.g. for a system contact).
+      description: |
+        This message SHALL be sent by the client if it wants to display
+        additional details about a specific contact such as its Email or phone
+        number.
+      args:
+        fields:
+        - field: identity
+          description: The identity of the contact
+          type: String
+          optional: false
+          nullable: false
+
+    conversations:
+
+    # request/conversations (client -> app)
+    - direction: toapp
+      summary: Request the list of conversations and subscribe to updates.
+      description: |
+        This message SHALL be sent by the client as soon as it wants to
+        display the converations list.
+      subscribeTo:
+      - message: update/conversation
+        condition: On successful acknowledgement
+      - message: update/typing/bidirectional
+        condition: On successful acknowledgement
+      args:
+        fields:
+        - field: maxSize
+          description: Maximum side length (in px) of the receiver avatar
+          type: Integer
+          optional: false
+          nullable: false
+
+    groupSync:
+
+    # request/groupSync (client -> app)
+    - direction: toapp
+      summary: Sync a group.
+      description: |
+        This message SHALL be sent by the client if the user manually requests
+        to synchronise a specific group.
+      args:
+        fields:
+        - field: id
+          description: The identity of the receiver
+          type: String
+          optional: false
+          nullable: false
+
+    messages:
+
+    # request/messages (client -> app)
+    - direction: toapp
+      summary: Request messages of a conversation and subscribe to updates.
+      description: |
+        This message SHALL be sent by the client if it wants to display
+        messages of a specific conversation.
+      subscribeTo:
+      - message: update/messages
+        condition: On successful acknowledgement
+      args:
+        fields:
+        - *receiverTypeWithoutMe
+        - *receiverId
+        - field: refMsgId
+          description: |
+            The reference message id used for paging. If set, only messages
+            older than the specified message should be returned.
+          type: String
+          optional: true
+          nullable: false
+
+    profile:
+
+    # request/profile (client -> app)
+    - direction: toapp
+      summary: Request the user's profile and subscribe to updates.
+      description: |
+        This message SHALL be sent by the client if it wants to display the
+        user's own profile.
+      subscribeTo:
+      - message: update/profile
+        condition: On successful acknowledgement
+
+    read:
+
+    # request/read (client -> app)
+    - direction: toapp
+      summary: Mark a message as read.
+      description: |
+        The client SHALL send this message in case it can safely assume that
+        the user has seen the message that has not been marked as *read*
+        before.
+      args:
+        fields:
+        - *receiverTypeWithoutMe
+        - *receiverId
+        - field: messageId
+          description: |
+            The id of the newest message that has been *read* by the user.
+          type: String
+          optional: false
+          nullable: false
+
+    receivers:
+
+    # request/receivers (client -> app)
+    - direction: toapp
+      summary: |
+        Request the list of receivers (e.g. contacts, groups, etc.) and
+        subscribe to updates.
+      description: |
+        This message SHALL be sent by the client as soon as it needs to access
+        available receivers (e.g. contacts, groups, distribution lists, etc.).
+
+        This usually SHOULD be done at very beginning of the connection to
+        display the contact list and associate available conversations with the
+        receivers.
+      subscribeTo:
+      - message: update/avatar
+        condition: On successful acknowledgement
+      - message: update/receiver
+        condition: On successful acknowledgement
+      - message: update/receivers
+        condition: On successful acknowledgement
+
+    thumbnail:
+
+    # request/thumbnail (client -> app)
+    - direction: toapp
+      summary: Request the thumbnail of a specific message.
+      description: |
+        This message SHALL be sent by the client in case it wants to display a
+        message containing a thumbnail.
+      args:
+        fields:
+        - *receiverType
+        - *receiverId
+        - field: messageId
+          description: The id of the message to request the thumbnail for
+          type: String
+          optional: false
+          nullable: false
+
+    keyPersisted:
+
+    # request/keyPersisted (client -> app)
+    - direction: toapp
+      summary: |
+        Mark the permanent key as established and the session as persistent.
+      description: |
+        The client SHALL send this message once it has stored the session
+        persistently.
+
+        The app MUST defer storing a persistent session until this message has
+        been received. This avoids persisting a session that has never been
+        established, and thus can never be restored.
+
+  response:
+    avatar:
+
+    # response/avatar (app -> client)
+    - direction: fromapp
+      summary: Return the requested contact avatar.
+      description: |
+        This message MUST be sent by the app in case an avatar has been
+        requested by the client.
+      replyTo:
+      - message: request/avatar
+      args:
+        fields:
+        - *receiverTypeWithoutMe
+        - *receiverId
+        - field: highResolution
+          description: Whether this is the high-res version of the avatar
+          type: Boolean
+          optional: false
+          nullable: false
+      data:
+        description: |
+          Either the avatar bytes (type `Binary`) if an avatar is available.
+          If no avatar is available the field will be omitted.
+
+    blob:
+
+    # response/blob (app -> client)
+    - direction: fromapp
+      summary: Return binary content (e.g. a file).
+      description: |
+        This message MUST be sent by the app in case binary data has been
+        requested by the client.
+      replyTo:
+      - message: request/blob
+        errorCodes:
+          blobDownloadFailed: Could not download message from blob server
+          blobDecryptFailed: Could not decrypt message
+          invalidMessage: |
+            Message with the specified `type`, `id` or `messageId` was not
+            found
+      args:
+        fields:
+        - *receiverType
+        - *receiverId
+        - field: messageId
+          description: The id of the message associated to the blob
+          type: String
+          optional: false
+          nullable: false
+      data:
+        fields:
+        - field: blob
+          description: The binary data
+          type: Binary
+          optional: false
+          nullable: false
+        - field: type
+          description: The MIME type of the data
+          type: String
+          optional: false
+          nullable: false
+        - field: name
+          description: The filename
+          type: String
+          optional: false
+          nullable: false
+
+    clientInfo:
+
+    # response/clientInfo (app -> client)
+    - direction: fromapp
+      summary: Return information about the app's device.
+      description: |
+        This message MUST be sent by the app in case the device information has
+        been requested by the client.
+      replyTo:
+      - message: request/clientInfo
+      data:
+        fields:
+        - field: device
+          description: The device name
+          type: String
+          optional: false
+          nullable: false
+        - field: os
+          description: The operating system
+          type: String
+          enum:
+          - '"android"'
+          - '"ios"'
+          optional: false
+          nullable: false
+        - field: osVersion
+          description: The operating system version (e.g. `"5.1"`)
+          type: String
+          optional: false
+          nullable: false
+        - field: isWork
+          description: Whether the app is the *work* variant of Threema
+          type: Boolean
+          optional: false
+          nullable: false
+        - field: pushToken
+          description: |
+            The GCM / APNS push token\
+            For APNS, this is the 32 byte hex-encoded device token, followed by
+            the endpoint (either `p` or `s`) and the bundle id, separated by
+            semicolons.
+          type: String
+          optional: true
+          nullable: false
+        - field: configuration
+          description: The device configuration
+          type: Map<Configuration>
+          optional: false
+          nullable: false
+        - field: capabilities
+          description: The device capabilities
+          type: Map<Capabilities>
+          optional: false
+          nullable: false
+      models:
+      - Configuration
+      - Capabilities
+      - ImageFormat
+      - MdmRestrictions
+
+    contactDetail:
+
+    # response/contactDetail (app -> client)
+    - direction: fromapp
+      summary: Return the contact details (e.g. system contact).
+      description: |
+        This message MUST be sent by the app in case contact details have been
+        requested by the client.
+      replyTo:
+      - message: request/contactDetail
+        errorCodes:
+          invalidContact: The identity is not a valid contact
+      args:
+        fields:
+        - field: identity
+          description: The identity of the contact
+          type: String
+          optional: false
+          nullable: false
+      data:
+        fields:
+        - field: receiver
+          description: Receiver details
+          type: Map<ContactDetails>
+          optional: false
+          nullable: false
+      models:
+      - ContactDetails
+      - SystemContact
+      - Email
+      - Phone
+
+    conversations:
+
+    # response/conversations (app -> client)
+    - direction: fromapp
+      summary: Return the list of conversations.
+      description: |
+        This message MUST be sent by the app in case the list of conversations
+        has been requested by the client.
+      replyTo:
+      - message: request/conversations
+      data:
+        description: The data value is an `Array<Conversation>`.
+      models:
+      - Conversation
+      - Message
+      - Thumbnail
+      - MessageEvent
+      - Quote
+      - File
+      - Video
+      - Audio
+      - Location
+      - VoIP
+      - NotificationSettings
+      - NotificationSound
+      - NotificationDnd
+
+    messages:
+
+    # response/messages (app -> client)
+    - direction: fromapp
+      summary: Return the list of messages for a specific conversation.
+      description: |
+        This message MUST be sent by the app in case a list of messages
+        has been requested by the client.
+      replyTo:
+      - message: request/messages
+      args:
+        fields:
+        - *receiverType
+        - *receiverId
+        - field: more
+          description: Whether more (older) messages are available
+          type: Boolean
+          optional: false
+          nullable: false
+      data:
+        description: The data value is an `Array<Message>`.
+      models:
+      - Message
+      - Thumbnail
+      - MessageEvent
+      - Quote
+      - File
+      - Video
+      - Audio
+      - Location
+      - VoIP
+
+    profile:
+
+    # response/profile (app -> client)
+    - direction: fromapp
+      summary: Return the user's profile.
+      description: |
+        This message MUST be sent by the app in case the user's profile has
+        been requested by the client.
+      replyTo:
+      - message: request/profile
+      data:
+        fields:
+        - field: identity
+          description: The user's identity
+          type: String
+          optional: false
+          nullable: false
+        - field: publicKey
+          description: The user's public key
+          type: Binary
+          optional: false
+          nullable: false
+        - *userPublicNickname
+        - field: avatar
+          description: The user's high-res avatar
+          type: Binary
+          optional: true
+          nullable: false
+
+    receivers:
+
+    # response/receivers (app -> client)
+    - direction: fromapp
+      summary: Return the list of receivers (contacts, groups, etc.).
+      description: |
+        This message MUST be sent by the app in case the list of receivers has
+        been requested by the client.
+      replyTo:
+      - message: request/receivers
+      data:
+        fields:
+        - field: contact
+          description: List of contact receivers
+          type: Array<Contact>
+          optional: false
+          nullable: false
+        - field: group
+          description: List of group receivers
+          type: Array<Group>
+          optional: false
+          nullable: false
+        - field: distributionList
+          description: List of distribution list receivers
+          type: Array<DistributionList>
+          optional: false
+          nullable: false
+      models:
+      - Contact
+      - Group
+      - DistributionList
+      - ContactReceiverAccess
+      - GroupReceiverAccess
+      - DistributionListReceiverAccess
+
+    thumbnail:
+
+    # response/thumbnail (app -> client)
+    - direction: fromapp
+      summary: Return the thumbnail of a specific message.
+      description: |
+        This message MUST be sent by the app in case a thumbnail for a message
+        has been requested by the client.
+      replyTo:
+      - message: request/thumbnail
+        errorCodes:
+          invalidMessage: |
+            Message with the specified `type`, `id` or `messageId` was not
+            found
+      args:
+        fields:
+        - *receiverType
+        - *receiverId
+        - field: messageId
+          description: The id of the message to request the thumbnail for
+          type: String
+          optional: false
+          nullable: false
+      data:
+        description: |
+          Thumbnail bytes.\
+          Format: maxsize=400x400px
+
+  update:
+    connectionInfo:
+
+    # update/connectionInfo (bidirectional)
+    - direction: bidirectional
+      summary: |
+        Send information about the current (and the previous) connection.
+      description: |
+        Both peers MUST initially send this message as part of the handshake.
+        Each peer MUST wait until it has received the message from the other
+        peer before sending any further messages.
+
+        If a previous connection is being resumed, this MUST contain
+        information about the previous connection.
+
+        When a subsequent connection fails before the new connection ID has
+        been established, the previous connection ID remains for an upcoming
+        connection attempt.
+
+        As soon as a new connection ID has been established, the ownership of
+        the cached chunks will be transferred to the newly established
+        connection ID. That way, only one former connection ID exists where
+        cached chunks are assigned to.
+      data:
+        fields:
+        - field: id
+          description: The current [Connection ID](concept-connectionid.html)
+          type: Binary
+          optional: false
+          nullable: false
+        - field: resume
+          description: |
+            The previous connection to be resumed.
+
+            If the [Connection ID](concept-connectionid.html) does not match on
+            both sides, the peers SHALL NOT send cached messages but discard
+            them and treat the connection as a newly established web session.
+          type: Map<Connection>
+          optional: true
+          nullable: false
+      models:
+      - Connection
+
+    connectionAck:
+
+    # update/connectionAck (bidirectional)
+    - direction: bidirectional
+      summary: Acknowledges one or more chunks.
+      description: |
+        This message MUST be sent in case the remote peer requested a chunk
+        acknowledgement via a [`request/connectionAck`][req-cA] message.
+
+        If no chunk acknowledgement has been requested, this message SHOULD be
+        sent after 10 seconds have elapsed once a chunk has been received.
+
+        [req-cA]: message-request-connectionAck-bidirectional.html
+      data:
+        fields:
+        - field: sequenceNumber
+          description: |
+            The [Sequence Number](concept-sequencenumber.html) of the last
+            chunk received during the connection
+          type: Integer (u32)
+          optional: false
+          nullable: false
+
+    connectionDisconnect:
+
+    # update/connectionDisconnect (bidirectional)
+    - direction: bidirectional
+      summary: |
+        Indicates that the sending peer is about to close the connection.
+      description: |
+        This message SHOULD be sent before the peer closes the SaltyRTC
+        connection.
+      data:
+        fields:
+        - field: reason
+          description: |
+            The disconnect reason.
+
+            - `"stop"`: The session SHALL be stopped by the receiving peer.
+            - `"delete"`: The session MUST be stopped and deleted by the
+              receiving peer.
+            - `"disable"`: The web client has been disabled in the app and the
+              receiving peer SHALL stop the session.
+            - `"replace"`: The session has been replaced by another and the
+              receiving peer MUST stop the session.
+            - `"error"`: The session was stopped because an error occurred.
+          type: String
+          enum:
+          - '"stop"'
+          - '"delete"'
+          - '"disable"'
+          - '"replace"'
+          - '"error"'
+          optional: false
+          nullable: false
+
+    confirm:
+
+    # update/confirm (app -> client)
+    - direction: fromapp
+      summary: Confirms an acknowledgement request.
+      description: |
+        This message MUST be sent to acknowledge a message that is not
+        implicitly acknowledged by another message.
+
+        In case an error occurred while processing a message that requires an
+        acknowledgement, this message SHOULD be sent as a response. This avoids
+        making data response fields optional.
+      replyTo:
+      - message: delete/cleanReceiverConversation
+        condition: Only if acknowledging delete/cleanReceiverConversation
+        errorCodes:
+          invalidIdentity: Receiver with the specified id not found
+          badRequest: Invalid request
+      - message: delete/distributionList
+        condition: Only if acknowledging delete/distributionList
+        errorCodes:
+          invalidDistributionList: Distribution list not found
+          badRequest: Invalid request
+      - message: delete/group
+        condition: |
+          Only if acknowledging delete/group and not before the app has
+          successfully delivered all group control messages to the server
+        errorCodes:
+          invalidGroup: Group not found
+          alreadyLeft: You already left this group
+          notAllowed: Only the admin is allowed to delete a group
+          badRequest: Invalid argument
+      - message: delete/message
+        condition: Only if acknowledging delete/message
+        errorCodes:
+          invalidMessage: |
+            Message with the specified `type`, `id` or `messageId` was not
+            found
+          badRequest: Invalid request
+      - message: request/groupSync
+        condition: |
+          Only if acknowledging request/groupSync and not before the app has
+          successfully delivered all asssociated group control messages to the
+          server.
+        errorCodes:
+          invalidGroup: The identity is not a valid group
+          notAllowed: You are not allowed to modify this group
+          syncFailed: Synchronization failed
+      - message: request/keyPersisted
+        condition: Only if acknowledging a request/keyPersisted
+      - message: update/conversation
+        condition: Only if acknowledging an update/conversation
+        errorCodes:
+          invalidConversation: Conversation was not found
+          badRequest: Invalid request
+      - message: update/profile
+        condition: Only if acknowledging an update/profile
+        errorCodes:
+          invalidAvatar: Avatar is invalid (e.g. 0 bytes)
+
+    alert:
+
+    # update/alert (app -> client)
+    - direction: fromapp
+      summary: Display an alert.
+      description: |
+        This message SHALL be sent by the app in case it would display an alert
+        for the user (e.g. a server alert).
+      args:
+        fields:
+        - field: source
+          description: The alert source
+          type: String
+          enum:
+          - '"server"'
+          - '"device"'
+          optional: false
+          nullable: false
+        - field: type
+          description: The alert type
+          type: String
+          enum:
+          - '"error"'
+          - '"warning"'
+          - '"info"'
+          optional: false
+          nullable: false
+      data:
+        fields:
+        - field: message
+          description: The alert message
+          type: String
+          optional: false
+          nullable: false
+
+    avatar:
+
+    # update/avatar (app -> client)
+    - direction: fromapp
+      summary: Update the low-res avatar of a subscribed receiver avatar.
+      description: |
+        This message SHALL be sent by the app in case a subscribed receiver
+        avatar has been changed.
+
+        The client SHOULD clear the cached high-res avatar when receiving this
+        message.
+      args:
+        fields:
+        - *receiverType
+        - *receiverId
+      data:
+        description: |
+          To set a new avatar, send the avatar bytes (type `Binary`). To clear
+          the avatar, omit the field.
+
+    batteryStatus:
+
+    # update/batteryStatus (app -> client)
+    - direction: fromapp
+      summary: Update the battery status.
+      description: |
+        This message SHALL be sent by the app in case the battery status has
+        been changed.
+      replyTo:
+      - message: request/batteryStatus
+        condition: Only if associated to an initial request/batteryStatus
+      data:
+        fields:
+        - field: percent
+          description: |
+            The battery charge in percent (`0`-`100`).\
+            If the battery charge cannot be determined, `null` should be set.
+          type: Integer
+          optional: false
+          nullable: true
+        - field: isCharging
+          description: A flag indicating whether the battery is charging
+          type: Boolean
+          optional: false
+          nullable: false
+
+    conversation:
+
+    # update/conversation (client -> app)
+    - direction: toapp
+      summary: Modify a conversation.
+      description: |
+        This message SHALL be sent by the client if the user wants to modify a
+        conversation.
+      args:
+        fields:
+        - *receiverType
+        - *receiverId
+      data:
+        fields:
+        - field: isStarred
+          description: Whether the conversation is *starred*
+          type: Boolean
+          optional: true
+          nullable: false
+
+    # update/conversation (app -> client)
+    - direction: fromapp
+      summary: Update a subscribed conversation.
+      description: |
+        This message SHALL be sent by the app in case a subscribed conversation
+        has been changed.
+      args:
+        fields:
+        - *updateMode
+      data:
+        description: A Map<[Conversation](#model.Conversation)>
+      models:
+      - Conversation
+      - Message
+      - Thumbnail
+      - MessageEvent
+      - Quote
+      - File
+      - Video
+      - Audio
+      - Location
+      - VoIP
+      - NotificationSettings
+      - NotificationSound
+      - NotificationDnd
+
+    contact:
+
+    # update/contact (client -> app)
+    - direction: toapp
+      summary: Modify a contact.
+      description: |
+        This message SHALL be sent by the client in case the user wants to
+        modify a contact.
+      args:
+        fields:
+        - field: id
+          description: The contact identity
+          type: String
+          optional: false
+          nullable: false
+      data:
+        fields:
+        - field: firstName
+          description: The first name
+          type: String
+          optional: true
+          nullable: false
+        - field: lastName
+          description: The last name
+          type: String
+          optional: true
+          nullable: false
+        - field: avatar
+          description: The high-res avatar (max 512x512px)
+          type: Binary
+          optional: true
+          nullable: false
+
+    # update/contact (app -> client)
+    - direction: fromapp
+      summary: Return a modified contact.
+      description: |
+        This message MUST be sent by the app in case the client's requested
+        contact modification was successful.
+      replyTo:
+      - message: update/contact
+        errorCodes:
+          invalidContact: The identity is not a valid contact
+          notAllowedLinked: |
+            The contact is linked with a system contact, updating is not
+            allowed
+          notAllowedBusiness: |
+            The contact is a Threema Gateway account, updating the avatar is
+            not allowed
+      args:
+        fields:
+        - field: id
+          description: The contact identity
+          type: String
+          optional: false
+          nullable: false
+      data:
+        fields:
+        - field: receiver
+          description: The modified contact
+          type: Map<Contact>
+          optional: true
+          nullable: false
+      models:
+      - Contact
+      - ContactReceiverAccess
+
+    group:
+
+    # update/group (client -> app)
+    - direction: toapp
+      summary: Modify a group.
+      description: |
+        This message SHALL be sent by the client in case the user wants to
+        modify a group.
+      args:
+        fields:
+        - field: id
+          description: The group id
+          type: String
+          optional: false
+          nullable: false
+      data:
+        fields:
+        - field: members
+          description: The list of group members
+          type: Array<String>
+          optional: false
+          nullable: false
+        - field: name
+          description: The group name (`null` to clear)
+          type: String
+          optional: true
+          nullable: true
+        - field: avatar
+          description: The high-res avatar (`null` to clear)
+          type: Binary
+          optional: true
+          nullable: true
+
+    # update/group (app -> client)
+    - direction: fromapp
+      summary: Return a modified group.
+      description: |
+        This message MUST be sent by the app after all associated group control
+        messages have been successfully delivered to the server.
+      replyTo:
+      - message: update/group
+        errorCodes:
+          invalidGroup: Group not found
+          noMembers: Empty member list submitted
+          notAllowed: Only the admin is allowed to change a group
+          badRequest: Invalid request
+      args:
+        fields:
+        - field: id
+          description: The group id
+          type: String
+          optional: false
+          nullable: false
+      data:
+        fields:
+        - field: receiver
+          description: The modified group
+          type: Map<Group>
+          optional: true
+          nullable: false
+      models:
+      - Group
+      - GroupReceiverAccess
+
+    distributionList:
+
+    # update/distributionList (client -> app)
+    - direction: toapp
+      summary: Modify a distribution list.
+      description: |
+        This message SHALL be sent by the client in case the user wants to
+        modify a distribution list.
+      args:
+        fields:
+        - field: id
+          description: The distribution list id
+          type: String
+          optional: false
+          nullable: false
+      data:
+        fields:
+        - field: members
+          description: The list of distribution list members
+          type: Array<String>
+          optional: false
+          nullable: false
+        - field: name
+          description: The distribution list name (`null` to clear)
+          type: String
+          optional: true
+          nullable: true
+        - field: avatar
+          description: The high-res avatar (`null` to clear)
+          type: Binary
+          optional: true
+          nullable: true
+
+    # update/distributionList (app -> client)
+    - direction: fromapp
+      summary: Return a modified distribution list.
+      description: |
+        This message MUST be sent by the app in case the client's requested
+        distribution list modification was successful.
+      replyTo:
+      - message: update/distributionList
+        errorCodes:
+          invalidDistributionList: Distribution list not found
+          noMembers: Empty member list submitted
+          badRequest: Invalid request
+      args:
+        fields:
+        - field: id
+          description: The distribution list id
+          type: String
+          optional: false
+          nullable: false
+      data:
+        fields:
+        - field: receiver
+          description: The modified distribution list
+          type: Map<DistributionList>
+          optional: true
+          nullable: false
+      models:
+      - DistributionList
+      - DistributionListReceiverAccess
+
+    messages:
+
+    # update/messages (app -> client)
+    - direction: fromapp
+      summary: Update one or more messages of a conversation.
+      description: |
+        This message SHALL be sent by the app in case a subscribed conversation
+        has been changed
+
+        It MUST also be sent by the app as a response towards `ack` or `read`
+        requests after they have been successfully delivered to the server.
+      replyTo:
+      - message: request/ack
+        condition: |
+          Only if associated to a request/ack and not before the app has
+          successfully delivered the message to the server
+        errorCodes:
+          invalidMessage: |
+            Message with the specified `type`, `id` or `messageId` was not
+            found
+      - message: request/read
+        condition: |
+          Only if associated to a request/read and not before the app has
+          successfully delivered the message to the server
+        errorCodes:
+          invalidMessage: |
+            Message with the specified `type`, `id` or `messageId` was not
+            found
+      args:
+        fields:
+        - *receiverType
+        - *receiverId
+        - *updateMode
+      data:
+        description: |
+          Array<Map<[Message](#model.Message)>>
+
+          Note: If the mode is `"removed"`, optional fields may be stripped
+          from the message.
+      models:
+      - Message
+      - Thumbnail
+      - MessageEvent
+      - Quote
+      - File
+      - Video
+      - Audio
+      - Location
+      - VoIP
+
+    profile:
+
+    # update/profile (client -> app)
+    - direction: toapp
+      summary: Modify the user's profile.
+      description: |
+        This message SHALL be sent by the client in case the user wants to
+        modify its profile.
+      data:
+        fields:
+        - *userPublicNickname
+        - field: avatar
+          description: |
+            The high-res avatar<br>Must be a PNG, max 512x512px\
+            Set the value to `null` in order to remove the avatar.
+          type: Binary
+          optional: true
+          nullable: true
+
+    # update/profile (app -> client)
+    - direction: fromapp
+      summary: Update the user's profile.
+      description: |
+        This message SHALL be sent by the app in case the user's profile has
+        been changed.
+      data:
+        fields:
+        - *userPublicNickname
+        - field: avatar
+          description: |
+            The high-res avatar.\
+            The format can vary depending on the app's implementation but
+            SHOULD NOT exceed 512x512px\
+            Set the value to `null` in order to remove the avatar.
+          type: Binary
+          optional: true
+          nullable: true
+
+    receiver:
+
+    # update/receiver (app -> client)
+    - direction: fromapp
+      summary: Update a subscribed receiver.
+      description: |
+        This message SHALL be sent by the app in case a subscribed receiver has
+        been changed.
+      args:
+        fields:
+        - *receiverId
+        - *receiverTypeWithoutMe
+        - *updateMode
+      data:
+        description: |
+          Map<[Contact][contact]|[Group][group]|[DistributionList][dl]>
+
+          [contact]: #model.Contact
+          [group]: #model.Group
+          [dl]: #model.DistributionList
+      models:
+      - Contact
+      - ContactReceiverAccess
+      - Group
+      - GroupReceiverAccess
+      - DistributionList
+      - DistributionListReceiverAccess
+
+    receivers:
+
+    # update/receivers (app -> client)
+    - direction: fromapp
+      summary: Update all subscribed receivers.
+      description: |
+        This message SHALL be sent by the app in case all subscribed receivers
+        have been changed at once.
+      args:
+        fields:
+        - *receiverTypeWithoutMe
+      data:
+        description: |
+          Array<[Contact][contact]|[Group][group]|[DistributionList][dl]>
+
+          [contact]: #model.Contact
+          [group]: #model.Group
+          [dl]: #model.DistributionList
+      models:
+      - Contact
+      - ContactReceiverAccess
+      - Group
+      - GroupReceiverAccess
+      - DistributionList
+      - DistributionListReceiverAccess
+
+    typing:
+
+    # update/typing (bidirectional)
+    - direction: bidirectional
+      summary: |
+        Notify that the contact/user is typing in a specific conversation.
+      description: |
+        The client SHALL send this message in case the user is currently
+        typing in a specific conversation.
+
+        The app SHALL send this message in case a specific contact is typing.
+        However, it SHALL NOT send this message before the client has
+        subscribed to it.
+
+        Both peers SHOULD use appropriate timeouts to not flood the network
+        with these messages.
+      args:
+        fields:
+        - field: id
+          description: The contact identity
+          type: String
+          optional: false
+          nullable: false
+      data:
+        fields:
+        - field: isTyping
+          description: Whether typing has started (`true`) or stopped (`false`)
+          type: Boolean
+          optional: false
+          nullable: false
+
+    voipStatus:
+
+    # update/voipStatus (app -> client)
+    - direction: fromapp
+      summary: Update the VoIP status (e.g. when a call has been started).
+      description: |
+        This message SHALL be sent by the app in case the VoIP status has been
+        changed. This may happen in case the user's Threema ID is being called,
+        it has picked up a call, etc.
+      args:
+        fields:
+        - field: type
+          description: The status type
+          type: String
+          optional: false
+          nullable: false
+      data:
+        description: |
+          Map<[VoipRinging][vri]|[VoipStarted][vst]|[VoipFinished][vfi]|[VoipRejected][vrj]|[VoipMissed][vmi]|[VoipAborted][vab]>
+          depending on the type.
+
+          [vri]: #model.VoipRinging
+          [vst]: #model.VoipStarted
+          [vfi]: #model.VoipFinished
+          [vrj]: #model.VoipRejected
+          [vmi]: #model.VoipMissed
+          [vab]: #model.VoipAborted
+      models:
+      - VoipRinging
+      - VoipStarted
+      - VoipFinished
+      - VoipRejected
+      - VoipMissed
+      - VoipAborted
+
+
+
+# Concepts
+concepts:
+
+  # General Procedures
+  procedures:
+    name: General Procedures
+    summary: General procedures that need to be followed.
+    description: |
+      TODO: Describe the connection establishment and teardown.
+
+      ### Initial Handshake
+      TODO: Describe the handshake process and reference associated concepts.
+
+      After the handshake has been completed, the app SHALL auto-subscribe the
+      following messages towards the client:
+
+      - [`update/batteryStatus`](message-update-batteryStatus-fromapp.html)
+      - [`update/voipStatus`](message-update-voipStatus-fromapp.html)
+
+      The client SHALL auto-subscribe the following messages towards the app:
+
+      - [`update/typing`](message-update-typing-bidirectional.html)
+
+      In addition, the client SHOULD send the following initial requests:
+
+      - [`request/clientInfo`](message-request-clientInfo-toapp.html)
+      - [`request/batteryStatus`](message-request-batteryStatus-toapp.html)
+        (deprecated)
+
+      ### Maintaining Chunk Order
+      After a SaltyRTC `close` message has been received, all subsequent
+      messages MUST be discarded. Furthermore, usage of the SaltyRTC
+      `application` message is forbidden when the SaltyRTC task
+      `v0.relayed-data.tasks.saltyrtc.org` is being used. This guarantees us
+      that no SaltyRTC client-to-client messages can be received in between any
+      specific messages of this protocol.
+
+      Note: We are planning to remove this restriction with a new SaltyRTC
+      version that supports multiple channels. This would also allow us to move
+      meta messages, such as the ones prefixed by `connection*`, into a
+      different channel.
+
+  # Connection ID
+  connectionId:
+    name: Connection ID
+    summary: The identifier of a specific connection.
+    description: |
+      The connection ID uniquely identifies a single connection. It allows to
+      associate chunks to a specific connection in order to be able to resume
+      the session. A more detailed explanation of the role of the connection ID
+      is stated in the description of the
+      [Sequence Number](concept-sequencenumber.html).
+
+      The ID is being derived by using the established SaltyRTC session key
+      (the private key of this peer and the public key of the other peer) by
+      encrypting an empty byte sequence with the nonce
+      `connectionidconnectionid`. The resulting 16 bytes are the connection ID.
+
+  # Sequence Number
+  sequenceNumber:
+    name: Sequence Number
+    summary: |
+      The sequence number counter of the underlying transport for
+      incoming/outgoing chunks.
+    description: |
+      The sequence number counters are being used to be able to resume a
+      session after the connection has been severed. A sequence number is a
+      simple 32 bit unsigned counter starting at `0`, that MUST be incremented
+      by `1` for every chunk being sent (outgoing counter) or received
+      (incoming counter).
+
+      Once the connection is set up, both peers MUST asynchronously send an
+      [`update/connectionInfo`][upd-cI] message before sending any other
+      messages. On receiving the connection info of the remote peer, if the
+      `connectionInfo.data.resume` field is present and
+      `connectionInfo.data.resume.id` of the remote peer's message equals the
+      one sent in the local message, the peers SHALL try to resume a session.
+      In any other case, [cached chunks](concept-chunkcache.html) SHALL be
+      discarded and the connection MUST be treated as a newly established web
+      session.
+
+      To resume a session, the peer first compares the received
+      `connectionInfo.data.resume.sequenceNumber` with the sequence number for
+      outgoing chunks of the former connection. All cached chunks before this
+      sequence number SHALL be discarded. In addition, each cached chunks that
+      has been tagged by the [blacklist](concept-chunkcacheblacklist.html)
+      SHALL be discarded from the cache. The remaining cached chunks MUST be
+      transferred to the current connection by assigning the current outgoing
+      sequence number counter as an offset to the cached chunks.
+
+      For example, if there are three cached chunks with the former sequence
+      numbers of `5, 6, 7` and the last used outgoing sequence number
+      (the one used for sending the last `update/connectionInfo` chunk) is
+      `11`, they will be remapped to the sequence numbers `12, 13, 14`. This
+      will prevent losing cached chunks in case the newly established
+      connection is being severed as well before all cached chunks have been
+      sent.<br>Now, the cached chunks MUST be sent in order to the other peer.
+      Other chunks of newly created messages SHALL NOT interfere with the order
+      and MUST be appended to the chunk cache as well.
+
+      In addition, a peer SHOULD periodically report the current sequence
+      number for incoming chunks to the other peer by sending an
+      [`update/connectionAck`][upd-cA] 10 seconds after a chunk has been
+      received. This allows the other peer to remove cached chunks that have
+      been acknowledged. However, a peer MUST respond with a `connectionAck`
+      update in case the other peer explicitly sends a
+      [`request/connectionAck`][req-cA].
+
+      Note: The sequence number counter represents the amount of chunks sent or
+      received but not its index.
+
+      [upd-cI]: message-update-connectionInfo-bidirectional.html
+      [upd-cA]: message-update-connectionAck-bidirectional.html
+      [req-cA]: message-request-connectionAck-bidirectional.html
+
+  # Chunk Cache
+  chunkCache:
+    name: Chunk Cache
+    summary: How messages will be cached as chunks.
+    description: |
+      Each peer MUST cache **all** chunks that are part of an outgoing message,
+      irrespective of whether the connection is still alive or has already been
+      severed. The peer MUST also remember the associated sequence number. In
+      order to do so, the peer can increment a counter every time a message is
+      appended to the chunk cache. Chunks of messages that are in the
+      [Chunk Cache Blacklist](concept-chunkcacheblacklist.html) MUST also be
+      added to the cache and specifically tagged as *blacklisted* chunks.
+      Alternatively, a placeholder for the blacklisted chunks can be added to
+      the cache which explicitly tags chunks as blacklisted.
+
+      When a [`update/connectionAck`][upd-cA] message has been received, the
+      cache MUST be updated by removing all cached chunks that have been
+      acknowledged.
+
+      If memory usage of the chunk cache is becoming an issue for a peer, it
+      SHOULD explicitly request an acknowledgement by sending a
+      [`request/connectionAck`][req-cA].
+
+      [upd-cA]: message-update-connectionAck-bidirectional.html
+      [req-cA]: message-request-connectionAck-bidirectional.html
+
+  # Chunk Cache Blacklist
+  chunkCacheBlacklist:
+    name: Chunk Cache Blacklist
+    summary: Chunks of messages that are blacklisted.
+    description: |
+      Messages whose chunks SHALL be purged from the chunk cache once a session
+      is being resumed:
+
+      - [`request/connectionAck`][req-cA]
+      - [`update/batteryStatus`][upd-bS]
+      - [`update/connectionAck`][upd-cA]
+      - [`update/connectionDisconnect`][upd-cD]
+      - [`update/connectionInfo`][upd-cI]
+      - [`update/typing`][upd-ty]
+
+      Note: It is crucial that the chunks (or placeholders) of those messages
+      are still added to the chunk cache to keep the peer's sequence numbers
+      in sync. It ensures that only the acknowledged chunks are being removed
+      from the chunk cache once a [`update/connectionAck`][upd-cA] has been
+      received.
+
+      [req-cA]: message-request-connectionAck-bidirectional.html
+      [upd-bS]: message-update-batteryStatus-fromapp.html
+      [upd-cA]: message-update-connectionAck-bidirectional.html
+      [upd-cD]: message-update-connectionDisconnect-bidirectional.html
+      [upd-cI]: message-update-connectionInfo-bidirectional.html
+      [upd-ty]: message-update-typing-bidirectional.html
+
+  # Session Resumption
+  sessionResumption:
+    name: Session Resumption
+    summary: When and how to reconnect a session.
+    description: |
+      Session resumption happens, when a new connection for an existing session
+      is established.
+
+      ### Reconnect Types
+
+      We differentiate between two types of session resumption: A wakeup and a
+      full reconnect:
+
+      - **Full Reconnect**: During a full reconnect, the
+        [chunk cache](concept-chunkcache.html) SHALL NOT be used. All initial
+        messages MUST be sent again and the connection is treated as if the
+        session were newly created.
+      - **Wakeup**: When doing a wakeup, the initial messages SHALL NOT be sent
+        again. The [chunk cache](concept-chunkcache.html) MUST be transferred
+        from the previous connection to the new connection (both identified
+        with a unique [connection ID](concept-connectionid.html)) See
+        [sequence number](concept-sequencenumber.html) for more details.
+
+      ### Reconnect Triggers
+
+      Session resumption SHALL be triggered in one of the following cases:
+
+      #### Triggered by App
+
+      - A session is currently active, but disconnected, **and**
+      - an outgoing message to the client is enqueued.
+
+      As an example, when a new incoming Threema message from a contact
+      arrives, that will result in a new [`update/messages`][upd-me] message
+      being enqueued for the client. If at that point in time a session is
+      active but not connected, session resumption will be triggered.
+
+      #### Triggered by Push
+
+      - A wakeup push message arrives.
+
+      #### Triggered Manually
+
+      - The user manually starts the session from the Threema app.
+
+      [upd-me]: message-update-messages-fromapp.html
+
+  # Message Acknowledgement
+  ack:
+    name: Message Acknowledgement
+    summary: Message acknowledgement requests and how to confirm them.
+    description: |
+      Each message defines whether it requires an acknowledgement, when it
+      should be confirmed, the possible error codes and which message type is
+      allowed to send a confirmation.
+
+      Unless otherwise specified, a message SHOULD be acknowledged **after**
+      all associated data has been delivered to the server or immediately in
+      case of an error. In case the app disconnects from the client (e.g. due
+      to the app being suspended), the client SHOULD wake up the app
+      recurrently as long as there are pending acknowledgements. This ensures
+      that all pending messages towards the server are being delivered. All
+      changes to this protocol SHOULD follow this principle.
+
+      An acknowledgement is being requested by setting the `id` field of the
+      message. The `id` MUST be of type `String` which SHALL contain at least
+      a single character. In addition, `id` MUST be unique enough to not clash
+      with other pending acknowledgement requests.
+
+      In case the message that requested the acknowledgement has been processed
+      completely, a confirmation MUST be sent. The confirmation is part of a
+      message in which the `ack` field MUST be set to the below displayed
+      `Map`. Each message requesting an acknowledgement defines under which
+      circumstances the confirmation is a *success* or an *error*. In case of a
+      *success*, the acknowledgement SHOULD only be confirmed with the defined
+      message types. On *error*, the confirmation SHOULD be sent in form of an
+      [`update/confirm`][upd-co] message.
+
+      [upd-co]: message-update-confirm-fromapp.html
+    tables:
+    - - field: id
+        description: The id of the corresponding acknowledgement request
+        type: String
+        optional: false
+        nullable: false
+      - field: success
+        description: Whether the confirmation indicates a *success*
+        type: Boolean
+        optional: false
+        nullable: false
+      - field: error
+        description: |
+          The error code which MUST be presented in case `success=false` and
+          MUST be one of the error codes defined by the message that requested
+          the acknowledgement
+        type: String
+        optional: true
+        nullable: false
+
+  # Message Subscription
+  subscription:
+    name: Message Subscription
+    summary: How to subscribe for messages.
+    description: |
+      Each message defines whether it subscribes for further updates in form of
+      messages. Unless otherwise specified, a subscription MUST happen on the
+      **receiving peer** and **after** the message has been
+      **processed successfully**.
+
+      For messages that require an acknowledgement, this means that the
+      subscription SHALL take place **after** the message has been
+      **acknowledged with `success=true`**.

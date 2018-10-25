@@ -1,10 +1,10 @@
 import copy
 import distutils.dir_util
 import functools
-import json
 import os
 from typing import Callable, List, Tuple
 
+import yaml
 from jinja2 import Environment, FileSystemLoader
 
 import filters
@@ -19,8 +19,7 @@ def main(filename: str):
     env.filters['cmark'] = filters.commonmark
     env.filters['linkmodels'] = filters.linkmodels
     with open(filename, 'r') as f:
-        schema = json.loads(f.read())
-    process_includes(schema)
+        schema = yaml.load(f)
     process_references(schema)
     copy_static_files()
     generate_index(env, schema)
@@ -36,38 +35,6 @@ def main(filename: str):
 
 def copy_static_files():
     distutils.dir_util.copy_tree('static/', 'output/static')
-
-
-def process_includes(schema: dict):
-    """
-    Look for includes and replace them with the shared objects.
-    """
-    # Extract shared fields
-    shared_fields = schema['sharedFields']
-    del schema['sharedFields']
-
-    # Process all messages
-    for typ, subtypes in schema['messages'].items():
-        for subtype, messages in subtypes.items():
-            for message in messages:
-
-                # Process args
-                args = message.get('args', {}).get('fields', [])
-                for i, arg in enumerate(args):
-                    if isinstance(arg, str) and arg.startswith('@'):
-                        try:
-                            message['args']['fields'][i] = copy.copy(shared_fields[arg[1:]])
-                        except KeyError:
-                            raise RuntimeError(f'Shared arg field not found: {arg}')
-
-                # Process data
-                data = message.get('data', {}).get('fields', [])
-                for i, datum in enumerate(data):
-                    if isinstance(datum, str) and datum.startswith('@'):
-                        try:
-                            message['data']['fields'][i] = copy.copy(shared_fields[datum[1:]])
-                        except KeyError:
-                            raise RuntimeError(f'Shared data field not found: {datum}')
 
 
 def get_file_name(message: str) -> str:
@@ -256,4 +223,4 @@ def generate_concept(env: Environment, concept: str, data: dict):
 if __name__ == '__main__':
     if not os.path.exists('output'):
         os.makedirs('output')
-    main('schema/v2.json')
+    main('schema/v2.yaml')
