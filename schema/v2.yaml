@@ -744,12 +744,12 @@ models:
   Thumbnail:
     fields:
     - field: height
-      description: The height of the thumbnail (max 400px)
+      description: The height of the thumbnail (max 350px)
       type: Integer
       optional: false
       nullable: false
     - field: width
-      description: The width of the thumbnail (max 400px)
+      description: The width of the thumbnail (max 350px)
       type: Integer
       optional: false
       nullable: false
@@ -1970,7 +1970,7 @@ messages:
       data:
         description: |
           Thumbnail bytes.\
-          Format: maxsize=400x400px
+          Format: maxsize=350x350px
 
   update:
     connectionInfo:
