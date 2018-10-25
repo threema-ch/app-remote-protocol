@@ -116,7 +116,7 @@ models:
     - field: color
       description: The contact color in hex notation (e.g. `"#1122FF"`)
       type: String
-      optional: true
+      optional: false
       nullable: false
     - field: firstName
       description: The contact first name
@@ -250,7 +250,7 @@ models:
     - field: color
       description: The group color in hex notation (e.g. `"#1122FF"`)
       type: String
-      optional: true
+      optional: false
       nullable: false
     - field: createdAt
       description: The group creation date as a unix time stamp in seconds
@@ -308,9 +308,9 @@ models:
       optional: false
       nullable: false
     - field: color
-      description: The group color in hex notation (e.g. `"#1122FF"`)
+      description: The distribution list color in hex notation (e.g. `"#1122FF"`)
       type: String
-      optional: true
+      optional: false
       nullable: false
     - field: locked
       description: Set to `true` if the chat is marked as a secret chat
