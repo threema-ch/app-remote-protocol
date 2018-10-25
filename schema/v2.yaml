@@ -167,6 +167,7 @@ models:
       type: Boolean
       optional: true
       nullable: false
+      default: false
     - field: identityType
       description: |
         The identity type
