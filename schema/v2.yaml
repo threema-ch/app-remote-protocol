@@ -156,7 +156,19 @@ models:
       optional: false
       nullable: false
     - field: featureMask
-      description: 'The feature mask (TODO: Document)'
+      description: |
+        The feature mask is a bitmask indicating support for certain features.
+
+        Bit values:
+
+        - `0x01`: Audio messages
+        - `0x02`: Group chat
+        - `0x04`: Ballots
+        - `0x08`: File transfer
+        - `0x10`: VoIP calls
+
+        Example: A client with feature mask `0x07` supports audio messages,
+        group chat and ballots, but no file transfers and no VoIP calls.
       type: Integer
       optional: false
       nullable: false
