@@ -1,3 +1,5 @@
+# Copyright 2018 Threema GmbH, all rights reserved.
+
 import re
 
 import commonmark as CommonMark

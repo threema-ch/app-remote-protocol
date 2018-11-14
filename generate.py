@@ -1,3 +1,5 @@
+# Copyright 2018 Threema GmbH, all rights reserved.
+
 import copy
 import distutils.dir_util
 import functools
@@ -74,7 +76,7 @@ def process_message_reference(messages: List[dict], message: dict, typ: str, sub
             except ValueError:
                 ref_direction = get_ref_direction(message['direction'])
                 item['message'] += f'/{ref_direction}'
-            
+
             # Inject a couple of fields
             item['filename'] = get_file_name(item['message'])
             item['display_message'] = get_display_name(item['message'])
@@ -91,13 +93,13 @@ def process_message_reference(messages: List[dict], message: dict, typ: str, sub
             if ref_message['direction'] == ref_direction:
                 ref_message.setdefault(ref_field, [])
                 ref_item = copy.deepcopy(item)
-                
+
                 # Update fields (including injected ones)
                 ref_item['message'] = f'{typ}/{subtype}/{message["direction"]}'
                 ref_item['filename'] = get_file_name(ref_item['message'])
                 ref_item['display_message'] = get_display_name(ref_item['message'])
                 ref_item['display_direction'] = direction_to_text(message['direction'])
-                
+
                 ref_message[ref_field].append(ref_item)
 
 
@@ -166,12 +168,12 @@ def generate_message(env: Environment, typ: str, subtype: str, message: dict, mo
     print(f'Generating {filename}')
     template = env.get_template(template)
     direction_text = direction_to_text(message['direction'])
-    
+
     resolved_models = []
     if 'models' in message:
         for model in message['models']:
             resolved_models.append((model, models[model]))
-    
+
     reply = get_message_reference(message, 'replyTo', '__replyFrom', functools.partial(get_reply_message, error_codes=error_codes))
     subscribe = get_message_reference(message, 'subscribeTo', '__subscribeFrom', get_subscribe_message)
 
