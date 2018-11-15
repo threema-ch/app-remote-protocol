@@ -2671,10 +2671,24 @@ concepts:
     name: General Procedures
     summary: General procedures that need to be followed.
     description: |
-      TODO: Describe the connection establishment and teardown.
+      ### Establishing a Connection
+
+      The remote client connects to the Threema mobile app using the
+      [SaltyRTC](https://saltyrtc.org/) protocol. The following SaltyRTC tasks
+      are supported, depending on the mobile platform:
+
+      - Android:
+        - [v0.webrtc.tasks.saltyrtc.org](https://github.com/saltyrtc/saltyrtc-meta/blob/master/Task-WebRTC.md)
+      - iOS:
+        - [v0.relayed-data.tasks.saltyrtc.org](https://github.com/saltyrtc/saltyrtc-meta/blob/master/Task-RelayedData.md)
+
+      To establish a connection, the remote client needs to provide a QR code
+      to the apps, containing the connection information. The format is
+      currently described [in the Threema Web source
+      code](https://github.com/threema-ch/threema-web/blob/master/docs/qr_code.md).
+      <!-- TODO: Move QR code specification into a concept documentation -->
 
       ### Initial Handshake
-      TODO: Describe the handshake process and reference associated concepts.
 
       After the handshake has been completed, the app SHALL auto-subscribe the
       following messages towards the client:
@@ -2682,17 +2696,20 @@ concepts:
       - [`update/batteryStatus`](message-update-batteryStatus-fromapp.html)
       - [`update/voipStatus`](message-update-voipStatus-fromapp.html)
 
-      The client SHALL auto-subscribe the following messages towards the app:
+      The remote client SHALL auto-subscribe the following messages towards the app:
 
       - [`update/typing`](message-update-typing-bidirectional.html)
 
-      In addition, the client SHOULD send the following initial requests:
+      In addition, the remote client SHOULD request initial data by sending the
+      following requests:
 
       - [`request/clientInfo`](message-request-clientInfo-toapp.html)
-      - [`request/batteryStatus`](message-request-batteryStatus-toapp.html)
-        (deprecated)
+      - [`request/profile`](message-request-clientInfo-toapp.html)
+      - [`request/receivers`](message-request-clientInfo-toapp.html)
+      - [`request/conversations`](message-request-clientInfo-toapp.html)
 
       ### Maintaining Chunk Order
+
       After a SaltyRTC `close` message has been received, all subsequent
       messages MUST be discarded. Furthermore, usage of the SaltyRTC
       `application` message is forbidden when the SaltyRTC task
