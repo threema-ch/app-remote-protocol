@@ -20,6 +20,9 @@ jobs:
       - run:
           name: Generate HTML
           command: pipenv run python generate.py
+      - add_ssh_keys:
+          fingerprints:
+            - 'd6:34:b7:e2:01:d9:cf:5d:1d:3b:fe:8e:5f:f7:51:24'
       - run:
           name: Deploy
           command: |
