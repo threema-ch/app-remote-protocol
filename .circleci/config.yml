@@ -10,6 +10,8 @@ jobs:
     environment:
       SOURCE_BRANCH: ci
       TARGET_BRANCH: gh-pages
+      GH_NAME: CircleCI Buildbot
+      GH_EMAIL: circleci@threema.ch
     steps:
       - checkout
       - run:
