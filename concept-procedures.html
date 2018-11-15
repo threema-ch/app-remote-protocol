@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Concept: General Procedures</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Concept: General Procedures</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>General procedures that need to be followed.</p>
+</summary>
+
+<h2>Description</h2>
+
+<p>TODO: Describe the connection establishment and teardown.</p>
+<h3>Initial Handshake</h3>
+<p>TODO: Describe the handshake process and reference associated concepts.</p>
+<p>After the handshake has been completed, the app SHALL auto-subscribe the
+following messages towards the client:</p>
+<ul>
+<li><a href="message-update-batteryStatus-fromapp.html"><code>update/batteryStatus</code></a></li>
+<li><a href="message-update-voipStatus-fromapp.html"><code>update/voipStatus</code></a></li>
+</ul>
+<p>The client SHALL auto-subscribe the following messages towards the app:</p>
+<ul>
+<li><a href="message-update-typing-bidirectional.html"><code>update/typing</code></a></li>
+</ul>
+<p>In addition, the client SHOULD send the following initial requests:</p>
+<ul>
+<li><a href="message-request-clientInfo-toapp.html"><code>request/clientInfo</code></a></li>
+<li><a href="message-request-batteryStatus-toapp.html"><code>request/batteryStatus</code></a>
+(deprecated)</li>
+</ul>
+<h3>Maintaining Chunk Order</h3>
+<p>After a SaltyRTC <code>close</code> message has been received, all subsequent
+messages MUST be discarded. Furthermore, usage of the SaltyRTC
+<code>application</code> message is forbidden when the SaltyRTC task
+<code>v0.relayed-data.tasks.saltyrtc.org</code> is being used. This guarantees us
+that no SaltyRTC client-to-client messages can be received in between any
+specific messages of this protocol.</p>
+<p>Note: We are planning to remove this restriction with a new SaltyRTC
+version that supports multiple channels. This would also allow us to move
+meta messages, such as the ones prefixed by <code>connection*</code>, into a
+different channel.</p>
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

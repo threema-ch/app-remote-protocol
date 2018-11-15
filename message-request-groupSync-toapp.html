@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: request / groupSync (client -> app)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: request / groupSync (client -> app)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Sync a group.</p>
+</summary>
+
+
+<p><p>This message SHALL be sent by the client if the user manually requests
+to synchronise a specific group.</p>
+</p>
+
+
+
+<h2>Acknowledgement</h2>
+
+<p>This message is being acknowledged by:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+            <th>Error Codes</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-update-confirm-fromapp.html">update/confirm (app -> client)</a></td>
+            <td><p>Only if acknowledging request/groupSync and not before the app has
+successfully delivered all asssociated group control messages to the
+server.</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>invalidGroup</code></td>
+                                <td><p>The identity is not a valid group</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>notAllowed</code></td>
+                                <td><p>You are not allowed to modify this group</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>syncFailed</code></td>
+                                <td><p>Synchronization failed</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+<h2>Args</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The identity of the receiver</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+<h2>Data</h2>
+
+    None
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

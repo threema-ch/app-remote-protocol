@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Model: Group</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Model: Group</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<h2>Model Fields</h2>
+
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The group identity</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>name</td>
+            <td>
+                <p>The group name</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>displayName</td>
+            <td>
+                <p>The group display name</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>color</td>
+            <td>
+                <p>The group color in hex notation (e.g. <code>&quot;#1122FF&quot;</code>)</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>createdAt</td>
+            <td>
+                <p>The group creation date as a unix time stamp in seconds</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>disabled</td>
+            <td>
+                <p>This is set to <code>true</code> if the user is not a member of this group
+anymore</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>locked</td>
+            <td>
+                <p>This is set to <code>true</code> if the chat is marked as a secret chat</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>visible</td>
+            <td>
+                <p>This is set to <code>false</code> if the chat is marked as a secret chat and if
+secret chats are hidden in the app</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>True</td>
+            
+        </tr>
+        
+        <tr>
+            <td>members</td>
+            <td>
+                <p>The list of group member identities</p>
+
+                
+            </td>
+            <td>Array&lt;String&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>administrator</td>
+            <td>
+                <p>The identity of the group admin</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>access</td>
+            <td>
+                <p>The access object</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="model-groupreceiveraccess.html">GroupReceiverAccess</a>&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

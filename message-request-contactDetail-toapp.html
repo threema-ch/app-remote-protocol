@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: request / contactDetail (client -> app)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: request / contactDetail (client -> app)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Request contact details (e.g. for a system contact).</p>
+</summary>
+
+
+<p><p>This message SHALL be sent by the client if it wants to display
+additional details about a specific contact such as its Email or phone
+number.</p>
+</p>
+
+
+
+<h2>Acknowledgement</h2>
+
+<p>This message is being acknowledged by:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+            <th>Error Codes</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-response-contactDetail-fromapp.html">response/contactDetail (app -> client)</a></td>
+            <td><p>(None)</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>invalidContact</code></td>
+                                <td><p>The identity is not a valid contact</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+<h2>Args</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>identity</td>
+            <td>
+                <p>The identity of the contact</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+<h2>Data</h2>
+
+    None
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

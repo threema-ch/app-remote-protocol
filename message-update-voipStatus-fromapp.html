@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: update / voipStatus (app -> client)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: update / voipStatus (app -> client)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Update the VoIP status (e.g. when a call has been started).</p>
+</summary>
+
+
+<p><p>This message SHALL be sent by the app in case the VoIP status has been
+changed. This may happen in case the user's Threema ID is being called,
+it has picked up a call, etc.</p>
+</p>
+
+
+
+
+
+
+<h2>Args</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>type</td>
+            <td>
+                <p>The status type</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+<h2>Data</h2>
+
+    
+    <p>Map&lt;<a href="#model.VoipRinging">VoipRinging</a>|<a href="#model.VoipStarted">VoipStarted</a>|<a href="#model.VoipFinished">VoipFinished</a>|<a href="#model.VoipRejected">VoipRejected</a>|<a href="#model.VoipMissed">VoipMissed</a>|<a href="#model.VoipAborted">VoipAborted</a>&gt;
+depending on the type.</p>
+
+    
+    
+
+
+
+<h2>Models</h2>
+
+<h3 id="model.VoipRinging">VoipRinging</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>identity</td>
+            <td>
+                <p>The identity of the call partner</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.VoipStarted">VoipStarted</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>identity</td>
+            <td>
+                <p>The identity of the call partner</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>outgoing</td>
+            <td>
+                <p>Whether this is an outgoing (<code>true</code>) or incoming (<code>false</code>) call</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.VoipFinished">VoipFinished</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>identity</td>
+            <td>
+                <p>The identity of the call partner</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>outgoing</td>
+            <td>
+                <p>Whether this is an outgoing (<code>true</code>) or incoming (<code>false</code>) call</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>duration</td>
+            <td>
+                <p>The call duration in seconds</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.VoipRejected">VoipRejected</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>identity</td>
+            <td>
+                <p>The identity of the call partner</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>outgoing</td>
+            <td>
+                <p>Whether this is an outgoing (<code>true</code>) or incoming (<code>false</code>) call</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>reason</td>
+            <td>
+                <p>The reject reason</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"busy"</code>, 
+                
+                <code>"timeout"</code>, 
+                
+                <code>"rejected"</code>, 
+                
+                <code>"unknown"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.VoipMissed">VoipMissed</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>identity</td>
+            <td>
+                <p>The identity of the call partner</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.VoipAborted">VoipAborted</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>identity</td>
+            <td>
+                <p>The identity of the call partner</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

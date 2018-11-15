@@ -1,0 +1,122 @@
+body {
+    background-color: #4a4a4a;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12pt;
+    line-height: 16pt;
+    -webkit-text-size-adjust: none;
+    margin: 0 20pt 0;
+}
+
+#wrapper {
+    max-width: 1080px;
+    margin: 0px auto;
+    padding: 32px 32px 8px;
+    background-color: #fff;
+}
+
+a {
+    color: #4fbc24;
+    text-decoration: none;
+    font-size: inherit;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+tt, code {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #eee;
+    padding: 2px 4px;
+    border-radius: 2px;
+}
+
+h1 {
+    font-size: 2.2em;
+    margin-top: 0;
+    line-height: 1.2em;
+}
+
+h2 {
+    font-size: 1.8em;
+    margin-top: 1.6em;
+}
+
+h3 {
+    font-size: 1.3em;
+    margin: 0;
+}
+
+table + h3 {
+    margin-top: 1em;
+}
+
+h4 {
+    font-size: 0.9em;
+    margin: 0;
+}
+
+table + h4 {
+    margin-top: 1em;
+}
+
+p {
+    line-height: 1.6em;
+}
+
+/* table reset */
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 1em;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    text-align: left;
+    line-height: 1.7em;
+    padding: 2px 8px;
+}
+
+th {
+    border-bottom: 1px solid #aaa;
+}
+
+td {
+    border-bottom: 1px solid #ccc;
+}
+
+table p {
+    margin: 0;
+}
+
+footer {
+    margin-top: 48px;
+    margin-bottom: 0;
+    color: #777;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+footer p {
+    margin-bottom: 0;
+}
+
+summary {
+    font-size: 1.2em;
+}
+
+table ul {
+    margin: 8px 0;
+}

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: request / receivers (client -> app)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: request / receivers (client -> app)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Request the list of receivers (e.g. contacts, groups, etc.) and
+subscribe to updates.</p>
+</summary>
+
+
+<p><p>This message SHALL be sent by the client as soon as it needs to access
+available receivers (e.g. contacts, groups, distribution lists, etc.).</p>
+<p>This usually SHOULD be done at very beginning of the connection to
+display the contact list and associate available conversations with the
+receivers.</p>
+</p>
+
+
+
+<h2>Acknowledgement</h2>
+
+<p>This message is being acknowledged by:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+            <th>Error Codes</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-response-receivers-fromapp.html">response/receivers (app -> client)</a></td>
+            <td><p>(None)</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+<h2>Subscriptions</h2>
+
+<p>This message subscribes to:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-update-avatar-fromapp.html">update/avatar (app -> client)</a></td>
+            <td><p>On successful acknowledgement</p>
+</td>
+        </tr>
+        
+        <tr>
+            <td><a href="message-update-receiver-fromapp.html">update/receiver (app -> client)</a></td>
+            <td><p>On successful acknowledgement</p>
+</td>
+        </tr>
+        
+        <tr>
+            <td><a href="message-update-receivers-fromapp.html">update/receivers (app -> client)</a></td>
+            <td><p>On successful acknowledgement</p>
+</td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+<h2>Args</h2>
+
+    None
+
+
+<h2>Data</h2>
+
+    None
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,47 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.7
+    branches:
+      ignore:
+        - gh-pages
+    environment:
+      SOURCE_BRANCH: ci
+      TARGET_BRANCH: gh-pages
+      GH_NAME: CircleCI Buildbot
+      GH_EMAIL: circleci@threema.ch
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: pipenv install
+      - run:
+          name: Generate HTML
+          command: pipenv run python generate.py
+      - add_ssh_keys:
+          fingerprints:
+            - 'd6:34:b7:e2:01:d9:cf:5d:1d:3b:fe:8e:5f:f7:51:24'
+      - run:
+          name: Deploy
+          command: |
+            if [ $CIRCLE_BRANCH == $SOURCE_BRANCH ]; then
+              git config --global user.email $GH_EMAIL
+              git config --global user.name $GH_NAME
+
+              git clone $CIRCLE_REPOSITORY_URL out
+
+              cd out
+              git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
+              git rm -rf .
+              cd ..
+
+              cp -a output/* out/
+              mkdir -p out/.circleci && cp -a .circleci/. out/.circleci/
+
+              cd out
+              git add -A
+              git commit -m "Automated deployment to GitHub Pages: ${CIRCLE_SHA1}" --allow-empty
+              git push origin $TARGET_BRANCH
+            fi

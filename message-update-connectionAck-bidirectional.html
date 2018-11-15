@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: update / connectionAck (bidirectional)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: update / connectionAck (bidirectional)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Acknowledges one or more chunks.</p>
+</summary>
+
+
+<p><p>This message MUST be sent in case the remote peer requested a chunk
+acknowledgement via a <a href="message-request-connectionAck-bidirectional.html"><code>request/connectionAck</code></a> message.</p>
+<p>If no chunk acknowledgement has been requested, this message SHOULD be
+sent after 10 seconds have elapsed once a chunk has been received.</p>
+</p>
+
+
+
+
+
+
+<h2>Args</h2>
+
+    None
+
+
+<h2>Data</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>sequenceNumber</td>
+            <td>
+                <p>The <a href="concept-sequencenumber.html">Sequence Number</a> of the last
+chunk received during the connection</p>
+
+                
+            </td>
+            <td>Integer (u32)</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

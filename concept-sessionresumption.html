@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Concept: Session Resumption</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Concept: Session Resumption</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>When and how to reconnect a session.</p>
+</summary>
+
+<h2>Description</h2>
+
+<p>Session resumption happens, when a new connection for an existing session
+is established.</p>
+<h3>Reconnect Types</h3>
+<p>We differentiate between two types of session resumption: A wakeup and a
+full reconnect:</p>
+<ul>
+<li><strong>Full Reconnect</strong>: During a full reconnect, the
+<a href="concept-chunkcache.html">chunk cache</a> SHALL NOT be used. All initial
+messages MUST be sent again and the connection is treated as if the
+session were newly created.</li>
+<li><strong>Wakeup</strong>: When doing a wakeup, the initial messages SHALL NOT be sent
+again. The <a href="concept-chunkcache.html">chunk cache</a> MUST be transferred
+from the previous connection to the new connection (both identified
+with a unique <a href="concept-connectionid.html">connection ID</a>) See
+<a href="concept-sequencenumber.html">sequence number</a> for more details.</li>
+</ul>
+<h3>Reconnect Triggers</h3>
+<p>Session resumption SHALL be triggered in one of the following cases:</p>
+<h4>Triggered by App</h4>
+<ul>
+<li>A session is currently active, but disconnected, <strong>and</strong></li>
+<li>an outgoing message to the client is enqueued.</li>
+</ul>
+<p>As an example, when a new incoming Threema message from a contact
+arrives, that will result in a new <a href="message-update-messages-fromapp.html"><code>update/messages</code></a> message
+being enqueued for the client. If at that point in time a session is
+active but not connected, session resumption will be triggered.</p>
+<h4>Triggered by Push</h4>
+<ul>
+<li>A wakeup push message arrives.</li>
+</ul>
+<h4>Triggered Manually</h4>
+<ul>
+<li>The user manually starts the session from the Threema app.</li>
+</ul>
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

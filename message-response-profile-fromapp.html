@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: response / profile (app -> client)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: response / profile (app -> client)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Return the user's profile.</p>
+</summary>
+
+
+<p><p>This message MUST be sent by the app in case the user's profile has
+been requested by the client.</p>
+</p>
+
+
+
+<h2>Acknowledgement</h2>
+
+<p>This message acknowledges:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+            <th>Error Codes</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-request-profile-toapp.html">request/profile (client -> app)</a></td>
+            <td><p>(None)</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+<h2>Args</h2>
+
+    None
+
+
+<h2>Data</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>identity</td>
+            <td>
+                <p>The user's identity</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>publicKey</td>
+            <td>
+                <p>The user's public key</p>
+
+                
+            </td>
+            <td>Binary</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>publicNickname</td>
+            <td>
+                <p>The user's public nickname</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>avatar</td>
+            <td>
+                <p>The user's high-res avatar</p>
+
+                
+            </td>
+            <td>Binary</td>
+            <td>True</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

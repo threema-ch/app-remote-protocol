@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Concept: Chunk Cache Blacklist</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Concept: Chunk Cache Blacklist</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Chunks of messages that are blacklisted.</p>
+</summary>
+
+<h2>Description</h2>
+
+<p>Messages whose chunks SHALL be purged from the chunk cache once a session
+is being resumed:</p>
+<ul>
+<li><a href="message-request-connectionAck-bidirectional.html"><code>request/connectionAck</code></a></li>
+<li><a href="message-update-batteryStatus-fromapp.html"><code>update/batteryStatus</code></a></li>
+<li><a href="message-update-connectionAck-bidirectional.html"><code>update/connectionAck</code></a></li>
+<li><a href="message-update-connectionDisconnect-bidirectional.html"><code>update/connectionDisconnect</code></a></li>
+<li><a href="message-update-connectionInfo-bidirectional.html"><code>update/connectionInfo</code></a></li>
+<li><a href="message-update-typing-bidirectional.html"><code>update/typing</code></a></li>
+</ul>
+<p>Note: It is crucial that the chunks (or placeholders) of those messages
+are still added to the chunk cache to keep the peer's sequence numbers
+in sync. It ensures that only the acknowledged chunks are being removed
+from the chunk cache once a <a href="message-update-connectionAck-bidirectional.html"><code>update/connectionAck</code></a> has been
+received.</p>
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

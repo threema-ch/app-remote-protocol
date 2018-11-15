@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: request / ack (client -> app)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: request / ack (client -> app)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Acknowledge (<em>agree</em> or <em>decline</em>) a message.</p>
+</summary>
+
+
+<p><p>This message SHALL be sent when the user acknowledges (<em>agree</em> or
+<em>decline</em>) a message as part of a conversation in the client.</p>
+</p>
+
+
+
+<h2>Acknowledgement</h2>
+
+<p>This message is being acknowledged by:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+            <th>Error Codes</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-update-messages-fromapp.html">update/messages (app -> client)</a></td>
+            <td><p>Only if associated to a request/ack and not before the app has
+successfully delivered the message to the server</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>invalidMessage</code></td>
+                                <td><p>Message with the specified <code>type</code>, <code>id</code> or <code>messageId</code> was not
+found</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+<h2>Args</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>type</td>
+            <td>
+                <p>The receiver type</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"contact"</code>, 
+                
+                <code>"group"</code>, 
+                
+                <code>"distributionList"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The receiver identity</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>messageId</td>
+            <td>
+                <p>The id of the message to be acknowledged</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>acknowledged</td>
+            <td>
+                <p>Whether the message has been acknowledged (<code>true</code>) or declined
+(<code>false</code>)</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+<h2>Data</h2>
+
+    None
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

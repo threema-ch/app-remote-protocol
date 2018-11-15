@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: update / group (app -> client)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: update / group (app -> client)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Return a modified group.</p>
+</summary>
+
+
+<p><p>This message MUST be sent by the app after all associated group control
+messages have been successfully delivered to the server.</p>
+</p>
+
+
+
+<h2>Acknowledgement</h2>
+
+<p>This message acknowledges:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+            <th>Error Codes</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-update-group-toapp.html">update/group (client -> app)</a></td>
+            <td><p>(None)</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>badRequest</code></td>
+                                <td><p>Invalid request</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>invalidGroup</code></td>
+                                <td><p>Group not found</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>noMembers</code></td>
+                                <td><p>Empty member list submitted</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>notAllowed</code></td>
+                                <td><p>Only the admin is allowed to change a group</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+<h2>Args</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The group id</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+<h2>Data</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>receiver</td>
+            <td>
+                <p>The modified group</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.Group">Group</a>&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+
+<h2>Models</h2>
+
+<h3 id="model.Group">Group</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The group identity</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>name</td>
+            <td>
+                <p>The group name</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>displayName</td>
+            <td>
+                <p>The group display name</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>color</td>
+            <td>
+                <p>The group color in hex notation (e.g. <code>&quot;#1122FF&quot;</code>)</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>createdAt</td>
+            <td>
+                <p>The group creation date as a unix time stamp in seconds</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>disabled</td>
+            <td>
+                <p>This is set to <code>true</code> if the user is not a member of this group
+anymore</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>locked</td>
+            <td>
+                <p>This is set to <code>true</code> if the chat is marked as a secret chat</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>visible</td>
+            <td>
+                <p>This is set to <code>false</code> if the chat is marked as a secret chat and if
+secret chats are hidden in the app</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>True</td>
+            
+        </tr>
+        
+        <tr>
+            <td>members</td>
+            <td>
+                <p>The list of group member identities</p>
+
+                
+            </td>
+            <td>Array&lt;String&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>administrator</td>
+            <td>
+                <p>The identity of the group admin</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>access</td>
+            <td>
+                <p>The access object</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.GroupReceiverAccess">GroupReceiverAccess</a>&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.GroupReceiverAccess">GroupReceiverAccess</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>canDelete</td>
+            <td>
+                <p>Whether this group can be deleted</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canChangeAvatar</td>
+            <td>
+                <p>Whether the group avatar can be changed</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canChangeName</td>
+            <td>
+                <p>Whether the group name can be changed</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canChangeMembers</td>
+            <td>
+                <p>Whether the group members can be changed</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canLeave</td>
+            <td>
+                <p>Whether this group can be left</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canSync</td>
+            <td>
+                <p>Whether the group can be re-synced</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

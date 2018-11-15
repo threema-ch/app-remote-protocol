@@ -1,0 +1,1379 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: response / conversations (app -> client)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: response / conversations (app -> client)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Return the list of conversations.</p>
+</summary>
+
+
+<p><p>This message MUST be sent by the app in case the list of conversations
+has been requested by the client.</p>
+</p>
+
+
+
+<h2>Acknowledgement</h2>
+
+<p>This message acknowledges:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+            <th>Error Codes</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-request-conversations-toapp.html">request/conversations (client -> app)</a></td>
+            <td><p>(None)</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+<h2>Args</h2>
+
+    None
+
+
+<h2>Data</h2>
+
+    
+    <p>The data value is an <code>Array&lt;Conversation&gt;</code>.</p>
+
+    
+    
+
+
+
+<h2>Models</h2>
+
+<h3 id="model.Conversation">Conversation</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>type</td>
+            <td>
+                <p>The receiver type</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"me"</code>, 
+                
+                <code>"contact"</code>, 
+                
+                <code>"group"</code>, 
+                
+                <code>"distributionList"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The identity of the responder</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>position</td>
+            <td>
+                <p>The index of the message (for sorting purposes)</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>messageCount</td>
+            <td>
+                <p>Number of messages</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>unreadCount</td>
+            <td>
+                <p>Number of unread messages</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>latestMessage</td>
+            <td>
+                <p>The latest message's content</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.Message">Message</a>&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>receiver</td>
+            <td>
+                <p>The receiver</p>
+
+                
+            </td>
+            <td>Map&lt;Receiver&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>avatar</td>
+            <td>
+                <p>The avatar of the receiver. Only set for the top 20-30 conversations.</p>
+
+                
+            </td>
+            <td>Binary</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>notifications</td>
+            <td>
+                <p>Notification settings</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.NotificationSettings">NotificationSettings</a>&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>isStarred</td>
+            <td>
+                <p>Whether the conversation is <em>starred</em></p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.Message">Message</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>type</td>
+            <td>
+                <p>The message type</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"text"</code>, 
+                
+                <code>"image"</code>, 
+                
+                <code>"video"</code>, 
+                
+                <code>"file"</code>, 
+                
+                <code>"location"</code>, 
+                
+                <code>"voipStatus"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The message id</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>body</td>
+            <td>
+                <p>The message body</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>thumbnail</td>
+            <td>
+                <p>The message thumbnail</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.Thumbnail">Thumbnail</a>&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>date</td>
+            <td>
+                <p>The message's date (last modification) as a unix timestamp in seconds</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>events</td>
+            <td>
+                <p>A list of message events</p>
+
+                
+            </td>
+            <td>Array&lt;<a href="#model.MessageEvent">MessageEvent</a>&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>sortKey</td>
+            <td>
+                <p>A number used for sorting messages, higher means newer</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>partnerId</td>
+            <td>
+                <p>The identity of the sender of this message</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>isOutbox</td>
+            <td>
+                <p>Whether this message was sent by the user</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>isStatus</td>
+            <td>
+                <p>Whether this is a status message</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>statusType</td>
+            <td>
+                <p>The status message type</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"text"</code>, 
+                
+                <code>"firstUnreadMessage"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>caption</td>
+            <td>
+                <p>The message caption</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>unread</td>
+            <td>
+                <p>Whether this message is unread</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>state</td>
+            <td>
+                <p>The message state</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"delivered"</code>, 
+                
+                <code>"read"</code>, 
+                
+                <code>"send-failed"</code>, 
+                
+                <code>"sent"</code>, 
+                
+                <code>"user-ack"</code>, 
+                
+                <code>"user-dec"</code>, 
+                
+                <code>"pending"</code>, 
+                
+                <code>"sending"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>quote</td>
+            <td>
+                <p>The message quote</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.Quote">Quote</a>&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>file</td>
+            <td>
+                <p>The file info</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.File">File</a>&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>video</td>
+            <td>
+                <p>The video info</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.Video">Video</a>&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>audio</td>
+            <td>
+                <p>The audio info</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.Audio">Audio</a>&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>location</td>
+            <td>
+                <p>The location info</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.Location">Location</a>&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>voip</td>
+            <td>
+                <p>The voip status info</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.VoIP">VoIP</a>&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.Thumbnail">Thumbnail</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>height</td>
+            <td>
+                <p>The height of the thumbnail (max 350px)</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>width</td>
+            <td>
+                <p>The width of the thumbnail (max 350px)</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>preview</td>
+            <td>
+                <p>The thumbnail preview. This should be resized so that no side is larger
+than 50px.</p>
+
+                
+            </td>
+            <td>Binary</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.MessageEvent">MessageEvent</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>date</td>
+            <td>
+                <p>The event date (last modification) as a unix time stamp in seconds</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>type</td>
+            <td>
+                <p>The event type</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"created"</code>, 
+                
+                <code>"sent"</code>, 
+                
+                <code>"delivered"</code>, 
+                
+                <code>"read"</code>, 
+                
+                <code>"acked"</code>, 
+                
+                <code>"modified"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.Quote">Quote</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>identity</td>
+            <td>
+                <p>The quote author's identity</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>text</td>
+            <td>
+                <p>The quote text</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.File">File</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>name</td>
+            <td>
+                <p>The file name</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>size</td>
+            <td>
+                <p>The file size in bytes</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>type</td>
+            <td>
+                <p>The file MIME type</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>inApp</td>
+            <td>
+                <p>TODO</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.Video">Video</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>duration</td>
+            <td>
+                <p>The video duration in seconds</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>size</td>
+            <td>
+                <p>The video file size in bytes</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.Audio">Audio</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>duration</td>
+            <td>
+                <p>The duration of the audio message in seconds</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.Location">Location</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>lat</td>
+            <td>
+                <p>WSG84 latitude</p>
+
+                
+            </td>
+            <td>Float</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>lon</td>
+            <td>
+                <p>WSG84 longitude</p>
+
+                
+            </td>
+            <td>Float</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>accuracy</td>
+            <td>
+                <p>The horizontal accuracy in meters
+(<a href="(https://stackoverflow.com/a/13807786/284318)">the radius of 68% confidence</a>)</p>
+
+                
+            </td>
+            <td>Float</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>address</td>
+            <td>
+                <p>The address belonging to this location</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>description</td>
+            <td>
+                <p>Description text for this location</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.VoIP">VoIP</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>status</td>
+            <td>
+                <p>The type of VoIP status message</p>
+<ul>
+<li><code>1</code>: Missed</li>
+<li><code>2</code>: Finished</li>
+<li><code>3</code>: Rejected</li>
+<li><code>4</code>: Aborted</li>
+</ul>
+
+                
+                <p>Allowed values:
+                
+                <code>1</code>, 
+                
+                <code>2</code>, 
+                
+                <code>3</code>, 
+                
+                <code>4</code>
+                
+                </p>
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>duration</td>
+            <td>
+                <p>The duration of the call in seconds</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>reason</td>
+            <td>
+                <p>The reject reason</p>
+<ul>
+<li><code>0</code>: Unknown</li>
+<li><code>1</code>: Busy</li>
+<li><code>2</code>: Timeout</li>
+<li><code>3</code>: Rejected</li>
+</ul>
+
+                
+                <p>Allowed values:
+                
+                <code>0</code>, 
+                
+                <code>1</code>, 
+                
+                <code>2</code>, 
+                
+                <code>3</code>
+                
+                </p>
+                
+            </td>
+            <td>Integer</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.NotificationSettings">NotificationSettings</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>sound</td>
+            <td>
+                <p>Notification sound settings</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.NotificationSound">NotificationSound</a>&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>dnd</td>
+            <td>
+                <p>Do not disturb settings</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.NotificationDnd">NotificationDnd</a>&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.NotificationSound">NotificationSound</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>mode</td>
+            <td>
+                <p>The notification mode</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"default"</code>, 
+                
+                <code>"muted"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.NotificationDnd">NotificationDnd</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>mode</td>
+            <td>
+                <p>The <em>do not disturb</em> mode</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"off"</code>, 
+                
+                <code>"on"</code>, 
+                
+                <code>"until"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>mentionsOnly</td>
+            <td>
+                <p>Only notify on mentions. May be used with modes <code>&quot;on&quot;</code> or <code>&quot;until&quot;</code></p>
+
+                
+                <p>Allowed values:
+                
+                <code>"off"</code>, 
+                
+                <code>"on"</code>, 
+                
+                <code>"until"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>until</td>
+            <td>
+                <p>Unix timestamp in milliseconds. Must be set if mode is <code>&quot;until&quot;</code></p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

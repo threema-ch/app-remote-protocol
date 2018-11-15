@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Model: Conversation</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Model: Conversation</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<h2>Model Fields</h2>
+
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>type</td>
+            <td>
+                <p>The receiver type</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"me"</code>, 
+                
+                <code>"contact"</code>, 
+                
+                <code>"group"</code>, 
+                
+                <code>"distributionList"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The identity of the responder</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>position</td>
+            <td>
+                <p>The index of the message (for sorting purposes)</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>messageCount</td>
+            <td>
+                <p>Number of messages</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>unreadCount</td>
+            <td>
+                <p>Number of unread messages</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>latestMessage</td>
+            <td>
+                <p>The latest message's content</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="model-message.html">Message</a>&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>receiver</td>
+            <td>
+                <p>The receiver</p>
+
+                
+            </td>
+            <td>Map&lt;Receiver&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>avatar</td>
+            <td>
+                <p>The avatar of the receiver. Only set for the top 20-30 conversations.</p>
+
+                
+            </td>
+            <td>Binary</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>notifications</td>
+            <td>
+                <p>Notification settings</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="model-notificationsettings.html">NotificationSettings</a>&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>isStarred</td>
+            <td>
+                <p>Whether the conversation is <em>starred</em></p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

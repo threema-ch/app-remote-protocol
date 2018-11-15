@@ -1,0 +1,1078 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Threema App Remote Protocol (ARP)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Threema App Remote Protocol (ARP)</h1>
+            
+<summary><p>The protocol used to exchange data between the Threema app and a client
+(e.g. <a href="https://threema.ch/en/threema-web">Threema Web</a>).</p>
+</summary>
+<p>Protocol version: 2.0.0</p>
+
+<h2>Concepts</h2>
+
+<table id="conceptlist">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+            <tr>
+                <td><a href="concept-procedures.html">General Procedures</a></td>
+                <td>General procedures that need to be followed.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="concept-connectionid.html">Connection ID</a></td>
+                <td>The identifier of a specific connection.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="concept-sequencenumber.html">Sequence Number</a></td>
+                <td>The sequence number counter of the underlying transport for
+incoming/outgoing chunks.
+</td>
+            </tr>
+        
+            <tr>
+                <td><a href="concept-chunkcache.html">Chunk Cache</a></td>
+                <td>How messages will be cached as chunks.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="concept-chunkcacheblacklist.html">Chunk Cache Blacklist</a></td>
+                <td>Chunks of messages that are blacklisted.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="concept-sessionresumption.html">Session Resumption</a></td>
+                <td>When and how to reconnect a session.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="concept-ack.html">Message Acknowledgement</a></td>
+                <td>Message acknowledgement requests and how to confirm them.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="concept-subscription.html">Message Subscription</a></td>
+                <td>How to subscribe for messages.</td>
+            </tr>
+        
+    </tbody>
+</table>
+
+<h2>Messages</h2>
+
+<table id="messagelist">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Subtype</th>
+            <th title="App to Client">A→C</th>
+            <th title="Client to App">C→A</th>
+            <th>Summary</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-create-contact-toapp.html">create</a></td>
+                        <td><a href="message-create-contact-toapp.html">contact</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Create a new contact.</p>
+</td>
+                    </tr>
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-create-contact-fromapp.html">create</a></td>
+                        <td><a href="message-create-contact-fromapp.html">contact</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Confirm the created contact.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-create-distributionList-toapp.html">create</a></td>
+                        <td><a href="message-create-distributionList-toapp.html">distributionList</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Create a new distribution list.</p>
+</td>
+                    </tr>
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-create-distributionList-fromapp.html">create</a></td>
+                        <td><a href="message-create-distributionList-fromapp.html">distributionList</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Return the created distribution list.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-create-fileMessage-toapp.html">create</a></td>
+                        <td><a href="message-create-fileMessage-toapp.html">fileMessage</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Send a new file message.</p>
+</td>
+                    </tr>
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-create-fileMessage-fromapp.html">create</a></td>
+                        <td><a href="message-create-fileMessage-fromapp.html">fileMessage</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Confirm that the file message has been sent</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-create-group-toapp.html">create</a></td>
+                        <td><a href="message-create-group-toapp.html">group</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Create a new group.</p>
+</td>
+                    </tr>
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-create-group-fromapp.html">create</a></td>
+                        <td><a href="message-create-group-fromapp.html">group</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Return the created group.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-create-textMessage-toapp.html">create</a></td>
+                        <td><a href="message-create-textMessage-toapp.html">textMessage</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Send a new text message.</p>
+</td>
+                    </tr>
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-create-textMessage-fromapp.html">create</a></td>
+                        <td><a href="message-create-textMessage-fromapp.html">textMessage</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Confirm that the text message has been sent.</p>
+</td>
+                    </tr>
+                
+            
+        
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-delete-cleanReceiverConversation-toapp.html">delete</a></td>
+                        <td><a href="message-delete-cleanReceiverConversation-toapp.html">cleanReceiverConversation</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Delete all messages in a conversation.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-delete-distributionList-toapp.html">delete</a></td>
+                        <td><a href="message-delete-distributionList-toapp.html">distributionList</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Delete a distribution list.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-delete-group-toapp.html">delete</a></td>
+                        <td><a href="message-delete-group-toapp.html">group</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Leave or delete a group.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-delete-message-toapp.html">delete</a></td>
+                        <td><a href="message-delete-message-toapp.html">message</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Delete a message.</p>
+</td>
+                    </tr>
+                
+            
+        
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-request-ack-toapp.html">request</a></td>
+                        <td><a href="message-request-ack-toapp.html">ack</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Acknowledge (<em>agree</em> or <em>decline</em>) a message.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-request-avatar-toapp.html">request</a></td>
+                        <td><a href="message-request-avatar-toapp.html">avatar</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Request the avatar of a receiver.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-request-batteryStatus-toapp.html">request</a></td>
+                        <td><a href="message-request-batteryStatus-toapp.html">batteryStatus</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>&quot;<strong>Deprecated</strong>: Request an immediate battery status update and
+subscribe to updates.&quot;</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-request-blob-toapp.html">request</a></td>
+                        <td><a href="message-request-blob-toapp.html">blob</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Request binary content (e.g. a file).</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-request-clientInfo-toapp.html">request</a></td>
+                        <td><a href="message-request-clientInfo-toapp.html">clientInfo</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Request information about the app's device</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-request-connectionAck-bidirectional.html">request</a></td>
+                        <td><a href="message-request-connectionAck-bidirectional.html">connectionAck</a></td>
+                        <td>✓</td>
+                        <td>✓</td>
+                        <td class="summary"><p>Request an immediate chunk acknowledgement.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-request-contactDetail-toapp.html">request</a></td>
+                        <td><a href="message-request-contactDetail-toapp.html">contactDetail</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Request contact details (e.g. for a system contact).</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-request-conversations-toapp.html">request</a></td>
+                        <td><a href="message-request-conversations-toapp.html">conversations</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Request the list of conversations and subscribe to updates.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-request-groupSync-toapp.html">request</a></td>
+                        <td><a href="message-request-groupSync-toapp.html">groupSync</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Sync a group.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-request-keyPersisted-toapp.html">request</a></td>
+                        <td><a href="message-request-keyPersisted-toapp.html">keyPersisted</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Mark the permanent key as established and the session as persistent.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-request-messages-toapp.html">request</a></td>
+                        <td><a href="message-request-messages-toapp.html">messages</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Request messages of a conversation and subscribe to updates.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-request-profile-toapp.html">request</a></td>
+                        <td><a href="message-request-profile-toapp.html">profile</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Request the user's profile and subscribe to updates.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-request-read-toapp.html">request</a></td>
+                        <td><a href="message-request-read-toapp.html">read</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Mark a message as read.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-request-receivers-toapp.html">request</a></td>
+                        <td><a href="message-request-receivers-toapp.html">receivers</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Request the list of receivers (e.g. contacts, groups, etc.) and
+subscribe to updates.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-request-thumbnail-toapp.html">request</a></td>
+                        <td><a href="message-request-thumbnail-toapp.html">thumbnail</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Request the thumbnail of a specific message.</p>
+</td>
+                    </tr>
+                
+            
+        
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-response-avatar-fromapp.html">response</a></td>
+                        <td><a href="message-response-avatar-fromapp.html">avatar</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Return the requested contact avatar.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-response-blob-fromapp.html">response</a></td>
+                        <td><a href="message-response-blob-fromapp.html">blob</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Return binary content (e.g. a file).</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-response-clientInfo-fromapp.html">response</a></td>
+                        <td><a href="message-response-clientInfo-fromapp.html">clientInfo</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Return information about the app's device.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-response-contactDetail-fromapp.html">response</a></td>
+                        <td><a href="message-response-contactDetail-fromapp.html">contactDetail</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Return the contact details (e.g. system contact).</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-response-conversations-fromapp.html">response</a></td>
+                        <td><a href="message-response-conversations-fromapp.html">conversations</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Return the list of conversations.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-response-messages-fromapp.html">response</a></td>
+                        <td><a href="message-response-messages-fromapp.html">messages</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Return the list of messages for a specific conversation.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-response-profile-fromapp.html">response</a></td>
+                        <td><a href="message-response-profile-fromapp.html">profile</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Return the user's profile.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-response-receivers-fromapp.html">response</a></td>
+                        <td><a href="message-response-receivers-fromapp.html">receivers</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Return the list of receivers (contacts, groups, etc.).</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-response-thumbnail-fromapp.html">response</a></td>
+                        <td><a href="message-response-thumbnail-fromapp.html">thumbnail</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Return the thumbnail of a specific message.</p>
+</td>
+                    </tr>
+                
+            
+        
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-alert-fromapp.html">update</a></td>
+                        <td><a href="message-update-alert-fromapp.html">alert</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Display an alert.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-avatar-fromapp.html">update</a></td>
+                        <td><a href="message-update-avatar-fromapp.html">avatar</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Update the low-res avatar of a subscribed receiver avatar.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-batteryStatus-fromapp.html">update</a></td>
+                        <td><a href="message-update-batteryStatus-fromapp.html">batteryStatus</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Update the battery status.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-confirm-fromapp.html">update</a></td>
+                        <td><a href="message-update-confirm-fromapp.html">confirm</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Confirms an acknowledgement request.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-connectionAck-bidirectional.html">update</a></td>
+                        <td><a href="message-update-connectionAck-bidirectional.html">connectionAck</a></td>
+                        <td>✓</td>
+                        <td>✓</td>
+                        <td class="summary"><p>Acknowledges one or more chunks.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-connectionDisconnect-bidirectional.html">update</a></td>
+                        <td><a href="message-update-connectionDisconnect-bidirectional.html">connectionDisconnect</a></td>
+                        <td>✓</td>
+                        <td>✓</td>
+                        <td class="summary"><p>Indicates that the sending peer is about to close the connection.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-connectionInfo-bidirectional.html">update</a></td>
+                        <td><a href="message-update-connectionInfo-bidirectional.html">connectionInfo</a></td>
+                        <td>✓</td>
+                        <td>✓</td>
+                        <td class="summary"><p>Send information about the current (and the previous) connection.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-contact-toapp.html">update</a></td>
+                        <td><a href="message-update-contact-toapp.html">contact</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Modify a contact.</p>
+</td>
+                    </tr>
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-contact-fromapp.html">update</a></td>
+                        <td><a href="message-update-contact-fromapp.html">contact</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Return a modified contact.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-conversation-toapp.html">update</a></td>
+                        <td><a href="message-update-conversation-toapp.html">conversation</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Modify a conversation.</p>
+</td>
+                    </tr>
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-conversation-fromapp.html">update</a></td>
+                        <td><a href="message-update-conversation-fromapp.html">conversation</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Update a subscribed conversation.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-distributionList-toapp.html">update</a></td>
+                        <td><a href="message-update-distributionList-toapp.html">distributionList</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Modify a distribution list.</p>
+</td>
+                    </tr>
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-distributionList-fromapp.html">update</a></td>
+                        <td><a href="message-update-distributionList-fromapp.html">distributionList</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Return a modified distribution list.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-group-toapp.html">update</a></td>
+                        <td><a href="message-update-group-toapp.html">group</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Modify a group.</p>
+</td>
+                    </tr>
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-group-fromapp.html">update</a></td>
+                        <td><a href="message-update-group-fromapp.html">group</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Return a modified group.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-messages-fromapp.html">update</a></td>
+                        <td><a href="message-update-messages-fromapp.html">messages</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Update one or more messages of a conversation.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-profile-toapp.html">update</a></td>
+                        <td><a href="message-update-profile-toapp.html">profile</a></td>
+                        <td></td>
+                        <td>✓</td>
+                        <td class="summary"><p>Modify the user's profile.</p>
+</td>
+                    </tr>
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-profile-fromapp.html">update</a></td>
+                        <td><a href="message-update-profile-fromapp.html">profile</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Update the user's profile.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-receiver-fromapp.html">update</a></td>
+                        <td><a href="message-update-receiver-fromapp.html">receiver</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Update a subscribed receiver.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-receivers-fromapp.html">update</a></td>
+                        <td><a href="message-update-receivers-fromapp.html">receivers</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Update all subscribed receivers.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-typing-bidirectional.html">update</a></td>
+                        <td><a href="message-update-typing-bidirectional.html">typing</a></td>
+                        <td>✓</td>
+                        <td>✓</td>
+                        <td class="summary"><p>Notify that the contact/user is typing in a specific conversation.</p>
+</td>
+                    </tr>
+                
+            
+                
+                    
+                        
+                    
+                    <tr>
+                        <td><a href="message-update-voipStatus-fromapp.html">update</a></td>
+                        <td><a href="message-update-voipStatus-fromapp.html">voipStatus</a></td>
+                        <td>✓</td>
+                        <td></td>
+                        <td class="summary"><p>Update the VoIP status (e.g. when a call has been started).</p>
+</td>
+                    </tr>
+                
+            
+        
+    </tbody>
+</table>
+
+<h2>Models</h2>
+
+<table id="modellist">
+    <thead>
+        <tr>
+            <th>Model</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+            <tr>
+                <td><a href="model-audio.html">Audio</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-capabilities.html">Capabilities</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-configuration.html">Configuration</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-connection.html">Connection</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-contact.html">Contact</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-contactdetails.html">ContactDetails</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-contactreceiveraccess.html">ContactReceiverAccess</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-conversation.html">Conversation</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-distributionlist.html">DistributionList</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-distributionlistreceiveraccess.html">DistributionListReceiverAccess</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-email.html">Email</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-file.html">File</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-group.html">Group</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-groupreceiveraccess.html">GroupReceiverAccess</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-imageformat.html">ImageFormat</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-location.html">Location</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-mdmrestrictions.html">MdmRestrictions</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-message.html">Message</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-messageevent.html">MessageEvent</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-notificationdnd.html">NotificationDnd</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-notificationsettings.html">NotificationSettings</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-notificationsound.html">NotificationSound</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-phone.html">Phone</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-quote.html">Quote</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-systemcontact.html">SystemContact</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-thumbnail.html">Thumbnail</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-video.html">Video</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-voip.html">VoIP</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-voipaborted.html">VoipAborted</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-voipfinished.html">VoipFinished</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-voipmissed.html">VoipMissed</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-voiprejected.html">VoipRejected</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-voipringing.html">VoipRinging</a></td>
+            </tr>
+        
+            <tr>
+                <td><a href="model-voipstarted.html">VoipStarted</a></td>
+            </tr>
+        
+    </tbody>
+</table>
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

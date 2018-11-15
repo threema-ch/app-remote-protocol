@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: create / contact (app -> client)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: create / contact (app -> client)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Confirm the created contact.</p>
+</summary>
+
+
+<p><p>This message SHALL be sent when the contact has been created
+successfully in the app.</p>
+</p>
+
+
+
+<h2>Acknowledgement</h2>
+
+<p>This message acknowledges:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+            <th>Error Codes</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-create-contact-toapp.html">create/contact (client -> app)</a></td>
+            <td><p>(None)</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>disabledByPolicy</code></td>
+                                <td><p>Feature disabled by administrator</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>invalidIdentity</code></td>
+                                <td><p>The identity is invalid</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+<h2>Args</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>identity</td>
+            <td>
+                <p>The identity of the contact that was created</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+<h2>Data</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>receiver</td>
+            <td>
+                <p>The contact</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.Contact">Contact</a>&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+
+<h2>Models</h2>
+
+<h3 id="model.Contact">Contact</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The Threema identity</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>displayName</td>
+            <td>
+                <p>The contact display name</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>color</td>
+            <td>
+                <p>The contact color in hex notation (e.g. <code>&quot;#1122FF&quot;</code>)</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>firstName</td>
+            <td>
+                <p>The contact first name</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>lastName</td>
+            <td>
+                <p>The contact last name</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>publicNickname</td>
+            <td>
+                <p>The contact public nickname (without preceding <code>~</code>)</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>verificationLevel</td>
+            <td>
+                <p>The verification level</p>
+<ul>
+<li><code>1</code>: Unverified (red)</li>
+<li><code>2</code>: Server verified (yellow)</li>
+<li><code>3</code>: Fully verified (green)</li>
+</ul>
+
+                
+                <p>Allowed values:
+                
+                <code>1</code>, 
+                
+                <code>2</code>, 
+                
+                <code>3</code>
+                
+                </p>
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>state</td>
+            <td>
+                <p>The identity state</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"ACTIVE"</code>, 
+                
+                <code>"INACTIVE"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>featureMask</td>
+            <td>
+                <p>The feature mask is a bitmask indicating support for certain features.</p>
+<p>Bit values:</p>
+<ul>
+<li><code>0x01</code>: Audio messages</li>
+<li><code>0x02</code>: Group chat</li>
+<li><code>0x04</code>: Ballots</li>
+<li><code>0x08</code>: File transfer</li>
+<li><code>0x10</code>: VoIP calls</li>
+</ul>
+<p>Example: A client with feature mask <code>0x07</code> supports audio messages,
+group chat and ballots, but no file transfers and no VoIP calls.</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>isWork</td>
+            <td>
+                <p>Whether this is a contact from the same Threema Work package.<br />
+Only relevant for Threema Work users.</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>identityType</td>
+            <td>
+                <p>The identity type</p>
+<ul>
+<li><code>0</code>: Regular Threema user</li>
+<li><code>1</code>: Threema Work user</li>
+</ul>
+
+                
+                <p>Allowed values:
+                
+                <code>0</code>, 
+                
+                <code>1</code>
+                
+                </p>
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>publicKey</td>
+            <td>
+                <p>The contact public key</p>
+
+                
+            </td>
+            <td>Binary</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>isBlocked</td>
+            <td>
+                <p>Whether this contact is blocked.</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>locked</td>
+            <td>
+                <p>Whether the chat with this contact is locked. This is used for private
+chats.</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>visible</td>
+            <td>
+                <p>Whether the chat with this contact is visible. This is used for private
+chats.</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>hidden</td>
+            <td>
+                <p>The contact is hidden (e.g. because it is part of a group, but was
+never added to the address book or contacted)</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>access</td>
+            <td>
+                <p>The access object</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.ContactReceiverAccess">ContactReceiverAccess</a>&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.ContactReceiverAccess">ContactReceiverAccess</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>canDelete</td>
+            <td>
+                <p>Whether this contact can be deleted</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canChangeAvatar</td>
+            <td>
+                <p>Whether the avatar of this group can be changed</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canChangeFirstName</td>
+            <td>
+                <p>Whether the first name of this contact can be changed</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canChangeLastName</td>
+            <td>
+                <p>Whether the last name of this contact can be changed</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

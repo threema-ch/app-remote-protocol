@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: request / avatar (client -> app)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: request / avatar (client -> app)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Request the avatar of a receiver.</p>
+</summary>
+
+
+<p><p>This message SHOULD be sent when the avatar of a specific receiver
+should be displayed in the client that is not available or not
+available in the required resolution.</p>
+</p>
+
+
+
+<h2>Acknowledgement</h2>
+
+<p>This message is being acknowledged by:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+            <th>Error Codes</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-response-avatar-fromapp.html">response/avatar (app -> client)</a></td>
+            <td><p>(None)</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+<h2>Args</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>type</td>
+            <td>
+                <p>The receiver type</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"me"</code>, 
+                
+                <code>"contact"</code>, 
+                
+                <code>"group"</code>, 
+                
+                <code>"distributionList"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The receiver identity</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>highResolution</td>
+            <td>
+                <p>Whether to send a high-res version of the avatar</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>maxSize</td>
+            <td>
+                <p>Maximum size of pixels for the low-res avatar.<br />
+Only sent if <code>highResolution=false</code>.</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>True</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+<h2>Data</h2>
+
+    None
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

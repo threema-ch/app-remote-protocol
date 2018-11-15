@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Model: VoIP</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Model: VoIP</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<h2>Model Fields</h2>
+
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>status</td>
+            <td>
+                <p>The type of VoIP status message</p>
+<ul>
+<li><code>1</code>: Missed</li>
+<li><code>2</code>: Finished</li>
+<li><code>3</code>: Rejected</li>
+<li><code>4</code>: Aborted</li>
+</ul>
+
+                
+                <p>Allowed values:
+                
+                <code>1</code>, 
+                
+                <code>2</code>, 
+                
+                <code>3</code>, 
+                
+                <code>4</code>
+                
+                </p>
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>duration</td>
+            <td>
+                <p>The duration of the call in seconds</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>reason</td>
+            <td>
+                <p>The reject reason</p>
+<ul>
+<li><code>0</code>: Unknown</li>
+<li><code>1</code>: Busy</li>
+<li><code>2</code>: Timeout</li>
+<li><code>3</code>: Rejected</li>
+</ul>
+
+                
+                <p>Allowed values:
+                
+                <code>0</code>, 
+                
+                <code>1</code>, 
+                
+                <code>2</code>, 
+                
+                <code>3</code>
+                
+                </p>
+                
+            </td>
+            <td>Integer</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

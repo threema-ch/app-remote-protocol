@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: update / avatar (app -> client)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: update / avatar (app -> client)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Update the low-res avatar of a subscribed receiver avatar.</p>
+</summary>
+
+
+<p><p>This message SHALL be sent by the app in case a subscribed receiver
+avatar has been changed.</p>
+<p>The client SHOULD clear the cached high-res avatar when receiving this
+message.</p>
+</p>
+
+
+
+
+
+<h2>Subscriptions</h2>
+
+<p>This message is being subscribed by:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-request-receivers-toapp.html">request/receivers (client -> app)</a></td>
+            <td><p>On successful acknowledgement</p>
+</td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+<h2>Args</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>type</td>
+            <td>
+                <p>The receiver type</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"me"</code>, 
+                
+                <code>"contact"</code>, 
+                
+                <code>"group"</code>, 
+                
+                <code>"distributionList"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The receiver identity</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+<h2>Data</h2>
+
+    
+    <p>To set a new avatar, send the avatar bytes (type <code>Binary</code>). To clear
+the avatar, omit the field.</p>
+
+    
+    
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

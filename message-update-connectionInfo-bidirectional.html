@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: update / connectionInfo (bidirectional)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: update / connectionInfo (bidirectional)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Send information about the current (and the previous) connection.</p>
+</summary>
+
+
+<p><p>Both peers MUST initially send this message as part of the handshake.
+Each peer MUST wait until it has received the message from the other
+peer before sending any further messages.</p>
+<p>If a previous connection is being resumed, this MUST contain
+information about the previous connection.</p>
+<p>When a subsequent connection fails before the new connection ID has
+been established, the previous connection ID remains for an upcoming
+connection attempt.</p>
+<p>As soon as a new connection ID has been established, the ownership of
+the cached chunks will be transferred to the newly established
+connection ID. That way, only one former connection ID exists where
+cached chunks are assigned to.</p>
+</p>
+
+
+
+
+
+
+<h2>Args</h2>
+
+    None
+
+
+<h2>Data</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The current <a href="concept-connectionid.html">Connection ID</a></p>
+
+                
+            </td>
+            <td>Binary</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>resume</td>
+            <td>
+                <p>The previous connection to be resumed.</p>
+<p>If the <a href="concept-connectionid.html">Connection ID</a> does not match on
+both sides, the peers SHALL NOT send cached messages but discard
+them and treat the connection as a newly established web session.</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.Connection">Connection</a>&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+
+<h2>Models</h2>
+
+<h3 id="model.Connection">Connection</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The <a href="concept-connectionid.html">Connection ID</a> of the connection
+to be resumed</p>
+
+                
+            </td>
+            <td>Binary</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>sequenceNumber</td>
+            <td>
+                <p>The <a href="concept-sequencenumber.html">Sequence Number</a> of the last
+message received during the connection</p>
+
+                
+            </td>
+            <td>Integer (u32)</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

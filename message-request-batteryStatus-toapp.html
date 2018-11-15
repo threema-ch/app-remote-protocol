@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: request / batteryStatus (client -> app)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: request / batteryStatus (client -> app)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>&quot;<strong>Deprecated</strong>: Request an immediate battery status update and
+subscribe to updates.&quot;</p>
+</summary>
+
+
+<p><p>This message SHALL be sent by the client if it wants to display the
+battery status of the app side.</p>
+<p><strong>Note</strong>: This is deprecated since the <a href="message-update-batteryStatus-fromapp.html"><code>update/batteryStatus</code></a>
+message will be auto-subscribed after the handshake.</p>
+</p>
+
+
+
+<h2>Acknowledgement</h2>
+
+<p>This message is being acknowledged by:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+            <th>Error Codes</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-update-batteryStatus-fromapp.html">update/batteryStatus (app -> client)</a></td>
+            <td><p>Only if associated to an initial request/batteryStatus</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+<h2>Args</h2>
+
+    None
+
+
+<h2>Data</h2>
+
+    None
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

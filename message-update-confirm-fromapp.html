@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: update / confirm (app -> client)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: update / confirm (app -> client)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Confirms an acknowledgement request.</p>
+</summary>
+
+
+<p><p>This message MUST be sent to acknowledge a message that is not
+implicitly acknowledged by another message.</p>
+<p>In case an error occurred while processing a message that requires an
+acknowledgement, this message SHOULD be sent as a response. This avoids
+making data response fields optional.</p>
+</p>
+
+
+
+<h2>Acknowledgement</h2>
+
+<p>This message acknowledges:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+            <th>Error Codes</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-delete-cleanReceiverConversation-toapp.html">delete/cleanReceiverConversation (client -> app)</a></td>
+            <td><p>Only if acknowledging delete/cleanReceiverConversation</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>badRequest</code></td>
+                                <td><p>Invalid request</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>invalidIdentity</code></td>
+                                <td><p>Receiver with the specified id not found</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+        <tr>
+            <td><a href="message-delete-distributionList-toapp.html">delete/distributionList (client -> app)</a></td>
+            <td><p>Only if acknowledging delete/distributionList</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>badRequest</code></td>
+                                <td><p>Invalid request</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>invalidDistributionList</code></td>
+                                <td><p>Distribution list not found</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+        <tr>
+            <td><a href="message-delete-group-toapp.html">delete/group (client -> app)</a></td>
+            <td><p>Only if acknowledging delete/group and not before the app has
+successfully delivered all group control messages to the server</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>alreadyLeft</code></td>
+                                <td><p>You already left this group</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>badRequest</code></td>
+                                <td><p>Invalid argument</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>invalidGroup</code></td>
+                                <td><p>Group not found</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>notAllowed</code></td>
+                                <td><p>Only the admin is allowed to delete a group</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+        <tr>
+            <td><a href="message-delete-message-toapp.html">delete/message (client -> app)</a></td>
+            <td><p>Only if acknowledging delete/message</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>badRequest</code></td>
+                                <td><p>Invalid request</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>invalidMessage</code></td>
+                                <td><p>Message with the specified <code>type</code>, <code>id</code> or <code>messageId</code> was not
+found</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+        <tr>
+            <td><a href="message-request-groupSync-toapp.html">request/groupSync (client -> app)</a></td>
+            <td><p>Only if acknowledging request/groupSync and not before the app has
+successfully delivered all asssociated group control messages to the
+server.</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>invalidGroup</code></td>
+                                <td><p>The identity is not a valid group</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>notAllowed</code></td>
+                                <td><p>You are not allowed to modify this group</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>syncFailed</code></td>
+                                <td><p>Synchronization failed</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+        <tr>
+            <td><a href="message-request-keyPersisted-toapp.html">request/keyPersisted (client -> app)</a></td>
+            <td><p>Only if acknowledging a request/keyPersisted</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+        <tr>
+            <td><a href="message-update-conversation-toapp.html">update/conversation (client -> app)</a></td>
+            <td><p>Only if acknowledging an update/conversation</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>badRequest</code></td>
+                                <td><p>Invalid request</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>invalidConversation</code></td>
+                                <td><p>Conversation was not found</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+        <tr>
+            <td><a href="message-update-profile-toapp.html">update/profile (client -> app)</a></td>
+            <td><p>Only if acknowledging an update/profile</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                            <tr>
+                                <td><code>invalidAvatar</code></td>
+                                <td><p>Avatar is invalid (e.g. 0 bytes)</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+<h2>Args</h2>
+
+    None
+
+
+<h2>Data</h2>
+
+    None
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

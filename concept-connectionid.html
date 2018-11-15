@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Concept: Connection ID</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Concept: Connection ID</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>The identifier of a specific connection.</p>
+</summary>
+
+<h2>Description</h2>
+
+<p>The connection ID uniquely identifies a single connection. It allows to
+associate chunks to a specific connection in order to be able to resume
+the session. A more detailed explanation of the role of the connection ID
+is stated in the description of the
+<a href="concept-sequencenumber.html">Sequence Number</a>.</p>
+<p>The ID is being derived by using the established SaltyRTC session key
+(the private key of this peer and the public key of the other peer) by
+encrypting an empty byte sequence with the nonce
+<code>connectionidconnectionid</code>. The resulting 16 bytes are the connection ID.</p>
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

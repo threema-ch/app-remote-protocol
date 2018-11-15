@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: response / clientInfo (app -> client)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: response / clientInfo (app -> client)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Return information about the app's device.</p>
+</summary>
+
+
+<p><p>This message MUST be sent by the app in case the device information has
+been requested by the client.</p>
+</p>
+
+
+
+<h2>Acknowledgement</h2>
+
+<p>This message acknowledges:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+            <th>Error Codes</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-request-clientInfo-toapp.html">request/clientInfo (client -> app)</a></td>
+            <td><p>(None)</p>
+</td>
+            <td>
+                <details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><code>internalError</code></td>
+                                <td><p>An internal error occurred</p>
+</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </details>
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+<h2>Args</h2>
+
+    None
+
+
+<h2>Data</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>device</td>
+            <td>
+                <p>The device name</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>os</td>
+            <td>
+                <p>The operating system</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"android"</code>, 
+                
+                <code>"ios"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>osVersion</td>
+            <td>
+                <p>The operating system version (e.g. <code>&quot;5.1&quot;</code>)</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>isWork</td>
+            <td>
+                <p>Whether the app is the <em>work</em> variant of Threema</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>pushToken</td>
+            <td>
+                <p>The GCM / APNS push token<br />
+For APNS, this is the 32 byte hex-encoded device token, followed by
+the endpoint (either <code>p</code> or <code>s</code>) and the bundle id, separated by
+semicolons.</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>configuration</td>
+            <td>
+                <p>The device configuration</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.Configuration">Configuration</a>&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>capabilities</td>
+            <td>
+                <p>The device capabilities</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.Capabilities">Capabilities</a>&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+
+<h2>Models</h2>
+
+<h3 id="model.Configuration">Configuration</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>voipEnabled</td>
+            <td>
+                <p>Whether calls are enabled</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>True</td>
+            
+        </tr>
+        
+        <tr>
+            <td>voipForceTurn</td>
+            <td>
+                <p>Force all VoIP traffic to go through the TURN server</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>largeSingleEmoji</td>
+            <td>
+                <p>Show single emoji with a larger font size</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>True</td>
+            
+        </tr>
+        
+        <tr>
+            <td>showInactiveIDs</td>
+            <td>
+                <p>Whether to show inactive contacts in the contact list</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>True</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.Capabilities">Capabilities</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>maxGroupSize</td>
+            <td>
+                <p>The maximum supported group size</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>50</td>
+            
+        </tr>
+        
+        <tr>
+            <td>maxFileSize</td>
+            <td>
+                <p>The maximum file size when sending files</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>52428800</td>
+            
+        </tr>
+        
+        <tr>
+            <td>distributionLists</td>
+            <td>
+                <p>Whether distribution lists are supported by the device</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>True</td>
+            
+        </tr>
+        
+        <tr>
+            <td>imageFormat</td>
+            <td>
+                <p>The image format used</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.ImageFormat">ImageFormat</a>&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>mdm</td>
+            <td>
+                <p>MDM configuration</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.MdmRestrictions">MdmRestrictions</a>&gt;</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.ImageFormat">ImageFormat</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>avatar</td>
+            <td>
+                <p>The avatar mime type, for example <code>&quot;image/png&quot;</code></p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>thumbnail</td>
+            <td>
+                <p>The thumbnail mime type, for example <code>&quot;image/jpeg&quot;</code></p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.MdmRestrictions">MdmRestrictions</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>disableAddContact</td>
+            <td>
+                <p>Set to <code>true</code> to disable adding of new contacts</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>disableCreateGroup</td>
+            <td>
+                <p>Set to <code>true</code> to disable the creation of groups</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>disableSaveToGallery</td>
+            <td>
+                <p>Set to <code>true</code> to make it harder to download media (hide download
+button)</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>disableExport</td>
+            <td>
+                <p>Set to <code>true</code> to disable exporting of chats</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>disableMessagePreview</td>
+            <td>
+                <p>Set to <code>true</code> to disable message contents in desktop notifications</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>disableCalls</td>
+            <td>
+                <p>Set to <code>true</code> to disable VoIP calls</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>readonlyProfile</td>
+            <td>
+                <p>Set to <code>true</code> if editing the profile is disabled by an MDM setting</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

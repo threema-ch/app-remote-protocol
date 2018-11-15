@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Concept: Sequence Number</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Concept: Sequence Number</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>The sequence number counter of the underlying transport for
+incoming/outgoing chunks.</p>
+</summary>
+
+<h2>Description</h2>
+
+<p>The sequence number counters are being used to be able to resume a
+session after the connection has been severed. A sequence number is a
+simple 32 bit unsigned counter starting at <code>0</code>, that MUST be incremented
+by <code>1</code> for every chunk being sent (outgoing counter) or received
+(incoming counter).</p>
+<p>Once the connection is set up, both peers MUST asynchronously send an
+<a href="message-update-connectionInfo-bidirectional.html"><code>update/connectionInfo</code></a> message before sending any other
+messages. On receiving the connection info of the remote peer, if the
+<code>connectionInfo.data.resume</code> field is present and
+<code>connectionInfo.data.resume.id</code> of the remote peer's message equals the
+one sent in the local message, the peers SHALL try to resume a session.
+In any other case, <a href="concept-chunkcache.html">cached chunks</a> SHALL be
+discarded and the connection MUST be treated as a newly established web
+session.</p>
+<p>To resume a session, the peer first compares the received
+<code>connectionInfo.data.resume.sequenceNumber</code> with the sequence number for
+outgoing chunks of the former connection. All cached chunks before this
+sequence number SHALL be discarded. In addition, each cached chunks that
+has been tagged by the <a href="concept-chunkcacheblacklist.html">blacklist</a>
+SHALL be discarded from the cache. The remaining cached chunks MUST be
+transferred to the current connection by assigning the current outgoing
+sequence number counter as an offset to the cached chunks.</p>
+<p>For example, if there are three cached chunks with the former sequence
+numbers of <code>5, 6, 7</code> and the last used outgoing sequence number
+(the one used for sending the last <code>update/connectionInfo</code> chunk) is
+<code>11</code>, they will be remapped to the sequence numbers <code>12, 13, 14</code>. This
+will prevent losing cached chunks in case the newly established
+connection is being severed as well before all cached chunks have been
+sent.<br>Now, the cached chunks MUST be sent in order to the other peer.
+Other chunks of newly created messages SHALL NOT interfere with the order
+and MUST be appended to the chunk cache as well.</p>
+<p>In addition, a peer SHOULD periodically report the current sequence
+number for incoming chunks to the other peer by sending an
+<a href="message-update-connectionAck-bidirectional.html"><code>update/connectionAck</code></a> 10 seconds after a chunk has been
+received. This allows the other peer to remove cached chunks that have
+been acknowledged. However, a peer MUST respond with a <code>connectionAck</code>
+update in case the other peer explicitly sends a
+<a href="message-request-connectionAck-bidirectional.html"><code>request/connectionAck</code></a>.</p>
+<p>Note: The sequence number counter represents the amount of chunks sent or
+received but not its index.</p>
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: update / typing (bidirectional)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: update / typing (bidirectional)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Notify that the contact/user is typing in a specific conversation.</p>
+</summary>
+
+
+<p><p>The client SHALL send this message in case the user is currently
+typing in a specific conversation.</p>
+<p>The app SHALL send this message in case a specific contact is typing.
+However, it SHALL NOT send this message before the client has
+subscribed to it.</p>
+<p>Both peers SHOULD use appropriate timeouts to not flood the network
+with these messages.</p>
+</p>
+
+
+
+
+
+<h2>Subscriptions</h2>
+
+<p>This message is being subscribed by:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-request-conversations-toapp.html">request/conversations (client -> app)</a></td>
+            <td><p>On successful acknowledgement</p>
+</td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+<h2>Args</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The contact identity</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+<h2>Data</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>isTyping</td>
+            <td>
+                <p>Whether typing has started (<code>true</code>) or stopped (<code>false</code>)</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

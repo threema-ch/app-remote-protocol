@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Concept: Chunk Cache</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Concept: Chunk Cache</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>How messages will be cached as chunks.</p>
+</summary>
+
+<h2>Description</h2>
+
+<p>Each peer MUST cache <strong>all</strong> chunks that are part of an outgoing message,
+irrespective of whether the connection is still alive or has already been
+severed. The peer MUST also remember the associated sequence number. In
+order to do so, the peer can increment a counter every time a message is
+appended to the chunk cache. Chunks of messages that are in the
+<a href="concept-chunkcacheblacklist.html">Chunk Cache Blacklist</a> MUST also be
+added to the cache and specifically tagged as <em>blacklisted</em> chunks.
+Alternatively, a placeholder for the blacklisted chunks can be added to
+the cache which explicitly tags chunks as blacklisted.</p>
+<p>When a <a href="message-update-connectionAck-bidirectional.html"><code>update/connectionAck</code></a> message has been received, the
+cache MUST be updated by removing all cached chunks that have been
+acknowledged.</p>
+<p>If memory usage of the chunk cache is becoming an issue for a peer, it
+SHOULD explicitly request an acknowledgement by sending a
+<a href="message-request-connectionAck-bidirectional.html"><code>request/connectionAck</code></a>.</p>
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

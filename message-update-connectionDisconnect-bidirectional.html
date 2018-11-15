@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: update / connectionDisconnect (bidirectional)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: update / connectionDisconnect (bidirectional)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Indicates that the sending peer is about to close the connection.</p>
+</summary>
+
+
+<p><p>This message SHOULD be sent before the peer closes the SaltyRTC
+connection.</p>
+</p>
+
+
+
+
+
+
+<h2>Args</h2>
+
+    None
+
+
+<h2>Data</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>reason</td>
+            <td>
+                <p>The disconnect reason.</p>
+<ul>
+<li><code>&quot;stop&quot;</code>: The session SHALL be stopped by the receiving peer.</li>
+<li><code>&quot;delete&quot;</code>: The session MUST be stopped and deleted by the
+receiving peer.</li>
+<li><code>&quot;disable&quot;</code>: The web client has been disabled in the app and the
+receiving peer SHALL stop the session.</li>
+<li><code>&quot;replace&quot;</code>: The session has been replaced by another and the
+receiving peer MUST stop the session.</li>
+<li><code>&quot;error&quot;</code>: The session was stopped because an error occurred.</li>
+</ul>
+
+                
+                <p>Allowed values:
+                
+                <code>"stop"</code>, 
+                
+                <code>"delete"</code>, 
+                
+                <code>"disable"</code>, 
+                
+                <code>"replace"</code>, 
+                
+                <code>"error"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

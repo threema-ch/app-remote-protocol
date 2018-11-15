@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: update / receivers (app -> client)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: update / receivers (app -> client)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Update all subscribed receivers.</p>
+</summary>
+
+
+<p><p>This message SHALL be sent by the app in case all subscribed receivers
+have been changed at once.</p>
+</p>
+
+
+
+
+
+<h2>Subscriptions</h2>
+
+<p>This message is being subscribed by:</p>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Condition</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="message-request-receivers-toapp.html">request/receivers (client -> app)</a></td>
+            <td><p>On successful acknowledgement</p>
+</td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+<h2>Args</h2>
+
+    
+    
+        
+        <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>type</td>
+            <td>
+                <p>The receiver type</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"contact"</code>, 
+                
+                <code>"group"</code>, 
+                
+                <code>"distributionList"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+    
+
+
+<h2>Data</h2>
+
+    
+    <p>Array&lt;<a href="#model.Contact">Contact</a>|<a href="#model.Group">Group</a>|<a href="#model.DistributionList">DistributionList</a>&gt;</p>
+
+    
+    
+
+
+
+<h2>Models</h2>
+
+<h3 id="model.Contact">Contact</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The Threema identity</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>displayName</td>
+            <td>
+                <p>The contact display name</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>color</td>
+            <td>
+                <p>The contact color in hex notation (e.g. <code>&quot;#1122FF&quot;</code>)</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>firstName</td>
+            <td>
+                <p>The contact first name</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>lastName</td>
+            <td>
+                <p>The contact last name</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>publicNickname</td>
+            <td>
+                <p>The contact public nickname (without preceding <code>~</code>)</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>verificationLevel</td>
+            <td>
+                <p>The verification level</p>
+<ul>
+<li><code>1</code>: Unverified (red)</li>
+<li><code>2</code>: Server verified (yellow)</li>
+<li><code>3</code>: Fully verified (green)</li>
+</ul>
+
+                
+                <p>Allowed values:
+                
+                <code>1</code>, 
+                
+                <code>2</code>, 
+                
+                <code>3</code>
+                
+                </p>
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>state</td>
+            <td>
+                <p>The identity state</p>
+
+                
+                <p>Allowed values:
+                
+                <code>"ACTIVE"</code>, 
+                
+                <code>"INACTIVE"</code>
+                
+                </p>
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>featureMask</td>
+            <td>
+                <p>The feature mask is a bitmask indicating support for certain features.</p>
+<p>Bit values:</p>
+<ul>
+<li><code>0x01</code>: Audio messages</li>
+<li><code>0x02</code>: Group chat</li>
+<li><code>0x04</code>: Ballots</li>
+<li><code>0x08</code>: File transfer</li>
+<li><code>0x10</code>: VoIP calls</li>
+</ul>
+<p>Example: A client with feature mask <code>0x07</code> supports audio messages,
+group chat and ballots, but no file transfers and no VoIP calls.</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>isWork</td>
+            <td>
+                <p>Whether this is a contact from the same Threema Work package.<br />
+Only relevant for Threema Work users.</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>identityType</td>
+            <td>
+                <p>The identity type</p>
+<ul>
+<li><code>0</code>: Regular Threema user</li>
+<li><code>1</code>: Threema Work user</li>
+</ul>
+
+                
+                <p>Allowed values:
+                
+                <code>0</code>, 
+                
+                <code>1</code>
+                
+                </p>
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>publicKey</td>
+            <td>
+                <p>The contact public key</p>
+
+                
+            </td>
+            <td>Binary</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>isBlocked</td>
+            <td>
+                <p>Whether this contact is blocked.</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>locked</td>
+            <td>
+                <p>Whether the chat with this contact is locked. This is used for private
+chats.</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>visible</td>
+            <td>
+                <p>Whether the chat with this contact is visible. This is used for private
+chats.</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>hidden</td>
+            <td>
+                <p>The contact is hidden (e.g. because it is part of a group, but was
+never added to the address book or contacted)</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>access</td>
+            <td>
+                <p>The access object</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.ContactReceiverAccess">ContactReceiverAccess</a>&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.ContactReceiverAccess">ContactReceiverAccess</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>canDelete</td>
+            <td>
+                <p>Whether this contact can be deleted</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canChangeAvatar</td>
+            <td>
+                <p>Whether the avatar of this group can be changed</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canChangeFirstName</td>
+            <td>
+                <p>Whether the first name of this contact can be changed</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canChangeLastName</td>
+            <td>
+                <p>Whether the last name of this contact can be changed</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.Group">Group</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The group identity</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>name</td>
+            <td>
+                <p>The group name</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>displayName</td>
+            <td>
+                <p>The group display name</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>color</td>
+            <td>
+                <p>The group color in hex notation (e.g. <code>&quot;#1122FF&quot;</code>)</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>createdAt</td>
+            <td>
+                <p>The group creation date as a unix time stamp in seconds</p>
+
+                
+            </td>
+            <td>Integer</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>disabled</td>
+            <td>
+                <p>This is set to <code>true</code> if the user is not a member of this group
+anymore</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>locked</td>
+            <td>
+                <p>This is set to <code>true</code> if the chat is marked as a secret chat</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>visible</td>
+            <td>
+                <p>This is set to <code>false</code> if the chat is marked as a secret chat and if
+secret chats are hidden in the app</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>True</td>
+            
+        </tr>
+        
+        <tr>
+            <td>members</td>
+            <td>
+                <p>The list of group member identities</p>
+
+                
+            </td>
+            <td>Array&lt;String&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>administrator</td>
+            <td>
+                <p>The identity of the group admin</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>access</td>
+            <td>
+                <p>The access object</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.GroupReceiverAccess">GroupReceiverAccess</a>&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.GroupReceiverAccess">GroupReceiverAccess</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>canDelete</td>
+            <td>
+                <p>Whether this group can be deleted</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canChangeAvatar</td>
+            <td>
+                <p>Whether the group avatar can be changed</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canChangeName</td>
+            <td>
+                <p>Whether the group name can be changed</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canChangeMembers</td>
+            <td>
+                <p>Whether the group members can be changed</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canLeave</td>
+            <td>
+                <p>Whether this group can be left</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canSync</td>
+            <td>
+                <p>Whether the group can be re-synced</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.DistributionList">DistributionList</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>id</td>
+            <td>
+                <p>The distribution list id</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>displayName</td>
+            <td>
+                <p>The distribution list display name</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>color</td>
+            <td>
+                <p>The distribution list color in hex notation (e.g. <code>&quot;#1122FF&quot;</code>)</p>
+
+                
+            </td>
+            <td>String</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>locked</td>
+            <td>
+                <p>Set to <code>true</code> if the chat is marked as a secret chat</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>False</td>
+            
+        </tr>
+        
+        <tr>
+            <td>visible</td>
+            <td>
+                <p>Set to <code>false</code> if the chat is marked as a secret chat and if secret
+chats are hidden in the app</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>False</td>
+            
+            <td>True</td>
+            
+        </tr>
+        
+        <tr>
+            <td>members</td>
+            <td>
+                <p>The list of group member identities</p>
+
+                
+            </td>
+            <td>Array&lt;String&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>access</td>
+            <td>
+                <p>The access object</p>
+
+                
+            </td>
+            <td>Map&lt;<a href="#model.DistributionListReceiverAccess">DistributionListReceiverAccess</a>&gt;</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3 id="model.DistributionListReceiverAccess">DistributionListReceiverAccess</h3>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Optional</th>
+            <th>Nullable</th>
+            
+            <th>Default</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>canDelete</td>
+            <td>
+                <p>Whether this distribution list can be deleted</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+        <tr>
+            <td>canChangeMembers</td>
+            <td>
+                <p>Whether the distribution list members can be changed</p>
+
+                
+            </td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>False</td>
+            
+            <td></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>

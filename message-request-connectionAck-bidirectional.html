@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message: request / connectionAck (bidirectional)</title>
+        <link rel="stylesheet" href="static/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>Message: request / connectionAck (bidirectional)</h1>
+            
+<a href="index.html">Back to overview</a>
+
+<summary><p>Request an immediate chunk acknowledgement.</p>
+</summary>
+
+
+<p><p>This SHOULD be requested before the connection is about to be closed or
+memory pressure of cached chunks is becoming an issue. There may also
+be other implementation-specific reasons for requesting chunk
+acknowledgement.</p>
+<p>The other peer MUST send an <a href="(message-update-connectionAck-bidirectional.html)"><code>update/connectionAck</code></a>. The
+connection SHOULD NOT be closed before having received that
+acknowledgement, so all cached chunks of the requesting peer can be
+safely discarded.</p>
+</p>
+
+
+
+
+
+
+<h2>Args</h2>
+
+    None
+
+
+<h2>Data</h2>
+
+    None
+
+
+
+
+
+            <footer>
+            <p>&copy; 2018 Threema GmbH</p>
+            </footer>
+        </div>
+    </body>
+</html>
