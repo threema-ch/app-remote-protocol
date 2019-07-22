@@ -2936,7 +2936,10 @@ concepts:
       to the app being suspended), the client SHOULD wake up the app
       recurrently as long as there are pending acknowledgements. This ensures
       that all pending messages towards the server are being delivered. All
-      changes to this protocol SHOULD follow this principle.
+      changes to this protocol SHOULD follow this principle. A message MAY
+      deviate from this rule of thumb if there are continuous status updates
+      referencing the message. In such a case, it MUST explicitly state that
+      waking up the app is required until a specific event occurs.
 
       An acknowledgement is being requested by setting the `id` field of the
       message. The `id` MUST be of type `String` which SHALL contain at least
