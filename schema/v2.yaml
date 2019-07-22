@@ -1206,12 +1206,22 @@ messages:
 
     # create/fileMessage (app -> client)
     - direction: fromapp
-      summary: Confirm that the file message has been sent
+      summary: Confirm that the file message has been stored
       description: |
-        This message SHALL be sent by the app after:
-
-        - the file has been uploaded to the blob server, and
-        - the message has been successfully delivered to the server.
+        This message SHALL be sent by the app once the message has been stored
+        in the app's database.
+        
+        After this message has been sent, the app MUST continue by uploading
+        the blob to the blob server and the message to the chat server. By
+        doing so, there MUST be continuous updates of the message with the
+        returned `messageId` in form of [`update/messages`][upd-me] towards
+        the client.
+        
+        The client receiving this message MUST wake up the app recurrently
+        until the message with the returned `messageId` has been updated to
+        the `state` `sent`.
+        
+        [upd-me]: message-update-messages-fromapp.html
       replyTo:
       - message: create/fileMessage
         errorCodes:
@@ -1309,8 +1319,19 @@ messages:
     - direction: fromapp
       summary: Confirm that the text message has been sent.
       description: |
-        This message SHALL be sent by the app after the text message has been
-        successfully delivered to the server.
+        This message SHALL be sent by the app once the message has been stored
+        in the app's database.
+        
+        After this message has been sent, the app MUST attempt to send the
+        message to the chat server. In doing so, there MUST be continuous
+        updates of the message with the returned `messageId` in form of
+        [`update/messages`][upd-me] towards the client.
+        
+        The client receiving this message MUST wake up the app recurrently
+        until the message with the returned `messageId` has been updated to
+        the `state` `sent`.
+        
+        [upd-me]: message-update-messages-fromapp.html
       replyTo:
       - message: create/textMessage
         errorCodes:
