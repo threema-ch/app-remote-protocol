@@ -698,17 +698,32 @@ models:
       nullable: false
       default: false
     - field: state
-      description: The message state
+      description: |
+        The message state
+        
+        - `"pending"`: Message created and stored in the app's database. No
+          attempt to deliver the message to the chat server has been made,
+          yet.
+        - `"sending"`: Message created and stored in the app's database. The
+          app now attempts to deliver the message to the chat server.
+        - `"send-failed"`: The message could not be delivered to the server.
+          User action is required for retrying.
+        - `"sent"`: Associated blobs have been uploaded and the message has
+          been delivered to the chat server.
+        - `"delivered"`: The messsage has been received by the recipient.
+        - `"read"`: Message has been read by the recipient.
+        - `"user-ack"`: Message has been acknowledged by the recipient.
+        - `"user-dec"`: Message has been declined by the recipient.
       type: String
       enum:
-      - '"delivered"'
-      - '"read"'
-      - '"send-failed"'
-      - '"sent"'
-      - '"user-ack"'
-      - '"user-dec"'
       - '"pending"'
       - '"sending"'
+      - '"send-failed"'
+      - '"sent"'
+      - '"delivered"'
+      - '"read"'
+      - '"user-ack"'
+      - '"user-dec"'
       optional: true
       nullable: false
     - field: quote
@@ -771,7 +786,17 @@ models:
       optional: false
       nullable: false
     - field: type
-      description: The event type
+      description: |
+        The event type
+        
+        - `"created"`: Message created and stored in the app's database.
+        - `"sent"`: Associated blobs have been uploaded and the message has
+          been delivered to the chat server.
+        - `"delivered"`: Messsage has been received by the recipient.
+        - `"read"`: Message has been read by the recipient.
+        - `"acked"`: Message has been acknowledged or declined by the
+          recipient.
+        - `"modified"`: Most recent date the message has been modified.
       type: String
       enum:
       - '"created"'
@@ -1181,18 +1206,28 @@ messages:
 
     # create/fileMessage (app -> client)
     - direction: fromapp
-      summary: Confirm that the file message has been sent
+      summary: Confirm that the file message has been stored
       description: |
-        This message SHALL be sent by the app after:
-
-        - the file has been uploaded to the blob server, and
-        - the message has been successfully delivered to the server.
+        This message SHALL be sent by the app once the message has been stored
+        in the app's database.
+        
+        After this message has been sent, the app MUST continue by uploading
+        the blob to the blob server and the message to the chat server. By
+        doing so, there MUST be continuous updates of the message with the
+        returned `messageId` in form of [`update/messages`][upd-me] towards
+        the client.
+        
+        The client receiving this message MUST wake up the app recurrently
+        until the message with the returned `messageId` has been updated to
+        the `state` `sent`.
+        
+        [upd-me]: message-update-messages-fromapp.html
       replyTo:
       - message: create/fileMessage
         errorCodes:
           fileTooLarge: |
-            The file could not be uploaded because it is too large blocked:
-            The recipient has been blocked in the app
+            The file could not be uploaded because it is too large
+          blocked: The recipient has been blocked in the app
       args:
         fields:
         - *receiverType
@@ -1284,8 +1319,19 @@ messages:
     - direction: fromapp
       summary: Confirm that the text message has been sent.
       description: |
-        This message SHALL be sent by the app after the text message has been
-        successfully delivered to the server.
+        This message SHALL be sent by the app once the message has been stored
+        in the app's database.
+        
+        After this message has been sent, the app MUST attempt to send the
+        message to the chat server. In doing so, there MUST be continuous
+        updates of the message with the returned `messageId` in form of
+        [`update/messages`][upd-me] towards the client.
+        
+        The client receiving this message MUST wake up the app recurrently
+        until the message with the returned `messageId` has been updated to
+        the `state` `sent`.
+        
+        [upd-me]: message-update-messages-fromapp.html
       replyTo:
       - message: create/textMessage
         errorCodes:
@@ -2911,7 +2957,10 @@ concepts:
       to the app being suspended), the client SHOULD wake up the app
       recurrently as long as there are pending acknowledgements. This ensures
       that all pending messages towards the server are being delivered. All
-      changes to this protocol SHOULD follow this principle.
+      changes to this protocol SHOULD follow this principle. A message MAY
+      deviate from this rule of thumb if there are continuous status updates
+      referencing the message. In such a case, it MUST explicitly state that
+      waking up the app is required until a specific event occurs.
 
       An acknowledgement is being requested by setting the `id` field of the
       message. The `id` MUST be of type `String` which SHALL contain at least
