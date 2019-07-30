@@ -12,15 +12,20 @@
             
 <a href="index.html">Back to overview</a>
 
-<summary><p>Confirm that the file message has been sent</p>
+<summary><p>Confirm that the file message has been stored</p>
 </summary>
 
 
-<p><p>This message SHALL be sent by the app after:</p>
-<ul>
-<li>the file has been uploaded to the blob server, and</li>
-<li>the message has been successfully delivered to the server.</li>
-</ul>
+<p><p>This message SHALL be sent by the app once the message has been stored
+in the app's database.</p>
+<p>After this message has been sent, the app MUST continue by uploading
+the blob to the blob server and the message to the chat server. By
+doing so, there MUST be continuous updates of the message with the
+returned <code>messageId</code> in form of <a href="message-update-messages-fromapp.html"><code>update/messages</code></a> towards
+the client.</p>
+<p>The client receiving this message MUST wake up the app recurrently
+until the message with the returned <code>messageId</code> has been updated to
+the <code>state</code> <code>sent</code>.</p>
 </p>
 
 
@@ -56,9 +61,14 @@
                         <tbody>
                             
                             <tr>
+                                <td><code>blocked</code></td>
+                                <td><p>The recipient has been blocked in the app</p>
+</td>
+                            </tr>
+                            
+                            <tr>
                                 <td><code>fileTooLarge</code></td>
-                                <td><p>The file could not be uploaded because it is too large blocked:
-The recipient has been blocked in the app</p>
+                                <td><p>The file could not be uploaded because it is too large</p>
 </td>
                             </tr>
                             

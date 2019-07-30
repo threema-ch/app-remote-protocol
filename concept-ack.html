@@ -26,7 +26,10 @@ case of an error. In case the app disconnects from the client (e.g. due
 to the app being suspended), the client SHOULD wake up the app
 recurrently as long as there are pending acknowledgements. This ensures
 that all pending messages towards the server are being delivered. All
-changes to this protocol SHOULD follow this principle.</p>
+changes to this protocol SHOULD follow this principle. A message MAY
+deviate from this rule of thumb if there are continuous status updates
+referencing the message. In such a case, it MUST explicitly state that
+waking up the app is required until a specific event occurs.</p>
 <p>An acknowledgement is being requested by setting the <code>id</code> field of the
 message. The <code>id</code> MUST be of type <code>String</code> which SHALL contain at least
 a single character. In addition, <code>id</code> MUST be unique enough to not clash

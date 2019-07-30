@@ -16,8 +16,15 @@
 </summary>
 
 
-<p><p>This message SHALL be sent by the app after the text message has been
-successfully delivered to the server.</p>
+<p><p>This message SHALL be sent by the app once the message has been stored
+in the app's database.</p>
+<p>After this message has been sent, the app MUST attempt to send the
+message to the chat server. In doing so, there MUST be continuous
+updates of the message with the returned <code>messageId</code> in form of
+<a href="message-update-messages-fromapp.html"><code>update/messages</code></a> towards the client.</p>
+<p>The client receiving this message MUST wake up the app recurrently
+until the message with the returned <code>messageId</code> has been updated to
+the <code>state</code> <code>sent</code>.</p>
 </p>
 
 

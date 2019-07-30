@@ -530,25 +530,40 @@ has been changed.</p>
             <td>state</td>
             <td>
                 <p>The message state</p>
+<ul>
+<li><code>&quot;pending&quot;</code>: Message created and stored in the app's database. No
+attempt to deliver the message to the chat server has been made,
+yet.</li>
+<li><code>&quot;sending&quot;</code>: Message created and stored in the app's database. The
+app now attempts to deliver the message to the chat server.</li>
+<li><code>&quot;send-failed&quot;</code>: The message could not be delivered to the server.
+User action is required for retrying.</li>
+<li><code>&quot;sent&quot;</code>: Associated blobs have been uploaded and the message has
+been delivered to the chat server.</li>
+<li><code>&quot;delivered&quot;</code>: The messsage has been received by the recipient.</li>
+<li><code>&quot;read&quot;</code>: Message has been read by the recipient.</li>
+<li><code>&quot;user-ack&quot;</code>: Message has been acknowledged by the recipient.</li>
+<li><code>&quot;user-dec&quot;</code>: Message has been declined by the recipient.</li>
+</ul>
 
                 
                 <p>Allowed values:
                 
-                <code>"delivered"</code>, 
+                <code>"pending"</code>, 
                 
-                <code>"read"</code>, 
+                <code>"sending"</code>, 
                 
                 <code>"send-failed"</code>, 
                 
                 <code>"sent"</code>, 
                 
+                <code>"delivered"</code>, 
+                
+                <code>"read"</code>, 
+                
                 <code>"user-ack"</code>, 
                 
-                <code>"user-dec"</code>, 
-                
-                <code>"pending"</code>, 
-                
-                <code>"sending"</code>
+                <code>"user-dec"</code>
                 
                 </p>
                 
@@ -758,6 +773,16 @@ than 50px.</p>
             <td>type</td>
             <td>
                 <p>The event type</p>
+<ul>
+<li><code>&quot;created&quot;</code>: Message created and stored in the app's database.</li>
+<li><code>&quot;sent&quot;</code>: Associated blobs have been uploaded and the message has
+been delivered to the chat server.</li>
+<li><code>&quot;delivered&quot;</code>: Messsage has been received by the recipient.</li>
+<li><code>&quot;read&quot;</code>: Message has been read by the recipient.</li>
+<li><code>&quot;acked&quot;</code>: Message has been acknowledged or declined by the
+recipient.</li>
+<li><code>&quot;modified&quot;</code>: Most recent date the message has been modified.</li>
+</ul>
 
                 
                 <p>Allowed values:
