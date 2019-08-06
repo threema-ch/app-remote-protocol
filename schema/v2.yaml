@@ -659,7 +659,9 @@ models:
       optional: true
       nullable: false
     - field: sortKey
-      description: A number used for sorting messages, higher means newer
+      description: |
+        A number used for sorting messages, higher means newer, may not be
+        negative
       type: Integer
       optional: false
       nullable: false
