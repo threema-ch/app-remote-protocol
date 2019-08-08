@@ -498,6 +498,12 @@ models:
       optional: true
       default: true
       nullable: false
+    - field: recurrentPushes
+      description: Whether this device supports grouping Threema Web pushes by affiliation ID
+      type: Boolean
+      optional: true
+      default: false
+      nullable: false
     - field: imageFormat
       description: The image format used
       type: Map<ImageFormat>
@@ -1807,6 +1813,11 @@ messages:
           description: The operating system version (e.g. `"5.1"`)
           type: String
           optional: false
+          nullable: false
+        - field: appVersion
+          description: The app version (e.g. `"4.0.1"`)
+          type: String
+          optional: true
           nullable: false
         - field: isWork
           description: Whether the app is the *work* variant of Threema
