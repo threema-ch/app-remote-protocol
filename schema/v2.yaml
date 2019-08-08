@@ -1808,6 +1808,11 @@ messages:
           type: String
           optional: false
           nullable: false
+        - field: appVersion
+          description: The app version (e.g. `"4.0.1"`)
+          type: String
+          optional: true
+          nullable: false
         - field: isWork
           description: Whether the app is the *work* variant of Threema
           type: Boolean
