@@ -60,6 +60,8 @@ receiving peer.</li>
 receiving peer SHALL stop the session.</li>
 <li><code>&quot;replace&quot;</code>: The session has been replaced by another and the
 receiving peer MUST stop the session.</li>
+<li><code>&quot;oom&quot;</code>: The session had to be stopped as the device ran out of
+memory.</li>
 <li><code>&quot;error&quot;</code>: The session was stopped because an error occurred.</li>
 </ul>
 
@@ -73,6 +75,8 @@ receiving peer MUST stop the session.</li>
                 <code>"disable"</code>, 
                 
                 <code>"replace"</code>, 
+                
+                <code>"oom"</code>, 
                 
                 <code>"error"</code>
                 
