@@ -2120,6 +2120,8 @@ messages:
               receiving peer SHALL stop the session.
             - `"replace"`: The session has been replaced by another and the
               receiving peer MUST stop the session.
+            - `"oom"`: The session had to be stopped as the device ran out of
+              memory.
             - `"error"`: The session was stopped because an error occurred.
           type: String
           enum:
@@ -2127,6 +2129,7 @@ messages:
           - '"delete"'
           - '"disable"'
           - '"replace"'
+          - '"oom"'
           - '"error"'
           optional: false
           nullable: false
