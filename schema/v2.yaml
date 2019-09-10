@@ -492,6 +492,12 @@ models:
       optional: true
       default: 52428800
       nullable: false
+    - field: maxMessageBodySize
+      description: The maximum message body size (in bytes) that can be sent to the Threema server
+      type: Integer
+      optional: true
+      default: 3500
+      nullable: false
     - field: distributionLists
       description: Whether distribution lists are supported by the device
       type: Boolean
