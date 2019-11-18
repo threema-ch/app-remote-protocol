@@ -124,12 +124,12 @@ models:
       optional: false
       nullable: false
     - field: firstName
-      description: The contact first name (max 100 bytes)
+      description: The contact first name (max 256 bytes)
       type: String
       optional: true
       nullable: false
     - field: lastName
-      description: The contact last name (max 100 bytes)
+      description: The contact last name (max 256 bytes)
       type: String
       optional: true
       nullable: false
@@ -243,7 +243,7 @@ models:
       optional: false
       nullable: false
     - field: name
-      description: The group name (max 100 bytes)
+      description: The group name (max 256 bytes)
       type: String
       optional: true
       nullable: false
@@ -1158,7 +1158,7 @@ messages:
           optional: false
           nullable: false
         - field: name
-          description: The distribution list name
+          description: The distribution list name (max 256 bytes)
           type: String
           optional: true
           nullable: false
@@ -1275,7 +1275,7 @@ messages:
           optional: false
           nullable: false
         - field: name
-          description: The group name
+          description: The group name (max 256 bytes)
           type: String
           optional: true
           nullable: false
@@ -2425,7 +2425,7 @@ messages:
           optional: false
           nullable: false
         - field: name
-          description: The group name (max 100 bytes, `null` to clear)
+          description: The group name (max 256 bytes, `null` to clear)
           type: String
           optional: true
           nullable: true
@@ -2490,7 +2490,7 @@ messages:
           optional: false
           nullable: false
         - field: name
-          description: The distribution list name (`null` to clear)
+          description: The distribution list name (max 256 bytes, `null` to clear)
           type: String
           optional: true
           nullable: true
