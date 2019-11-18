@@ -1297,6 +1297,7 @@ messages:
       - message: create/group
         errorCodes:
           disabledByPolicy: Group creation was disabled by the administrator
+          valueTooLong: The group name is too long
           badRequest: Invalid request
       data:
         fields:
