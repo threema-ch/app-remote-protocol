@@ -1172,6 +1172,7 @@ messages:
       replyTo:
       - message: create/distributionList
         errorCodes:
+          valueTooLong: The distribution list name is too long
           badRequest: Invalid request
       data:
         fields:
@@ -2510,6 +2511,7 @@ messages:
         errorCodes:
           invalidDistributionList: Distribution list not found
           noMembers: Empty member list submitted
+          valueTooLong: The distribution list name is too long
           badRequest: Invalid request
       args:
         fields:
