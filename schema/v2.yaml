@@ -101,6 +101,11 @@ models:
       type: String
       optional: false
       nullable: false
+    - field: messageId
+      description: The message id of the quoted message
+      type: String
+      optional: true
+      nullable: false
 
   Contact:
     fields:
