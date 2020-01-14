@@ -30,7 +30,7 @@ markup.
 
 ### Python Code (MIT)
 
-Copyright © 2018-2019 Threema GmbH (https://threema.ch/).
+Copyright © 2018-2020 Threema GmbH (https://threema.ch/).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -52,7 +52,7 @@ SOFTWARE.
 
 ### Documentation Text (CC BY-SA 3.0)
 
-Copyright © 2018-2019 Threema GmbH (https://threema.ch/).
+Copyright © 2018-2020 Threema GmbH (https://threema.ch/).
 
 This work is licensed under the [Creative Commons Attribution-ShareAlike 3.0
 Unported License](https://creativecommons.org/licenses/by-sa/3.0/). To view a

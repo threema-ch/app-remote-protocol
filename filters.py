@@ -1,4 +1,4 @@
-# Copyright 2018-2019 Threema GmbH, all rights reserved.
+# Copyright 2018-2020 Threema GmbH, all rights reserved.
 
 import re
 
