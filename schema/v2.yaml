@@ -102,10 +102,25 @@ models:
       optional: false
       nullable: false
     - field: messageId
-      description: The message id of the quoted message
+      description: |
+        The message id of the quoted message
+
+        If this field is provided, the quote text is being ignored. The quote
+        text should still be filled though, for backwards compatibility.
       type: String
       optional: true
       nullable: false
+    - field: message
+      description: |
+        The quoted message
+
+        This should always be provided if a message ID is specified, unless the
+        app cannot find the message in its database.
+      type: Map<Message>
+      optional: true
+      nullable: false
+    models:
+    - Message
 
   Contact:
     fields:
