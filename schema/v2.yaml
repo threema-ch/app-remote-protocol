@@ -116,6 +116,10 @@ models:
 
         This should always be provided if a message ID is specified, unless the
         app cannot find the message in its database.
+
+        Note: This message SHALL NOT contain another quote (both because it
+        would be inefficient and because recursive quotes can be a potential
+        source of bugs).
       type: Map<Message>
       optional: true
       nullable: false
@@ -765,7 +769,12 @@ models:
       optional: true
       nullable: false
     - field: quote
-      description: The message quote
+      description: |
+        The message quote
+
+        Note: Quotes MUST NOT reference the message ID of the message that
+        contains them (recursive quotes). When receiving such a message, the
+        remote client MUST strip out the quote before further processing.
       type: Map<Quote>
       optional: true
       nullable: false
