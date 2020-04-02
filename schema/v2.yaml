@@ -163,6 +163,7 @@ models:
       enum:
       - '"ACTIVE"'
       - '"INACTIVE"'
+      - '"INVALID"'
       optional: false
       nullable: false
     - field: featureMask
