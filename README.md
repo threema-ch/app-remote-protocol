@@ -8,15 +8,15 @@ used between the Threema apps and a remote client (e.g. Threema Web).
 Requirements:
 
 - Python 3.6+
-- pipenv
 
 Setup:
 
-    pipenv install
+    python3 -m venv venv
+    venv/bin/pip install -U -r requirements.txt
 
 Run:
 
-    pipenv run python generate.py
+    venv/bin/python generate.py
 
 The static output is written to the `output/` directory.
 
@@ -52,7 +52,7 @@ SOFTWARE.
 
 ### Documentation Text (CC BY-SA 3.0)
 
-Copyright © 2018-2020 Threema GmbH (https://threema.ch/).
+Copyright © 2018-2021 Threema GmbH (https://threema.ch/).
 
 This work is licensed under the [Creative Commons Attribution-ShareAlike 3.0
 Unported License](https://creativecommons.org/licenses/by-sa/3.0/). To view a
