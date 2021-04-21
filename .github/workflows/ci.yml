@@ -1,0 +1,27 @@
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+name: CI
+
+jobs:
+  build:
+    name: build docs
+    runs-on: ubuntu-latest
+    steps:
+
+      # Setup environment
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: pip install -U -r requirements.txt
+
+      # Build steps
+      - name: Build docs
+        run: python generate.py
