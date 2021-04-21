@@ -407,6 +407,15 @@ models:
       optional: true
       nullable: false
       default: false
+    - field: isUnread
+      description: |
+        Whether the conversation was explicitly marked as unread.
+
+        Note that a non-zero `unreadCount` always takes precedence over this flag.
+      type: Boolean
+      optional: true
+      nullable: false
+      default: false
 
   NotificationSettings:
     fields:
