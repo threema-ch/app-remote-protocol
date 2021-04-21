@@ -2596,6 +2596,18 @@ messages:
       - Location
       - VoIP
 
+    activeConversation:
+
+    # update/activeConversation (client -> app)
+      - direction: toapp
+        summary: Set the currently opened conversation.
+        description: |
+          This message is sent whenever the user opens a conversation in the client.
+        args:
+          fields:
+          - *receiverType
+          - *receiverId
+
     profile:
 
     # update/profile (client -> app)
