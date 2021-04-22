@@ -407,6 +407,15 @@ models:
       optional: true
       nullable: false
       default: false
+    - field: isUnread
+      description: |
+        Whether the conversation was explicitly marked as unread.
+
+        Note that a non-zero `unreadCount` always takes precedence over this flag.
+      type: Boolean
+      optional: true
+      nullable: false
+      default: false
 
   NotificationSettings:
     fields:
@@ -2586,6 +2595,18 @@ messages:
       - Audio
       - Location
       - VoIP
+
+    activeConversation:
+
+    # update/activeConversation (client -> app)
+      - direction: toapp
+        summary: Set the currently opened conversation.
+        description: |
+          This message is sent whenever the user opens a conversation in the client.
+        args:
+          fields:
+          - *receiverType
+          - *receiverId
 
     profile:
 
