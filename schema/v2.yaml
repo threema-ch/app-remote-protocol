@@ -529,6 +529,14 @@ models:
       optional: true
       default: false
       nullable: false
+    - field: quotesV2
+      description: |
+        Whether this device supports sending quotes v2 (with a message ID) for
+        file and media messages.
+      type: Boolean
+      optional: true
+      default: false
+      nullable: false
     - field: imageFormat
       description: The image format used
       type: Map<ImageFormat>
