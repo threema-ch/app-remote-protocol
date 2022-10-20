@@ -665,9 +665,13 @@ models:
       - '"text"'
       - '"image"'
       - '"video"'
+      - '"audio"'
       - '"file"'
       - '"location"'
+      - '"contact"'
+      - '"status"'
       - '"voipStatus"'
+      - '"ballot"'
       type: String
       optional: false
       nullable: false
