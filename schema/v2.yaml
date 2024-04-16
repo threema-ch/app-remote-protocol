@@ -773,8 +773,8 @@ models:
       nullable: false
     - field: lastEditedAt
       description: |
-        If the message was edited, this contains the unix timestamp in
-        milliseconds of the last edit.
+        Unix timestamp in milliseconds of the last edit, or undefined if this
+        message was not edited
       type: Integer
       optional: true
       nullable: false
