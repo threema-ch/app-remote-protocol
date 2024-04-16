@@ -771,6 +771,13 @@ models:
       - '"user-dec"'
       optional: true
       nullable: false
+    - field: lastEditedAt
+      description: |
+        If the message was edited, this contains the unix timestamp in
+        milliseconds of the last edit.
+      type: Integer
+      optional: true
+      nullable: false
     - field: quote
       description: The message quote
       type: Map<Quote>
