@@ -1,4 +1,4 @@
-# Copyright 2018-2021 Threema GmbH, all rights reserved.
+# Copyright 2018-2024 Threema GmbH, all rights reserved.
 
 import copy
 import distutils.dir_util
