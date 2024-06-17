@@ -102,10 +102,29 @@ models:
       optional: false
       nullable: false
     - field: messageId
-      description: The message id of the quoted message
+      description: |
+        The message id of the quoted message
+
+        If this field is provided, the quote text is being ignored. The quote
+        text should still be filled though, for backwards compatibility.
       type: String
       optional: true
       nullable: false
+    - field: message
+      description: |
+        The quoted message
+
+        This should always be provided if a message ID is specified, unless the
+        app cannot find the message in its database.
+
+        Note: This message SHALL NOT contain another quote (both because it
+        would be inefficient and because recursive quotes can be a potential
+        source of bugs).
+      type: Map<Message>
+      optional: true
+      nullable: false
+    models:
+    - Message
 
   Contact:
     fields:
@@ -779,7 +798,12 @@ models:
       optional: true
       nullable: false
     - field: quote
-      description: The message quote
+      description: |
+        The message quote
+
+        Note: Quotes MUST NOT reference the message ID of the message that
+        contains them (recursive quotes). When receiving such a message, the
+        remote client MUST strip out the quote before further processing.
       type: Map<Quote>
       optional: true
       nullable: false
